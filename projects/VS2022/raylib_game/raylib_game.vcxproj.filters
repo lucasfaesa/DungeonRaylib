@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="HeaderFiles">
+      <UniqueIdentifier>{f886bc7a-f8a5-499c-877d-4ec857f50bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SourceFiles">
+      <UniqueIdentifier>{0cfeaf87-c29f-4d0c-a024-f8dc505c6a55}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Main.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleF.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Shape.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleF.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
