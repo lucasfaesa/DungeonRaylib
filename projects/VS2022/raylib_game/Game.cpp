@@ -20,7 +20,7 @@ void Game::InputRead()
 
 }
 
-void Game::Update()
+void Game::Update(float deltaTime)
 {
 
 }

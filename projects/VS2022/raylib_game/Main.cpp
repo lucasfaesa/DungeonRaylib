@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "Game.h"
+#include "FrameTimer.h";
 
 int main()
 {
@@ -20,10 +21,12 @@ int main()
 
     SetTargetFPS(60);               
 
+    FrameTimer frameTimer;
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
+        const float deltaTime = frameTimer.GetFrameDuration();
         //Input Reading
         // ---------------------------------------------------------------------------------
         game.InputRead();
@@ -33,7 +36,8 @@ int main()
         // Update
         //----------------------------------------------------------------------------------
         
-        game.Update();
+        //TODO DELTA TIME
+        game.Update(deltaTime);
         
         //----------------------------------------------------------------------------------
 

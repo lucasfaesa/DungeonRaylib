@@ -8,7 +8,7 @@ public:
 	Game(bool initialized);
 	void Start();
 	void InputRead();
-	void Update();
+	void Update(float deltaTime);
 	void Draw();
 	bool IsInitialized() const;
 private:
