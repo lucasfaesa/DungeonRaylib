@@ -4,9 +4,9 @@ Game::Game(bool initiliazed):
 	initialized(initialized)
 {
 	
-	//rectangle = RectangleF(Vector3{ 0.0f, 0.0f, 0.0f }, Vector3{ 15.0f, 15.0f, 15.0f }, GOLD);
-	rectangle = RectangleF(Vector3{ 0.0f, 2.5f, 0.0f }, Vector3{ 5.0f, 5.0f, 5.0f}, RED);
-	//windowWidth / 4 * 2 - 60, 100, 120, 60
+	
+	rectangle = RectangleF(Vector3{ 0.0f, .5f, 0.0f }, Vector3{ 1.0f, 1.0f, 1.0f}, RED);
+	
 	Start();
 }
 
@@ -22,7 +22,7 @@ void Game::InputRead()
 
 void Game::Update(float deltaTime)
 {
-
+	rectangle.Move(deltaTime);
 }
 
 void Game::Draw()
