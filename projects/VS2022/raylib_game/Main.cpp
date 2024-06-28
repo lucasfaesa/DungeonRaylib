@@ -12,16 +12,14 @@ int main()
 	InitWindow(windowWidth, windowHeight, "First Person");
 
     Camera3D camera { 0 };
-    camera.position = Vector3{ 0.0f, 10.f, 10.f };
+    camera.position = Vector3{ 0.0f, 30.f, 30.f };
     camera.target = Vector3{ 0.0f, 0.0f, 0.0f };
     camera.up = Vector3{ 0.0f, 1.0f, 0.0f };
     camera.fovy = 45.0f;
     camera.projection = CAMERA_PERSPECTIVE;
 
+    SetTargetFPS(60);               
 
-
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
 
     // Main game loop
     while (!WindowShouldClose())    // Detect window close button or ESC key
