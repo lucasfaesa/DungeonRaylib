@@ -12,7 +12,7 @@ void RectangleF::Draw()
 	DrawCube(position, size.x, size.y, size.z, color);
 }
 
-void RectangleF::Move(float deltaTime)
+void RectangleF::Move(const float deltaTime)
 {
 	Vector2 moveDelta{};
 

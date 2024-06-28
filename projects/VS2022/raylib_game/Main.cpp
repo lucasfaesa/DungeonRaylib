@@ -1,25 +1,17 @@
 #include "raylib.h"
 #include "Game.h"
 #include "FrameTimer.h";
+#include "CameraManager.h"
 
 int main()
 {
-    Game game = Game(true);
-
-    game.Start();
-
     constexpr int windowWidth = 800;
     constexpr int windowHeight = 800;
 	InitWindow(windowWidth, windowHeight, "First Person");
 
-    Camera3D camera { 0 };
-    camera.position = Vector3{ 0.0f, 30.f, 30.f };
-    camera.target = Vector3{ 0.0f, 0.0f, 0.0f };
-    camera.up = Vector3{ 0.0f, 1.0f, 0.0f };
-    camera.fovy = 45.0f;
-    camera.projection = CAMERA_PERSPECTIVE;
-
     SetTargetFPS(60);               
+
+    Game game = Game(true);
 
     FrameTimer frameTimer;
 
@@ -47,15 +39,8 @@ int main()
 
         ClearBackground(RAYWHITE);
 
-
+        game.Draw();
         //DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-        
-
-        BeginMode3D(camera);
-            game.Draw();    
-        EndMode3D();
-
-        //DrawRectangle(windowWidth / 4 * 2 - 60, 100, 120, 60, RED);
 
         EndDrawing();
         //----------------------------------------------------------------------------------

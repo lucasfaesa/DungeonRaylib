@@ -24,6 +24,9 @@
     <ClCompile Include="FrameTimer.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
+    <ClCompile Include="CameraManager.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -36,6 +39,9 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="FrameTimer.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraManager.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>

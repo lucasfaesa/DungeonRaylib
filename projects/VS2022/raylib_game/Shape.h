@@ -7,7 +7,9 @@ public:
 	Shape() = default;
 	Shape(Vector3 position, Vector3 size, Color color);
 
-	void Draw();
+	virtual void Draw();
+	virtual const Vector3& GetPosition() const;
+	virtual const Vector3& GetSize() const;
 protected:
 	Vector3 position;
 	Vector3 size;

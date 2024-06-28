@@ -1,5 +1,6 @@
 #pragma once
 #include "RectangleF.h"
+#include "CameraManager.h"
 
 class Game {
 
@@ -14,4 +15,6 @@ public:
 private:
 	bool initialized;
 	RectangleF rectangle;
+	CameraManager cameraManager{ Camera{ 0 } };
+	Camera* mainCamera{ nullptr };
 };
