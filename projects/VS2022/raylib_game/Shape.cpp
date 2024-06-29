@@ -19,4 +19,9 @@ const Vector3& Shape::GetSize() const
 	return size;
 }
 
+const Color& Shape::GetColor() const
+{
+	return color;
+}
+
 

@@ -27,6 +27,7 @@
     <ClCompile Include="CameraManager.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
+    <ClCompile Include="Structures.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -43,6 +44,9 @@
     </ClInclude>
     <ClInclude Include="CameraManager.h">
       <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>SourceFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #pragma once
 #include "RectangleF.h"
 #include "CameraManager.h"
+#include "Structures.h"
 
 class Game {
 
@@ -14,7 +15,9 @@ public:
 	bool IsInitialized() const;
 private:
 	bool initialized;
-	RectangleF rectangle;
-	CameraManager cameraManager{ Camera{ 0 } };
-	Camera* mainCamera{ nullptr };
+	RectangleF player;
+
+	CameraManager cameraManager { Camera{ 0 } };
+	Camera* mainCamera { nullptr };
+	Structures structures {20};
 };

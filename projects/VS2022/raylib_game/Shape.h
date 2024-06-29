@@ -10,6 +10,7 @@ public:
 	virtual void Draw();
 	virtual const Vector3& GetPosition() const;
 	virtual const Vector3& GetSize() const;
+	virtual const Color& GetColor() const;
 protected:
 	Vector3 position;
 	Vector3 size;
