@@ -27,8 +27,12 @@
     <ClCompile Include="CameraManager.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Structures.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="Player.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Structures.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -46,10 +50,16 @@
     <ClInclude Include="CameraManager.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="Structures.h">
-      <Filter>SourceFiles</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Structures.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="World.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>
