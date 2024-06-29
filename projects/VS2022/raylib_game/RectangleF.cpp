@@ -12,9 +12,9 @@ void RectangleF::Draw()
 	DrawCube(position, size.x, size.y, size.z, color);
 }
 
-void RectangleF::Move(const float deltaTime)
+void RectangleF::ReadInput()
 {
-	Vector2 moveDelta{};
+	moveDelta = {};
 
 	if (IsKeyDown(KEY_W))
 		moveDelta.y += 1.f;
@@ -24,7 +24,10 @@ void RectangleF::Move(const float deltaTime)
 		moveDelta.x += 1.f;
 	if (IsKeyDown(KEY_D))
 		moveDelta.x -= 1.f;
+}
 
+void RectangleF::Move(const float deltaTime)
+{
 	position.x += speed * Vector2Normalize(moveDelta).x * deltaTime;
 	position.z += speed * Vector2Normalize(moveDelta).y * deltaTime;
 }

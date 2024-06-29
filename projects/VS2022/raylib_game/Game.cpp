@@ -17,7 +17,7 @@ void Game::Start()
 
 void Game::InputRead()
 {
-
+	rectangle.ReadInput();
 }
 
 void Game::Update(float deltaTime)
