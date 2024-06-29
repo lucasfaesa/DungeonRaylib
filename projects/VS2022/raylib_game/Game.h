@@ -2,6 +2,7 @@
 #include "RectangleF.h"
 #include "CameraManager.h"
 #include "Structures.h"
+#include "Player.h"
 
 class Game {
 
@@ -15,9 +16,6 @@ public:
 	bool IsInitialized() const;
 private:
 	bool initialized;
-	RectangleF player;
-
-	CameraManager cameraManager { Camera{ 0 } };
-	Camera* mainCamera { nullptr };
+	Player player;
 	Structures structures {20};
 };

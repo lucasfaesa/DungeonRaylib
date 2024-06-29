@@ -2,40 +2,35 @@
 
 Game::Game(bool initiliazed):
 	initialized(initialized)
-{	
-	player = RectangleF(Vector3{ 0.0f, .5f, 8.0f }, Vector3{ 1.0f, 1.0f, 1.0f}, RED);
-
-	mainCamera = &cameraManager.GetCamera();
 	
+{		
 	Start();
+
+	player = {Vector3{ 0.f,0.f,0.f }, Vector3{ 0.f,0.f,0.f }};
 }
 
 void Game::Start()
 {
 	DisableCursor();
-	//cameraManager.CameraLookAt(rectangle.)
 }
 
 void Game::InputRead()
 {
 	player.ReadInput();
-	cameraManager.ReadInput();
 }
 
 void Game::Update(float deltaTime)
 {
-	cameraManager.Update(deltaTime);
-	//player.Move(deltaTime);
+	player.Update(deltaTime);
+
 }
 
 void Game::Draw()
 {
-	BeginMode3D(*mainCamera);
+	BeginMode3D(CameraManager::GetPlayerCamera());
 
 	player.Draw();
 	structures.Draw();
-
-	//cameraManager.CameraLookAt(player.GetPosition());
 
 	DrawGrid(100, 1.f);
 
