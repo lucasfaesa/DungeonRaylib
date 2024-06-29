@@ -1,5 +1,5 @@
 #include "RectangleF.h"
-#include "raymath.h"
+
 
 RectangleF::RectangleF(Vector3 position, Vector3 size, Color color):
 	Shape(position,size,color)
@@ -26,7 +26,7 @@ void RectangleF::ReadInput()
 		moveDelta.x -= 1.f;
 }
 
-void RectangleF::Move(const float deltaTime)
+void RectangleF::Update(const float deltaTime)
 {
 	position.x += speed * Vector2Normalize(moveDelta).x * deltaTime;
 	position.z += speed * Vector2Normalize(moveDelta).y * deltaTime;

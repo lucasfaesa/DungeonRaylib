@@ -18,11 +18,13 @@ void Game::Start()
 void Game::InputRead()
 {
 	player.ReadInput();
+	cameraManager.ReadInput();
 }
 
 void Game::Update(float deltaTime)
 {
-	player.Move(deltaTime);
+	cameraManager.Update(deltaTime);
+	//player.Move(deltaTime);
 }
 
 void Game::Draw()
@@ -32,7 +34,7 @@ void Game::Draw()
 	player.Draw();
 	structures.Draw();
 
-	cameraManager.CameraLookAt(player.GetPosition());
+	//cameraManager.CameraLookAt(player.GetPosition());
 
 	DrawGrid(100, 1.f);
 
