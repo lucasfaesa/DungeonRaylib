@@ -12,6 +12,7 @@ Game::Game(bool initiliazed):
 
 void Game::Start()
 {
+	DisableCursor();
 	//cameraManager.CameraLookAt(rectangle.)
 }
 

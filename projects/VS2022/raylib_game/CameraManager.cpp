@@ -2,44 +2,55 @@
 
 
 CameraManager::CameraManager(Camera cam)
-	:camera(cam)
+	:mainCamera(cam)
 {
-    camera.position = Vector3{ 0.0f, 1.8f, 0.f };
-    camera.target = Vector3{ 0.0f, 0.0f, 0.0f };
-    camera.up = Vector3{ 0.0f, 1.0f, 0.0f };
-    camera.fovy = 45.0f;
-    camera.projection = CAMERA_PERSPECTIVE;
+	mainCamera.position = Vector3{ 0.0f, 1.8f, 0.f };
+	mainCamera.target = Vector3{ 0.0f, 0.0f, 20.0f };
+	mainCamera.up = Vector3{ 0.0f, 1.0f, 0.0f };
+	mainCamera.fovy = 90.f;
+	mainCamera.projection = CAMERA_PERSPECTIVE;
 }
 
 Camera& CameraManager::GetCamera()
 {
-    return camera;
+    return mainCamera;
 }
 
 void CameraManager::CameraLookAt(const Vector3& pos)
 {
-    camera.target = pos;
+	mainCamera.target = pos;
 }
 
 void CameraManager::ReadInput()
 {
-	moveDelta = {};
+	moveDelta = { 0 };
+	mouseDelta = { 0 };
 
-	if (IsKeyDown(KEY_W))
-		moveDelta.y += 1.f;
-	if (IsKeyDown(KEY_S))
-		moveDelta.y -= 1.f;
-	if (IsKeyDown(KEY_A))
-		moveDelta.x += 1.f;
-	if (IsKeyDown(KEY_D))
-		moveDelta.x -= 1.f;
+	moveDelta.x = (IsKeyDown(KEY_W) - IsKeyDown(KEY_S));
+	moveDelta.y = (IsKeyDown(KEY_D) - IsKeyDown(KEY_A));
+
+	mouseDelta.x += GetMouseDelta().x * mouseSensivity.x;
+	mouseDelta.y += GetMouseDelta().y * mouseSensivity.y;
 }
 
 void CameraManager::Update(const float deltaTime)
 {
-	camera.target = Vector3{ camera.position.x, camera.position.y, camera.position.z - 20 };
+	//UpdateCamera(&mainCamera, CAMERA_FIRST_PERSON);
+	
+	if (moveDelta.x != 0 || moveDelta.y != 0) {
+		moveDelta = Vector3Normalize(moveDelta);
+		moveDelta.x *= deltaTime * speed;
+		moveDelta.y *= deltaTime * speed;
+	}
+			
+	UpdateCameraPro(&mainCamera,moveDelta,mouseDelta, 0.f);
+
+	
+	 
+	//UpdateCamera(&camera, 1);
+	/*camera.target = Vector3{camera.position.x, camera.position.y, camera.position.z - 20};
 
 	camera.position.x += speed * Vector2Normalize(moveDelta).x * deltaTime;
-	camera.position.z += speed * Vector2Normalize(moveDelta).y * deltaTime;
+	camera.position.z += speed * Vector2Normalize(moveDelta).y * deltaTime;*/
 }
 

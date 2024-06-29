@@ -13,7 +13,7 @@ const float FrameTimer::GetFrameDuration()
 
     currentFrameTime = std::chrono::steady_clock::now();
 
-    const std::chrono::duration<float> frameTime = oldFrameTime - currentFrameTime;
+    const std::chrono::duration<float> frameTime = currentFrameTime - oldFrameTime;
 
     return frameTime.count();
 }
