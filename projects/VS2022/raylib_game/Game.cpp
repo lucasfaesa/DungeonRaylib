@@ -23,11 +23,9 @@ void Game::Update(float deltaTime)
 {
 	player.Update(deltaTime);
 
-	player.IsColliding = false;
-
 	for (RectangleF * shape : structures.GetRectangles()) {
 		if (CheckCollisionBoxes(shape->GetCollider(), player.GetCollider())) {
-			player.IsColliding = true;
+			player.OnCollision();
 		}
 	}
 	

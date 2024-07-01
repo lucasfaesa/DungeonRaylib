@@ -24,6 +24,9 @@ void Player::ReadInput()
 
 void Player::Update(const float deltaTime)
 {
+	IsColliding = false;
+	lastPositionBeforeCollision = position;
+
 	if (moveDelta.z != 0 || moveDelta.x != 0) {
 		moveDelta = Vector3Normalize(moveDelta);
 		moveDelta.x *= deltaTime * speed;
@@ -66,15 +69,11 @@ void Player::Draw()
 	DrawBoundingBox(boxCollider, IsColliding ? GREEN : RED);
 }
 
-void Player::CheckForCollision(BoundingBox& boundingBox)
+void Player::OnCollision()
 {
-	/*bool collisionDetected{false};
-
-	if (CheckCollisionBoxes(boxCollider, boundingBox)) {
-		collisionDetected = true;
-	}
-
-	isColliding = coll*/
+	IsColliding = true;
+	
+	ForcePositionChange();
 }
 
 BoundingBox& Player::GetCollider()
@@ -152,6 +151,16 @@ void Player::UpdatePlayerPosition()
 
 void Player::UpdateColliderPosition()
 {
-	boxCollider = BoundingBox{ position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f, 
+	boxCollider = BoundingBox{ position.x - size.x * 0.5f, position.y , position.z - size.z * 0.5f, 
 								position.x + size.x * 0.5f, position.y + size.y, position.z + size.z * 0.5f };
+}
+
+void Player::ForcePositionChange()
+{
+	camera->position.x = lastPositionBeforeCollision.x;
+	camera->position.y = lastPositionBeforeCollision.y + size.y;
+	camera->position.z = lastPositionBeforeCollision.z;
+
+	UpdatePlayerPosition();
+	UpdateColliderPosition();
 }

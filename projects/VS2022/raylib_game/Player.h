@@ -11,7 +11,7 @@ public:
 	void ReadInput();
 	void Update(const float deltaTime);
 	void Draw();
-	void CheckForCollision(BoundingBox& boundingBox);
+	void OnCollision();
 	BoundingBox& GetCollider();
 
 	bool IsColliding{ false };
@@ -26,18 +26,21 @@ private:
 	void UpdatePlayerRotation();
 	void UpdatePlayerPosition();
 	void UpdateColliderPosition();
+	void ForcePositionChange();
 
 	Camera* camera{ nullptr };
 
 	//static constexpr Layers::Layer layer = Layers::Layer::PLAYER;
 
 	static constexpr float speed = 5.f;
-	static constexpr Vector3 size{ 0.8f, 1.8f, 0.8f };
+	static constexpr Vector3 size{ 0.5f, 1.8f, 0.5f };
 	static constexpr float jumpForce = 1.f;
 	static constexpr float jumpDuration = 0.4f;
 
 	Vector3 position{ };
 	Vector3 rotation{ };
+
+	Vector3 lastPositionBeforeCollision;
 
 	Vector3 moveDelta{};
 	Vector3 mouseDelta{};
