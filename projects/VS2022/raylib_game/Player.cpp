@@ -11,9 +11,9 @@ Player::Player(Vector3 pos, Vector3 rot)
 
 void Player::ReadInput()
 {
-	HandleMovement();
-	HandleLook();
-	HandleJump();
+	InputMovement();
+	InputLook();
+	InputJump();
 }
 
 void Player::Update(const float deltaTime)
@@ -26,31 +26,21 @@ void Player::Update(const float deltaTime)
 
 	gravity = isGrounded ? 0.f : World::gravity;
 
-	//moveDelta.y -= gravity * deltaTime;
+	HandleJump(deltaTime);
 
-	if (isJumping) {
-		jumpTimer += deltaTime;
+	#pragma region debug
+		DrawText(TextFormat("%.2f positionX", position->x), 40, 40, 20, GREEN);
+		DrawText(TextFormat("%.2f positionY", position->y), 40, 60, 20, GREEN);
+		DrawText(TextFormat("%.2f positionZ", position->z), 40, 80, 20, GREEN);
 
-		// Apply jump force based on timer (parabolic curve)
-		moveDelta.y = jumpForce * (-jumpTimer * jumpTimer + jumpTimer);
-	}
-	else {
-		moveDelta.y -= gravity * deltaTime;
-	}
-
-	
-
-	DrawText(TextFormat("%.2f positionX", position->x), 40, 40, 20, GREEN);
-	DrawText(TextFormat("%.2f positionY", position->y), 40, 60, 20, GREEN);
-	DrawText(TextFormat("%.2f positionZ", position->z), 40, 80, 20, GREEN);
-
-	DrawText(TextFormat("%.2f rotationX", rotation.x), 40, 100, 20, GREEN);
-	DrawText(TextFormat("%.2f rotationY", rotation.y), 40, 120, 20, GREEN);
-	DrawText(TextFormat("%.2f rotationZ", rotation.z), 40, 140, 20, GREEN);
+		DrawText(TextFormat("%.2f rotationX", rotation.x), 40, 100, 20, GREEN);
+		DrawText(TextFormat("%.2f rotationY", rotation.y), 40, 120, 20, GREEN);
+		DrawText(TextFormat("%.2f rotationZ", rotation.z), 40, 140, 20, GREEN);
+	#pragma endregion
 
 	UpdateCameraPro(camera, moveDelta, mouseDelta, 0.f);
 
-
+	//TODO remove this later when implemented collision
 	if (position->y <= height * 0.5f && !isGrounded) {
 		isGrounded = true;
 		canJump = true;
@@ -58,6 +48,7 @@ void Player::Update(const float deltaTime)
 		jumpTimer = 0;
 		position->y = height * 0.5f;
 	}
+
 	UpdatePlayerRotation();
 }
 
@@ -66,7 +57,7 @@ void Player::Draw()
 {
 }
 
-void Player::HandleMovement()
+void Player::InputMovement()
 {
 	moveDelta = { 0, 0, moveDelta.z };
 
@@ -74,7 +65,7 @@ void Player::HandleMovement()
 	moveDelta.x = (IsKeyDown(KEY_D) - IsKeyDown(KEY_A));
 }
 
-void Player::HandleLook()
+void Player::InputLook()
 {
 	mouseDelta = { 0 };
 
@@ -82,13 +73,33 @@ void Player::HandleLook()
 	mouseDelta.y += GetMouseDelta().y * mouseSensivity.y;
 }
 
-void Player::HandleJump()
+void Player::InputJump()
 {
-	if (IsKeyDown(KEY_SPACE) && canJump) {
+	if (IsKeyPressed(KEY_SPACE) && canJump) {
 		moveDelta.y = jumpForce;
 		isGrounded = false;
 		canJump = false;
 		isJumping = true;
+	}
+}
+
+void Player::HandleJump(float deltaTime)
+{
+	if (isJumping) {
+		jumpTimer += deltaTime;
+
+		// Apply jump force based on timer (parabolic curve)
+		//moveDelta.y = jumpForce * 0.5f * (-jumpTimer * jumpTimer + jumpTimer);
+
+		float normalizedTime = jumpTimer / jumpDuration;
+		moveDelta.y = jumpForce * 0.5f * (-normalizedTime * normalizedTime + normalizedTime);
+
+		if (jumpTimer > jumpDuration) {
+			isJumping = false; // End jump after the duration
+		}
+	}
+	else {
+		moveDelta.y -= (gravity)*deltaTime;
 	}
 }
 

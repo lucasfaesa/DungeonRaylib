@@ -12,9 +12,12 @@ public:
 	void Draw();
 private:
 
-	void HandleMovement();
-	void HandleLook();
-	void HandleJump();
+	void InputMovement();
+	void InputLook();
+	void InputJump();
+
+	void HandleJump(float deltaTime);
+
 	const Vector3 UpdatePlayerRotation();
 
 	Camera* camera{ nullptr };
@@ -22,6 +25,7 @@ private:
 	static constexpr float speed = 5.f;
 	static constexpr float height = 1.8f;
 	static constexpr float jumpForce = 1.f;
+	static constexpr float jumpDuration = 0.4f;
 
 	Vector3* position{ nullptr };
 	Vector3 rotation{ };
@@ -36,5 +40,4 @@ private:
 	bool canJump{ false };
 	bool isJumping; // Flag to track jump state
 	float jumpTimer;
-	float jumpHeight; // Optional limit on jump height
 };
