@@ -23,6 +23,14 @@ void Game::Update(float deltaTime)
 {
 	player.Update(deltaTime);
 
+	player.IsColliding = false;
+
+	for (RectangleF * shape : structures.GetRectangles()) {
+		if (CheckCollisionBoxes(shape->GetCollider(), player.GetCollider())) {
+			player.IsColliding = true;
+		}
+	}
+	
 }
 
 void Game::Draw()
@@ -40,5 +48,9 @@ void Game::Draw()
 bool Game::IsInitialized() const
 {
 	return initialized;
+}
+
+void Game::CheckForPlayerCollision()
+{
 }
 

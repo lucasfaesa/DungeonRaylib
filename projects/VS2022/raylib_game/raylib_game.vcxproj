@@ -365,6 +365,7 @@
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Helpers.h" />
+    <ClInclude Include="Layers.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RectangleF.h" />
     <ClInclude Include="Shape.h" />

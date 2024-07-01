@@ -5,6 +5,10 @@ Player::Player(Vector3 pos, Vector3 rot)
 {
 	camera = &CameraManager::GetPlayerCamera();
 
+	Vector3 min{ position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f };
+	Vector3 max{ position.x + size.x * 0.5f, position.y + size.y, position.z + size.z * 0.5f };
+	boxCollider = BoundingBox{ min , max };
+
 	//because de UpdateCameraPro handles the position
 	position = camera->position;
 	//zero Y on the foot
@@ -53,16 +57,29 @@ void Player::Update(const float deltaTime)
 
 	UpdatePlayerPosition();
 	UpdatePlayerRotation();
+	UpdateColliderPosition();
 }
 
 
 void Player::Draw()
 {
-	Vector3 min{ position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f };
-	Vector3 max{ position.x + size.x * 0.5f, position.y + size.y, position.z + size.z * 0.5f };
-	boxCollider = BoundingBox{ min , max };
+	DrawBoundingBox(boxCollider, IsColliding ? GREEN : RED);
+}
 
-	DrawBoundingBox(boxCollider, RED);
+void Player::CheckForCollision(BoundingBox& boundingBox)
+{
+	/*bool collisionDetected{false};
+
+	if (CheckCollisionBoxes(boxCollider, boundingBox)) {
+		collisionDetected = true;
+	}
+
+	isColliding = coll*/
+}
+
+BoundingBox& Player::GetCollider()
+{
+	return boxCollider;
 }
 
 void Player::InputMovement()
@@ -131,4 +148,10 @@ void Player::UpdatePlayerPosition()
 {
 	position = camera->position;
 	position.y -= size.y;
+}
+
+void Player::UpdateColliderPosition()
+{
+	boxCollider = BoundingBox{ position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f, 
+								position.x + size.x * 0.5f, position.y + size.y, position.z + size.z * 0.5f };
 }

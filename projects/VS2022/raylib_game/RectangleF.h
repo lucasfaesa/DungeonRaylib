@@ -9,6 +9,10 @@ public:
 	void ReadInput();
 	void Draw() override;
 	void Update(const float deltaTime);
+	BoundingBox& GetCollider();
+
 private:
 	BoundingBox boxCollider;
+	//static constexpr Layers::Layer layer = Layers::Layer::STRUCTURE;
+
 };

@@ -22,3 +22,8 @@ void RectangleF::ReadInput()
 void RectangleF::Update(const float deltaTime)
 {
 }
+
+BoundingBox& RectangleF::GetCollider()
+{
+	return boxCollider;
+}

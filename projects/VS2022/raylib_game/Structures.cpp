@@ -12,26 +12,36 @@ Structures::Structures(int maxStructs):
 
 		Color color { GetRandomValue(20, 255), GetRandomValue(40, 155), GetRandomValue(20, 255), 255 };
 
-		structuresArray.emplace_back(new RectangleF(position, size, color));
+		rectanglesArray.emplace_back(new RectangleF(position, size, color));
 	}
+}
+
+void Structures::Update(float deltaTime)
+{
+	
 }
 
 Structures::~Structures()
 {
-	for (Shape* shape : structuresArray) {
+	for (Shape* shape : rectanglesArray) {
 		
 		delete shape;
 	}
 
-	structuresArray.clear();
+	rectanglesArray.clear();
 }
 
 void Structures::Draw()
 {
-	for (Shape* shape : structuresArray) {
+	for (Shape* shape : rectanglesArray) {
 		shape->Draw();
 	}
 
 	testBox.Draw();
+}
+
+std::vector<RectangleF*>& Structures::GetRectangles()
+{
+	return rectanglesArray;
 }
 

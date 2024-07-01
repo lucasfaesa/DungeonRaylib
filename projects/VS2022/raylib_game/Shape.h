@@ -15,4 +15,5 @@ protected:
 	Vector3 position;
 	Vector3 size;
 	Color color;
+
 };

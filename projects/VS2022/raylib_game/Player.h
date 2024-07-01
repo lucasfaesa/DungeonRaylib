@@ -1,6 +1,7 @@
 #pragma once
 #include "CameraManager.h"
 #include "World.h"
+#include "Layers.h"
 
 class Player {
 
@@ -10,6 +11,10 @@ public:
 	void ReadInput();
 	void Update(const float deltaTime);
 	void Draw();
+	void CheckForCollision(BoundingBox& boundingBox);
+	BoundingBox& GetCollider();
+
+	bool IsColliding{ false };
 private:
 
 	void InputMovement();
@@ -20,8 +25,11 @@ private:
 
 	void UpdatePlayerRotation();
 	void UpdatePlayerPosition();
+	void UpdateColliderPosition();
 
 	Camera* camera{ nullptr };
+
+	//static constexpr Layers::Layer layer = Layers::Layer::PLAYER;
 
 	static constexpr float speed = 5.f;
 	static constexpr Vector3 size{ 0.8f, 1.8f, 0.8f };
@@ -34,6 +42,8 @@ private:
 	Vector3 moveDelta{};
 	Vector3 mouseDelta{};
 	Vector2 mouseSensivity{ 0.05f , 0.05f };
+
+	//bool isColliding{ false };
 
 	BoundingBox boxCollider;
 

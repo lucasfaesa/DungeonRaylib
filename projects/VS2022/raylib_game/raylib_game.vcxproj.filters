@@ -62,5 +62,8 @@
     <ClInclude Include="Helpers.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
+    <ClInclude Include="Layers.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

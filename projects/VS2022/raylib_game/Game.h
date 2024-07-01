@@ -15,6 +15,7 @@ public:
 	void Draw();
 	bool IsInitialized() const;
 private:
+	void CheckForPlayerCollision();
 	bool initialized;
 	Player player;
 	Structures structures {20};
