@@ -23,7 +23,7 @@ private:
 	Camera* camera{ nullptr };
 
 	static constexpr float speed = 5.f;
-	static constexpr float height = 1.8f;
+	static constexpr Vector3 size{ 0.4f, 1.8f, 0.4f };
 	static constexpr float jumpForce = 1.f;
 	static constexpr float jumpDuration = 0.4f;
 
@@ -33,6 +33,8 @@ private:
 	Vector3 moveDelta{};
 	Vector3 mouseDelta{};
 	Vector2 mouseSensivity{ 0.05f , 0.05f };
+
+	BoundingBox boxCollider;
 
 	float gravity = World::gravity;
 

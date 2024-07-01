@@ -5,8 +5,11 @@ Player::Player(Vector3 pos, Vector3 rot)
 {
 	camera = &CameraManager::GetPlayerCamera();
 
+	//boxCollider  = BoundingBox{}
+
 	//because de UpdateCameraPro handles the position
 	position = &camera->position;
+	position->y = size.y;
 }
 
 void Player::ReadInput()
@@ -41,12 +44,12 @@ void Player::Update(const float deltaTime)
 	UpdateCameraPro(camera, moveDelta, mouseDelta, 0.f);
 
 	//TODO remove this later when implemented collision
-	if (position->y <= height * 0.5f && !isGrounded) {
+	if (position->y <= size.y && !isGrounded) {
 		isGrounded = true;
 		canJump = true;
 		isJumping = false;
 		jumpTimer = 0;
-		position->y = height * 0.5f;
+		position->y = size.y;
 	}
 
 	UpdatePlayerRotation();
