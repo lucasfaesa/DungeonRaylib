@@ -3,6 +3,9 @@
 Structures::Structures(int maxStructs):
 	maxStructures(maxStructs)
 {
+	rectanglesArray.emplace_back(new RectangleF{ ground });
+	rectanglesArray.emplace_back(new RectangleF{ testBox });
+
 	for (int i = 0; i < maxStructures; i++)
 	{
 		int xz = GetRandomValue(2, 4);
@@ -38,6 +41,7 @@ void Structures::Draw()
 	}
 
 	testBox.Draw();
+	ground.Draw();
 }
 
 std::vector<RectangleF*>& Structures::GetRectangles()

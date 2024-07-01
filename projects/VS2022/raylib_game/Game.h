@@ -12,6 +12,7 @@ public:
 	void Start();
 	void InputRead();
 	void Update(float deltaTime);
+	void OnApplicationClose();
 	void Draw();
 	bool IsInitialized() const;
 private:

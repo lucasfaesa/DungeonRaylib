@@ -3,6 +3,7 @@
 #include "World.h"
 #include "Layers.h"
 #include "Collideable.h"
+#include "RectangleF.h"
 
 class Player {
 
@@ -13,7 +14,9 @@ public:
 	void Update(const float deltaTime);
 	void Draw();
 	void OnCollisionOnBody();
+	void OnCollisionOnFoot(RectangleF& collideable);
 	Collideable& GetBodyCollideable();
+	Collideable& GetFootCollideable();
 
 private:
 
@@ -26,7 +29,8 @@ private:
 	void UpdatePlayerRotation();
 	void UpdatePlayerPosition();
 	void UpdateColliderPosition();
-	void ForcePositionChange();
+	void ForcePositionXZChange();
+	void ForcePositionYChange(float topYPos);
 
 	Camera* camera{ nullptr };
 
@@ -40,7 +44,8 @@ private:
 	Vector3 position{ };
 	Vector3 rotation{ };
 
-	Vector3 lastPositionBeforeCollision;
+	Vector3 lastPositionBeforeBodyCollision;
+	float lastPositionBeforeFootCollision;
 
 	Vector3 moveDelta{};
 	Vector3 mouseDelta{};

@@ -27,8 +27,17 @@ void Game::Update(float deltaTime)
 		if (CheckCollisionBoxes(shape->GetCollideable().GetCollider(), player.GetBodyCollideable().GetCollider())) {
 			player.OnCollisionOnBody();
 		}
+
+		if (CheckCollisionBoxes(shape->GetCollideable().GetCollider(), player.GetFootCollideable().GetCollider())) {
+			player.OnCollisionOnFoot(*shape);
+		}
 	}
 	
+}
+
+void Game::OnApplicationClose()
+{
+	structures.~Structures();
 }
 
 void Game::Draw()

@@ -1,7 +1,7 @@
 #include "Collideable.h"
 
 Collideable::Collideable(BoundingBox box, Layers::Layer layer):
-	Collider{box}, Layer{layer}
+	Collider {	box}, Layer{ layer }
 {
 }
 
@@ -20,3 +20,4 @@ const Layers::Layer& Collideable::GetLayer()
 {
 	return Layer;
 }
+
