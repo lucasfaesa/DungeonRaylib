@@ -18,16 +18,17 @@ private:
 
 	void HandleJump(float deltaTime);
 
-	const Vector3 UpdatePlayerRotation();
+	void UpdatePlayerRotation();
+	void UpdatePlayerPosition();
 
 	Camera* camera{ nullptr };
 
 	static constexpr float speed = 5.f;
-	static constexpr Vector3 size{ 0.4f, 1.8f, 0.4f };
+	static constexpr Vector3 size{ 0.8f, 1.8f, 0.8f };
 	static constexpr float jumpForce = 1.f;
 	static constexpr float jumpDuration = 0.4f;
 
-	Vector3* position{ nullptr };
+	Vector3 position{ };
 	Vector3 rotation{ };
 
 	Vector3 moveDelta{};
@@ -40,6 +41,6 @@ private:
 
 	bool isGrounded{false};
 	bool canJump{ false };
-	bool isJumping; // Flag to track jump state
-	float jumpTimer;
+	bool isJumping{ false };
+	float jumpTimer{};
 };

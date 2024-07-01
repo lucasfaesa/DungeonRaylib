@@ -12,15 +12,26 @@ Structures::Structures(int maxStructs):
 
 		Color color { GetRandomValue(20, 255), GetRandomValue(40, 155), GetRandomValue(20, 255), 255 };
 
-		structuresArray.emplace_back(Shape(position, size, color));
+		structuresArray.emplace_back(new RectangleF(position, size, color));
 	}
+}
+
+Structures::~Structures()
+{
+	for (Shape* shape : structuresArray) {
+		
+		delete shape;
+	}
+
+	structuresArray.clear();
 }
 
 void Structures::Draw()
 {
-	for (Shape& shape : structuresArray) {
-		DrawCube(shape.GetPosition(),
-			shape.GetSize().x, shape.GetSize().y, shape.GetSize().z, shape.GetColor());
+	for (Shape* shape : structuresArray) {
+		shape->Draw();
 	}
+
+	testBox.Draw();
 }
 

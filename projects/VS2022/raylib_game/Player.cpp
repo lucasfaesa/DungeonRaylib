@@ -5,11 +5,10 @@ Player::Player(Vector3 pos, Vector3 rot)
 {
 	camera = &CameraManager::GetPlayerCamera();
 
-	//boxCollider  = BoundingBox{}
-
 	//because de UpdateCameraPro handles the position
-	position = &camera->position;
-	position->y = size.y;
+	position = camera->position;
+	//zero Y on the foot
+	position.y = 0.f;	
 }
 
 void Player::ReadInput()
@@ -32,9 +31,9 @@ void Player::Update(const float deltaTime)
 	HandleJump(deltaTime);
 
 	#pragma region debug
-		DrawText(TextFormat("%.2f positionX", position->x), 40, 40, 20, GREEN);
-		DrawText(TextFormat("%.2f positionY", position->y), 40, 60, 20, GREEN);
-		DrawText(TextFormat("%.2f positionZ", position->z), 40, 80, 20, GREEN);
+		DrawText(TextFormat("%.2f positionX", position.x), 40, 40, 20, GREEN);
+		DrawText(TextFormat("%.2f positionY", position.y), 40, 60, 20, GREEN);
+		DrawText(TextFormat("%.2f positionZ", position.z), 40, 80, 20, GREEN);
 
 		DrawText(TextFormat("%.2f rotationX", rotation.x), 40, 100, 20, GREEN);
 		DrawText(TextFormat("%.2f rotationY", rotation.y), 40, 120, 20, GREEN);
@@ -44,20 +43,26 @@ void Player::Update(const float deltaTime)
 	UpdateCameraPro(camera, moveDelta, mouseDelta, 0.f);
 
 	//TODO remove this later when implemented collision
-	if (position->y <= size.y && !isGrounded) {
+	if (position.y <= 0 && !isGrounded && !isJumping) {
 		isGrounded = true;
 		canJump = true;
 		isJumping = false;
 		jumpTimer = 0;
-		position->y = size.y;
+		camera->position.y = size.y;
 	}
 
+	UpdatePlayerPosition();
 	UpdatePlayerRotation();
 }
 
 
 void Player::Draw()
 {
+	Vector3 min{ position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f };
+	Vector3 max{ position.x + size.x * 0.5f, position.y + size.y, position.z + size.z * 0.5f };
+	boxCollider = BoundingBox{ min , max };
+
+	DrawBoundingBox(boxCollider, RED);
 }
 
 void Player::InputMovement()
@@ -106,7 +111,7 @@ void Player::HandleJump(float deltaTime)
 	}
 }
 
-const Vector3 Player::UpdatePlayerRotation()
+void Player::UpdatePlayerRotation()
 {
 	// Get the forward vector
 	Vector3 forward = GetCameraForward(camera);
@@ -119,8 +124,11 @@ const Vector3 Player::UpdatePlayerRotation()
 
 	// Roll (rotation around Z-axis)
 	Vector3 right = GetCameraRight(camera);
-	rotation.z = atan2f(right.y, right.x) * RAD2DEG;
+	rotation.z = atan2f(right.y, right.x) * RAD2DEG;	
+}
 
-	return rotation;
-	
+void Player::UpdatePlayerPosition()
+{
+	position = camera->position;
+	position.y -= size.y;
 }

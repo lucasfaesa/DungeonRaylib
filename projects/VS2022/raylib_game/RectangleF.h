@@ -10,6 +10,5 @@ public:
 	void Draw() override;
 	void Update(const float deltaTime);
 private:
-	static constexpr float speed = 15.f;
-	Vector2 moveDelta{};
+	BoundingBox boxCollider;
 };
