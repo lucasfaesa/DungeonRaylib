@@ -2,5 +2,5 @@
 
 class Layers {
 public:
-	static enum class Layer{PLAYER, STRUCTURE, GROUND};
+	static enum class Layer{DEFAULT, PLAYER, STRUCTURE, GROUND};
 };

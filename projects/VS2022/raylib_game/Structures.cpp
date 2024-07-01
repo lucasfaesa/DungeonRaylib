@@ -6,7 +6,7 @@ Structures::Structures(int maxStructs):
 	for (int i = 0; i < maxStructures; i++)
 	{
 		int xz = GetRandomValue(2, 4);
-		Vector3 size{ xz, GetRandomValue(13,16), xz};
+		Vector3 size{ xz, GetRandomValue(1,16), xz};
 
 		Vector3 position { GetRandomValue(-40, 40), size.y * 0.5f, GetRandomValue(-40,40)};
 

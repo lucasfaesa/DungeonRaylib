@@ -24,8 +24,8 @@ void Game::Update(float deltaTime)
 	player.Update(deltaTime);
 
 	for (RectangleF * shape : structures.GetRectangles()) {
-		if (CheckCollisionBoxes(shape->GetCollider(), player.GetCollider())) {
-			player.OnCollision();
+		if (CheckCollisionBoxes(shape->GetCollideable().GetCollider(), player.GetBodyCollideable().GetCollider())) {
+			player.OnCollisionOnBody();
 		}
 	}
 	

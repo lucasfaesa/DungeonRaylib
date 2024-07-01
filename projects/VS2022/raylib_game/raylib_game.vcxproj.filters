@@ -33,6 +33,7 @@
     <ClCompile Include="Structures.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
+    <ClCompile Include="Collideable.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -63,6 +64,9 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="Layers.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Collideable.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>

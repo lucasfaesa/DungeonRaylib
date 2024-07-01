@@ -1,6 +1,7 @@
 #pragma once
 #include "Shape.h"
 #include "raymath.h"
+#include "Collideable.h"
 
 class RectangleF : public Shape{
 public:
@@ -9,10 +10,8 @@ public:
 	void ReadInput();
 	void Draw() override;
 	void Update(const float deltaTime);
-	BoundingBox& GetCollider();
+	Collideable& GetCollideable();
 
 private:
-	BoundingBox boxCollider;
-	//static constexpr Layers::Layer layer = Layers::Layer::STRUCTURE;
-
+	Collideable boxCollider;
 };

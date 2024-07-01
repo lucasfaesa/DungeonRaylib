@@ -2,6 +2,7 @@
 #include "CameraManager.h"
 #include "World.h"
 #include "Layers.h"
+#include "Collideable.h"
 
 class Player {
 
@@ -11,10 +12,9 @@ public:
 	void ReadInput();
 	void Update(const float deltaTime);
 	void Draw();
-	void OnCollision();
-	BoundingBox& GetCollider();
+	void OnCollisionOnBody();
+	Collideable& GetBodyCollideable();
 
-	bool IsColliding{ false };
 private:
 
 	void InputMovement();
@@ -48,7 +48,11 @@ private:
 
 	//bool isColliding{ false };
 
-	BoundingBox boxCollider;
+	//BoundingBox boxCollider;
+	//BoundingBox groundCollider;
+
+	Collideable bodyCollideable;
+	Collideable groundCollideable;
 
 	float gravity = World::gravity;
 
@@ -56,4 +60,7 @@ private:
 	bool canJump{ false };
 	bool isJumping{ false };
 	float jumpTimer{};
+
+	bool isCollidingBody;
+	bool isCollidingGround;
 };
