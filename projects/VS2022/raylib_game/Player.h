@@ -15,6 +15,7 @@ public:
 	void Draw();
 	void OnCollisionOnBody();
 	void OnCollisionOnFoot(RectangleF& collideable);
+	void LeftCollisionOnFoot();
 	Collideable& GetBodyCollideable();
 	Collideable& GetFootCollideable();
 
@@ -67,5 +68,4 @@ private:
 	float jumpTimer{};
 
 	bool isCollidingBody;
-	bool isCollidingGround;
 };

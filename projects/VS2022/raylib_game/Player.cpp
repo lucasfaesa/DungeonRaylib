@@ -5,11 +5,11 @@ Player::Player(Vector3 pos, Vector3 rot)
 {
 	camera = &CameraManager::GetPlayerCamera();
 
-	Vector3 bodyMin{ position.x - size.x * 0.5f, position.y + 0.2f, position.z - size.z * 0.5f};
+	Vector3 bodyMin{ position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f};
 	Vector3 bodyMax{ position.x + size.x * 0.5f, position.y + size.y, position.z + size.z * 0.5f };
 
-	Vector3 groundMin{ position.x - (size.x - 0.03f) * 0.5f, position.y, position.z - (size.z - 0.03f) * 0.5f };
-	Vector3 groundMax{ position.x + (size.x - 0.03f) * 0.5f, position.y + 0.2f, position.z + (size.z - 0.03f) * 0.5f };
+	Vector3 groundMin{ position.x - (size.x - 0.03f) * 0.5f, position.y - 0.1f, position.z - (size.z - 0.03f) * 0.5f };
+	Vector3 groundMax{ position.x + (size.x - 0.03f) * 0.5f, position.y, position.z + (size.z - 0.03f) * 0.5f };
 
 	bodyCollideable = Collideable{ BoundingBox{ bodyMin , bodyMax } , Layers::Layer::PLAYER };
 	groundCollideable = Collideable{ BoundingBox{ groundMin , groundMax } , Layers::Layer::DEFAULT };
@@ -30,7 +30,7 @@ void Player::ReadInput()
 void Player::Update(const float deltaTime)
 {
 	isCollidingBody = false;
-	isCollidingGround = false;
+	//isGrounded = false;
 
 	lastPositionBeforeBodyCollision = position;
 	lastPositionBeforeFootCollision = position.y;
@@ -42,6 +42,7 @@ void Player::Update(const float deltaTime)
 	}
 
 	gravity = isGrounded ? 0.f : World::gravity;
+	//gravity = 0;
 
 	HandleJump(deltaTime);
 
@@ -50,21 +51,23 @@ void Player::Update(const float deltaTime)
 		DrawText(TextFormat("%.2f positionY", position.y), 40, 60, 20, GREEN);
 		DrawText(TextFormat("%.2f positionZ", position.z), 40, 80, 20, GREEN);
 
-		DrawText(TextFormat("%.2f rotationX", rotation.x), 40, 100, 20, GREEN);
-		DrawText(TextFormat("%.2f rotationY", rotation.y), 40, 120, 20, GREEN);
-		DrawText(TextFormat("%.2f rotationZ", rotation.z), 40, 140, 20, GREEN);
+		DrawText(TextFormat("grounded %i", isGrounded), 40, 100, 20, GREEN);
+
+		//DrawText(TextFormat("%.2f rotationX", rotation.x), 40, 100, 20, GREEN);
+		//DrawText(TextFormat("%.2f rotationY", rotation.y), 40, 120, 20, GREEN);
+		//DrawText(TextFormat("%.2f rotationZ", rotation.z), 40, 140, 20, GREEN);
 	#pragma endregion
 
 	UpdateCameraPro(camera, moveDelta, mouseDelta, 0.f);
 
 	//TODO remove this later when implemented collision
-	if (position.y <= 0 && !isGrounded && !isJumping) {
+	/*if (position.y <= 0 && !isGrounded && !isJumping) {
 		isGrounded = true;
 		canJump = true;
 		isJumping = false;
 		jumpTimer = 0;
 		camera->position.y = size.y;
-	}
+	}*/
 
 	UpdatePlayerPosition();
 	UpdatePlayerRotation();
@@ -75,7 +78,7 @@ void Player::Update(const float deltaTime)
 void Player::Draw()
 {
 	DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
-	DrawBoundingBox(groundCollideable.GetCollider(), isCollidingGround ? GREEN : YELLOW);
+	DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
 }
 
 void Player::OnCollisionOnBody()
@@ -87,10 +90,24 @@ void Player::OnCollisionOnBody()
 
 void Player::OnCollisionOnFoot(RectangleF& rect)
 {
-	isCollidingGround = true;
+	if (isJumping) return;
+
+	isGrounded = true;
+	canJump = true;
+	isJumping = false;
+	jumpTimer = 0;
 
 	float topYPos = rect.GetPosition().y + rect.GetSize().y * 0.5f;
 	ForcePositionYChange(topYPos);
+}
+
+void Player::LeftCollisionOnFoot()
+{
+	if (isJumping) return;
+
+	isGrounded = false;
+	canJump = false;
+	isJumping = false;
 }
 
 Collideable& Player::GetBodyCollideable()
@@ -121,7 +138,7 @@ void Player::InputLook()
 
 void Player::InputJump()
 {
-	if (IsKeyPressed(KEY_SPACE) && canJump) {
+	if (IsKeyPressed(KEY_SPACE) && canJump && !isJumping) {
 		moveDelta.y = jumpForce;
 		isGrounded = false;
 		canJump = false;
@@ -173,11 +190,11 @@ void Player::UpdatePlayerPosition()
 
 void Player::UpdateColliderPosition()
 {
-	bodyCollideable.UpdateBoundingBox(Vector3{ position.x - size.x * 0.5f, position.y + 0.2f, position.z - size.z * 0.5f },
+	bodyCollideable.UpdateBoundingBox(Vector3{ position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f },
 									Vector3{ position.x + size.x * 0.5f, position.y + size.y, position.z + size.z * 0.5f });
 
-	groundCollideable.UpdateBoundingBox(Vector3{ position.x - (size.x - 0.03f) * 0.5f, position.y, position.z - (size.z - 0.03f) * 0.5f },
-										Vector3{ position.x + (size.x - 0.03f) * 0.5f, position.y + 0.2f, position.z + (size.z - 0.03f) * 0.5f });
+	groundCollideable.UpdateBoundingBox(Vector3{ position.x - (size.x - 0.03f) * 0.5f, position.y - 0.1f, position.z - (size.z - 0.03f) * 0.5f },
+										Vector3{ position.x + (size.x - 0.03f) * 0.5f, position.y, position.z + (size.z - 0.03f) * 0.5f });
 }
 
 void Player::ForcePositionXZChange()
@@ -191,7 +208,8 @@ void Player::ForcePositionXZChange()
 
 void Player::ForcePositionYChange(float topYPos)
 {
-	camera->position.y = topYPos + size.y;
+	//									    offset to not make the body collider hit the ground//strctures from above
+	camera->position.y = topYPos + size.y + 0.01f;
 
 	UpdatePlayerPosition();
 	UpdateColliderPosition();

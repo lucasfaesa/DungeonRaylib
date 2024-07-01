@@ -23,15 +23,22 @@ void Game::Update(float deltaTime)
 {
 	player.Update(deltaTime);
 
+	bool collisionOnFoot{ false };
+
 	for (RectangleF * shape : structures.GetRectangles()) {
 		if (CheckCollisionBoxes(shape->GetCollideable().GetCollider(), player.GetBodyCollideable().GetCollider())) {
-			player.OnCollisionOnBody();
+			if(shape->GetCollideable().GetLayer() != Layers::Layer::GROUND)
+				player.OnCollisionOnBody();
 		}
 
 		if (CheckCollisionBoxes(shape->GetCollideable().GetCollider(), player.GetFootCollideable().GetCollider())) {
 			player.OnCollisionOnFoot(*shape);
+			collisionOnFoot = true;
 		}
 	}
+
+	if (!collisionOnFoot)
+		player.LeftCollisionOnFoot();
 	
 }
 
