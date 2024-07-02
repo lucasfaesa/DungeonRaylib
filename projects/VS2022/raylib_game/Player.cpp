@@ -43,8 +43,6 @@ void Player::Update(const float deltaTime)
 	}
 
 	gravity = isGrounded ? 0.f : World::gravity;
-	moveDelta.y = isGrounded ? 0 : moveDelta.y;
-	//gravity = 0;
 
 	HandleJump(deltaTime);
 
@@ -54,6 +52,12 @@ void Player::Update(const float deltaTime)
 	UpdatePlayerRotation();
 	UpdateColliderPosition();
 	ComputeVelocity(deltaTime);
+}
+
+void Player::FixedUpdate(const float fixedDeltaTime)
+{
+	
+	
 }
 
 
@@ -85,6 +89,8 @@ void Player::OnCollisionOnFoot(RectangleF& rect)
 	canJump = true;
 	isJumping = false;
 	jumpTimer = 0;
+	fallSpeed = 0;
+	moveDelta.y = 0;
 
 	float topYPos = rect.GetPosition().y + rect.GetSize().y * 0.5f;
 	ForcePositionYChange(topYPos);
@@ -127,6 +133,8 @@ void Player::InputLook()
 
 void Player::InputJump()
 {
+	moveDelta.y = 0;
+
 	if (IsKeyPressed(KEY_SPACE) && canJump && !isJumping) {
 		moveDelta.y = jumpForce;
 		isGrounded = false;
@@ -140,25 +148,34 @@ void Player::HandleJump(float deltaTime)
 	if (isJumping) {
 		jumpTimer += deltaTime;
 
-		if (jumpTimer > jumpDuration) {
+		if (jumpTimer >= jumpDuration) {
 			isJumping = false; // End jump after the duration
-			moveDelta.y = 0; // Reset vertical movement when jump ends
+			std::cout << "max height: " << test << std::endl;
 		}
 		else {
 			float normalizedTime = jumpTimer / jumpDuration;
 			float jumpCurve = normalizedTime * (1 - normalizedTime); // Calculate the parabola
 			moveDelta.y = jumpForce * deltaTime * jumpCurve;
 
+			if (position.y > test)
+				test = position.y;
 		}
 	}
 	else if (!isGrounded) {
-		moveDelta.y -= gravity * deltaTime;
+		fallSpeed += gravity * gravityRate * deltaTime;
+
+		moveDelta.y -= fallSpeed;
+
+		test = 0;
 	}
+
+	//std::cout << fallSpeed << std::endl;
 
 	if (abs(moveDelta.y) > terminalMoveDeltaY) {
 		moveDelta.y = (moveDelta.y > 0) ? terminalMoveDeltaY : -terminalMoveDeltaY;
 	}
 
+	//std::cout << moveDelta.y << std::endl;
 
 	
 }

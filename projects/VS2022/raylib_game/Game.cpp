@@ -42,6 +42,23 @@ void Game::Update(float deltaTime)
 	
 }
 
+void Game::FixedUpdateCalculation(float deltaTime)
+{
+	// Accumulate elapsed time.
+	accumulatedTime += deltaTime;
+
+	// Process fixed updates at fixed time steps.
+	while (accumulatedTime >= fixedTimeStep) {
+		FixedUpdate(fixedTimeStep);
+		accumulatedTime -= fixedTimeStep;
+	}
+}
+
+void Game::FixedUpdate(float deltaTime)
+{
+	player.FixedUpdate(deltaTime);
+}
+
 void Game::OnApplicationClose()
 {
 	structures.~Structures();

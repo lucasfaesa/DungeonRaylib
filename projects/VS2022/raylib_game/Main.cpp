@@ -30,8 +30,12 @@ int main()
         
         //DrawText(TextFormat("%.3f FPS", deltaTime), 20, 20, 20, LIGHTGRAY);
         
+        game.FixedUpdateCalculation(deltaTime);
+
         game.Update(deltaTime);
         
+
+
         //----------------------------------------------------------------------------------
 
         // Draw

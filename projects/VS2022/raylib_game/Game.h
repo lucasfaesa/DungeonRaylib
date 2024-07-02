@@ -13,6 +13,8 @@ public:
 	void Start();
 	void InputRead();
 	void Update(float deltaTime);
+	void FixedUpdateCalculation(float deltaTime);
+	void FixedUpdate(float deltaTime);
 	void OnApplicationClose();
 	void Draw();
 	void DrawCanvas();
@@ -22,4 +24,7 @@ private:
 	bool initialized;
 	Player player;
 	Structures structures {20};
+
+	float fixedTimeStep{ 0.02f }; //50 times a second
+	float accumulatedTime{};
 };

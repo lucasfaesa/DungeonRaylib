@@ -13,6 +13,7 @@ public:
 	Player(Vector3 pos, Vector3 rot);
 	void ReadInput();
 	void Update(const float deltaTime);
+	void FixedUpdate(const float fixedDeltaTime);
 	void Draw();
 	void DrawCanvas();
 	void OnCollisionOnBody();
@@ -71,7 +72,11 @@ private:
 	bool canJump{ false };
 	bool isJumping{ false };
 	float jumpTimer{};
-	float terminalMoveDeltaY = 0.2f; //or 0.125f
+	float terminalMoveDeltaY{ 0.3f }; //or 0.125f
+	float fallSpeed{};
+	float gravityRate{ 0.05f };
+
+	float test{};
 
 	bool isCollidingBody;
 };
