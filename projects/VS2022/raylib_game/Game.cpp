@@ -59,6 +59,13 @@ void Game::Draw()
 	EndMode3D();
 }
 
+void Game::DrawCanvas()
+{
+	DrawFPS(10, 5);
+	Logger::ResetPosition();
+	player.DrawCanvas();
+}
+
 bool Game::IsInitialized() const
 {
 	return initialized;

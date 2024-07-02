@@ -34,6 +34,7 @@
       <Filter>SourceFiles</Filter>
     </ClCompile>
     <ClCompile Include="Collideable.cpp" />
+    <ClCompile Include="Logger.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -67,6 +68,9 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="Collideable.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>

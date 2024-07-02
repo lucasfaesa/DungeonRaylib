@@ -28,7 +28,7 @@ int main()
         // Update
         //----------------------------------------------------------------------------------
         
-        DrawText(TextFormat("%.3f FPS", deltaTime), 20, 20, 20, LIGHTGRAY);
+        //DrawText(TextFormat("%.3f FPS", deltaTime), 20, 20, 20, LIGHTGRAY);
         
         game.Update(deltaTime);
         
@@ -41,8 +41,7 @@ int main()
         ClearBackground(RAYWHITE);
 
         game.Draw();
-        //DrawText("Congrats! You created your first window!", 190, 200, 20, LIGHTGRAY);
-        DrawFPS(10, 10);
+        game.DrawCanvas();
         EndDrawing();
         //----------------------------------------------------------------------------------
     }

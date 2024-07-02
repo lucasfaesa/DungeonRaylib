@@ -3,6 +3,7 @@
 #include "CameraManager.h"
 #include "Structures.h"
 #include "Player.h"
+#include "Logger.h"
 
 class Game {
 
@@ -14,6 +15,7 @@ public:
 	void Update(float deltaTime);
 	void OnApplicationClose();
 	void Draw();
+	void DrawCanvas();
 	bool IsInitialized() const;
 private:
 	void CheckForPlayerCollision();

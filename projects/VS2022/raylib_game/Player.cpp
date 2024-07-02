@@ -1,5 +1,6 @@
 #include "Player.h"
 #include <algorithm>
+#include "rlgl.h"
 
 Player::Player(Vector3 pos, Vector3 rot)
 {
@@ -30,10 +31,10 @@ void Player::ReadInput()
 void Player::Update(const float deltaTime)
 {
 	isCollidingBody = false;
-	//isGrounded = false;
 
 	lastPositionBeforeBodyCollision = position;
-	lastPositionBeforeFootCollision = position.y;
+	lastFramePosition = position;
+	previousMoveDelta = moveDelta;
 
 	if (moveDelta.z != 0 || moveDelta.x != 0) {
 		moveDelta = Vector3Normalize(moveDelta);
@@ -42,36 +43,17 @@ void Player::Update(const float deltaTime)
 	}
 
 	gravity = isGrounded ? 0.f : World::gravity;
+	moveDelta.y = isGrounded ? 0 : moveDelta.y;
 	//gravity = 0;
 
 	HandleJump(deltaTime);
 
-	#pragma region debug
-		DrawText(TextFormat("%.2f positionX", position.x), 40, 40, 20, GREEN);
-		DrawText(TextFormat("%.2f positionY", position.y), 40, 60, 20, GREEN);
-		DrawText(TextFormat("%.2f positionZ", position.z), 40, 80, 20, GREEN);
-
-		DrawText(TextFormat("grounded %i", isGrounded), 40, 100, 20, GREEN);
-
-		//DrawText(TextFormat("%.2f rotationX", rotation.x), 40, 100, 20, GREEN);
-		//DrawText(TextFormat("%.2f rotationY", rotation.y), 40, 120, 20, GREEN);
-		//DrawText(TextFormat("%.2f rotationZ", rotation.z), 40, 140, 20, GREEN);
-	#pragma endregion
-
 	UpdateCameraPro(camera, moveDelta, mouseDelta, 0.f);
-
-	//TODO remove this later when implemented collision
-	/*if (position.y <= 0 && !isGrounded && !isJumping) {
-		isGrounded = true;
-		canJump = true;
-		isJumping = false;
-		jumpTimer = 0;
-		camera->position.y = size.y;
-	}*/
 
 	UpdatePlayerPosition();
 	UpdatePlayerRotation();
 	UpdateColliderPosition();
+	ComputeVelocity(deltaTime);
 }
 
 
@@ -79,6 +61,13 @@ void Player::Draw()
 {
 	DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
 	DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
+}
+
+void Player::DrawCanvas()
+{
+	Logger::Log("position x: %.2f, position y: %.2f, position z: %.2f", position.x, position.y, position.z);
+	Logger::Log("grounded %i", isGrounded);
+	Logger::Log("velocity x: %.2f, velocity y: %.2f, velocity z: %.2f", velocity.x, velocity.y, velocity.z);
 }
 
 void Player::OnCollisionOnBody()
@@ -122,7 +111,7 @@ Collideable& Player::GetFootCollideable()
 
 void Player::InputMovement()
 {
-	moveDelta = { 0, 0, moveDelta.z };
+	moveDelta = { 0, moveDelta.y, 0 };
 
 	moveDelta.z = (IsKeyDown(KEY_W) - IsKeyDown(KEY_S));
 	moveDelta.x = (IsKeyDown(KEY_D) - IsKeyDown(KEY_A));
@@ -151,19 +140,27 @@ void Player::HandleJump(float deltaTime)
 	if (isJumping) {
 		jumpTimer += deltaTime;
 
-		// Apply jump force based on timer (parabolic curve)
-		//moveDelta.y = jumpForce * 0.5f * (-jumpTimer * jumpTimer + jumpTimer);
-
-		float normalizedTime = jumpTimer / jumpDuration;
-		moveDelta.y = jumpForce * 0.5f * (-normalizedTime * normalizedTime + normalizedTime);
-
 		if (jumpTimer > jumpDuration) {
 			isJumping = false; // End jump after the duration
+			moveDelta.y = 0; // Reset vertical movement when jump ends
+		}
+		else {
+			float normalizedTime = jumpTimer / jumpDuration;
+			float jumpCurve = normalizedTime * (1 - normalizedTime); // Calculate the parabola
+			moveDelta.y = jumpForce * deltaTime * jumpCurve;
+
 		}
 	}
-	else {
-		moveDelta.y -= (gravity)*deltaTime;
+	else if (!isGrounded) {
+		moveDelta.y -= gravity * deltaTime;
 	}
+
+	if (abs(moveDelta.y) > terminalMoveDeltaY) {
+		moveDelta.y = (moveDelta.y > 0) ? terminalMoveDeltaY : -terminalMoveDeltaY;
+	}
+
+
+	
 }
 
 void Player::UpdatePlayerRotation()
@@ -190,11 +187,12 @@ void Player::UpdatePlayerPosition()
 
 void Player::UpdateColliderPosition()
 {
-	bodyCollideable.UpdateBoundingBox(Vector3{ position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f },
+	bodyCollideable.UpdateBoundingBox(Vector3{position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f},
 									Vector3{ position.x + size.x * 0.5f, position.y + size.y, position.z + size.z * 0.5f });
 
 	groundCollideable.UpdateBoundingBox(Vector3{ position.x - (size.x - 0.03f) * 0.5f, position.y - 0.1f, position.z - (size.z - 0.03f) * 0.5f },
 										Vector3{ position.x + (size.x - 0.03f) * 0.5f, position.y, position.z + (size.z - 0.03f) * 0.5f });
+
 }
 
 void Player::ForcePositionXZChange()
@@ -213,4 +211,11 @@ void Player::ForcePositionYChange(float topYPos)
 
 	UpdatePlayerPosition();
 	UpdateColliderPosition();
+}
+
+void Player::ComputeVelocity(float deltaTime)
+{
+	velocity.x = (position.x - lastFramePosition.x) / deltaTime;
+	velocity.y = (position.y - lastFramePosition.y) / deltaTime;
+	velocity.z = (position.z - lastFramePosition.z) / deltaTime;
 }
