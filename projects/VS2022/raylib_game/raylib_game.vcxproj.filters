@@ -33,8 +33,13 @@
     <ClCompile Include="Structures.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Collideable.cpp" />
-    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Logger.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Collideable.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -71,6 +76,9 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="Logger.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelGenerator.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>

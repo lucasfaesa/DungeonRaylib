@@ -355,6 +355,7 @@
     <ClCompile Include="Collideable.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="LevelGenerator.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -369,6 +370,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="Layers.h" />
+    <ClInclude Include="LevelGenerator.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RectangleF.h" />

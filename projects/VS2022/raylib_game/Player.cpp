@@ -42,7 +42,8 @@ void Player::Update(const float deltaTime)
 		moveDelta.z *= deltaTime * speed;
 	}
 
-	gravity = isGrounded ? 0.f : World::gravity;
+	//gravity = isGrounded ? 0.f : World::gravity;
+	gravity = 0;
 
 	HandleJump(deltaTime);
 

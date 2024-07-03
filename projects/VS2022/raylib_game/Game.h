@@ -4,6 +4,7 @@
 #include "Structures.h"
 #include "Player.h"
 #include "Logger.h"
+#include "LevelGenerator.h"
 
 class Game {
 
@@ -23,7 +24,8 @@ private:
 	void CheckForPlayerCollision();
 	bool initialized;
 	Player player;
-	Structures structures {20};
+	Structures structures {0};
+	LevelGenerator levelGenerator{};
 
 	float fixedTimeStep{ 0.02f }; //50 times a second
 	float accumulatedTime{};

@@ -11,6 +11,7 @@ Game::Game(bool initiliazed):
 
 void Game::Start()
 {
+	levelGenerator.Start();
 	DisableCursor();
 }
 
@@ -68,8 +69,9 @@ void Game::Draw()
 {
 	BeginMode3D(CameraManager::GetPlayerCamera());
 
-	player.Draw();
 	structures.Draw();
+	levelGenerator.Draw();
+	player.Draw();
 
 	DrawGrid(100, 1.f);
 
