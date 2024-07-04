@@ -72,3 +72,8 @@ Vector3& LevelGenerator::GetMapPosition()
 {
 	return mapPosition1;
 }
+
+const std::vector<BoundingBox>& LevelGenerator::GetBoundingBoxes() const
+{
+	return boundingBoxes;
+}

@@ -37,17 +37,9 @@ void Game::Update(float deltaTime)
 			collisionOnFoot = true;
 		}
 	}*/
-
-	for (int y = 0; y < levelGenerator.GetCubicmap().height; y++)
-	{
-		for (int x = 0; x < levelGenerator.GetCubicmap().width; x++)
-		{
-			/*if ((levelGenerator.GetMapPixels()[y * levelGenerator.GetCubicmap().width + x].r == 255) &&       // Collision: white pixel, only check R channel
-				(CheckCollisionBoxes(player.GetBodyCollideable().GetCollider(),
-					BoundingBox{ levelGenerator.GetMapPosition().x - 0.5f + x * 1.0f, levelGenerator.GetMapPosition().z - 0.5f + y * 1.0f }
-				))) {
-				player.OnCollisionOnBody();
-			}*/
+	for (const BoundingBox& boundingBox : levelGenerator.GetBoundingBoxes()) {
+		if (CheckCollisionBoxes(player.GetBodyCollideable().GetCollider(), boundingBox)) {
+			player.OnCollisionOnBody();
 		}
 	}
 
@@ -84,7 +76,7 @@ void Game::Draw()
 
 	structures.Draw();
 	levelGenerator.Draw();
-	//player.Draw();
+	player.Draw();
 
 	DrawGrid(100, 1.f);
 

@@ -13,6 +13,7 @@ public:
 	Texture2D& GetCubicmap();
 	Color* GetMapPixels();
 	Vector3& GetMapPosition();
+	const std::vector<BoundingBox>& GetBoundingBoxes() const;
 
 private:
 	Image image1 = LoadImage("../resources/cubicmap.png");
