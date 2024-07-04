@@ -33,6 +33,23 @@ LevelGenerator::LevelGenerator()
 				// Create and store bounding box
 				boundingBoxes.emplace_back(BoundingBox{ min, max });
 			}
+
+			//only checking r channel for black
+			if (mapPixels[y * cubicmap1.width + x].r == 0) {
+				Vector3 min{
+					mapPosition1.x + (x - 0.5f),
+					mapPosition1.y - 1.0f,
+					mapPosition1.z + (y - 0.5f)
+				};
+				Vector3 max{
+					mapPosition1.x + (x + 0.5f),
+					mapPosition1.y,
+					mapPosition1.z + (y + 0.5f)
+				};
+
+				// Create and store bounding box
+				boundingBoxes.emplace_back(BoundingBox{ min, max });
+			}
 		}
 	}
 }

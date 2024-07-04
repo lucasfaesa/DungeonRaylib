@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Logger.h"
 #include "LevelGenerator.h"
+#include "Helpers.h"
 
 class Game {
 

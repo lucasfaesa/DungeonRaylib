@@ -26,7 +26,7 @@ void Game::Update(float deltaTime)
 
 	bool collisionOnFoot{ false };
 
-	/*for (RectangleF * shape : structures.GetRectangles()) {
+	for (RectangleF * shape : structures.GetRectangles()) {
 		if (CheckCollisionBoxes(shape->GetCollideable().GetCollider(), player.GetBodyCollideable().GetCollider())) {
 			if(shape->GetCollideable().GetLayer() != Layers::Layer::GROUND)
 				player.OnCollisionOnBody();
@@ -36,10 +36,15 @@ void Game::Update(float deltaTime)
 			player.OnCollisionOnFoot(*shape);
 			collisionOnFoot = true;
 		}
-	}*/
+	}
 	for (const BoundingBox& boundingBox : levelGenerator.GetBoundingBoxes()) {
 		if (CheckCollisionBoxes(player.GetBodyCollideable().GetCollider(), boundingBox)) {
 			player.OnCollisionOnBody();
+		}
+
+		if (CheckCollisionBoxes(boundingBox, player.GetFootCollideable().GetCollider())) {
+			player.OnCollisionOnFoot(Helpers::ComputeBoundingBoxCenter(boundingBox).y + Helpers::ComputeBoundingBoxSize(boundingBox).y * 0.5f);
+			collisionOnFoot = true;
 		}
 	}
 

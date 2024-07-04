@@ -18,6 +18,7 @@ public:
 	void DrawCanvas();
 	void OnCollisionOnBody();
 	void OnCollisionOnFoot(RectangleF& collideable);
+	void OnCollisionOnFoot(float topYPos);
 	void LeftCollisionOnFoot();
 	Collideable& GetBodyCollideable();
 	Collideable& GetFootCollideable();
