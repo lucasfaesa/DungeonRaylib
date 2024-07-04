@@ -2,14 +2,17 @@
 
 
 #include "raylib.h"
-
+#include <vector>
 
 class LevelGenerator {
 
 public:
-	LevelGenerator() = default;
+	LevelGenerator();
 	void Start();
 	void Draw();
+	Texture2D& GetCubicmap();
+	Color* GetMapPixels();
+	Vector3& GetMapPosition();
 
 private:
 	Image image1 = LoadImage("../resources/cubicmap.png");
@@ -24,6 +27,8 @@ private:
 	Mesh mesh2 = GenMeshCubicmapOnlyWhites(image2, Vector3{ 1.0f, 1.0f, 1.0f });
 	Model model2 = LoadModelFromMesh(mesh2);
 
+	Color* mapPixels = LoadImageColors(image1);
+
 	Texture2D texture{};    // Load map texture
 	
 	Vector3 mapPosition1 = { -16.0f, 0.f, -8.0f };
@@ -31,6 +36,6 @@ private:
 	Vector3 mapPosition2 = { -16.0f, 3.f, -8.0f };
 
 
-
+	std::vector<BoundingBox> boundingBoxes;
 	
 };
