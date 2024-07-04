@@ -10,33 +10,40 @@ public:
 	LevelGenerator();
 	void Start();
 	void Draw();
-	Texture2D& GetCubicmap();
-	Color* GetMapPixels();
-	Vector3& GetMapPosition();
 	const std::vector<BoundingBox>& GetBoundingBoxes() const;
 
 private:
-	Image image1 = LoadImage("../resources/cubicmap.png");
-	Texture2D cubicmap1 = LoadTextureFromImage(image1);
 
-	Mesh mesh1 = GenMeshCubicmap(image1, Vector3{ 1.0f, 15.0f, 1.0f });
-	Model model1 = LoadModelFromMesh(mesh1);
+	void InitializePlatformsArray();
+	void ComputeBaseStructureCollisions();
+	void ComputePlatformsCollisions();
 
-	Image image2 = LoadImage("../resources/cubicmap2.png");
-	Texture2D cubicmap2 = LoadTextureFromImage(image2);
+private:
 
-	Mesh mesh2 = GenMeshCubicmapOnlyWhites(image2, Vector3{ 1.0f, 1.0f, 1.0f });
-	Model model2 = LoadModelFromMesh(mesh2);
+	//walls, columns...
+	Image baseScenery = LoadImage("../resources/baseScenery.png");
+	Texture2D baseSceneryCubicmap = LoadTextureFromImage(baseScenery);
 
-	Color* mapPixels = LoadImageColors(image1);
+	Vector3 baseSceneryCubeSize{ 1.0f, 15.0f, 1.0f };
 
-	Texture2D texture{};    // Load map texture
-	
-	Vector3 mapPosition1 = { -16.0f, 0.f, -8.0f };
+	Mesh baseSceneryMesh = GenMeshCubicmap(baseScenery, baseSceneryCubeSize);
+	Model baseSceneryModel = LoadModelFromMesh(baseSceneryMesh);
 
-	Vector3 mapPosition2 = { -16.0f, 3.f, -8.0f };
+	Color* baseSceneryPixels = LoadImageColors(baseScenery);
+
+	Texture2D baseSceneryTexture = LoadTexture("../resources/cubicmap_atlas.png");
+
+	Vector3 baseSceneryPosition = { -baseSceneryCubicmap.width * 0.5f, 0.f, -baseSceneryCubicmap.height * 0.5f };
+
+	//platforms
+	//TODO create a data structure for this?
+	std::vector<Image> platformsImages;
+	std::vector<Texture2D> platformsTextures;
+	std::vector<Mesh> platformsMeshes;
+	std::vector<Model> platformsModels;
+	std::vector<Color*> platformsPixels;
 
 
-	std::vector<BoundingBox> boundingBoxes;
+	std::vector<BoundingBox> levelBoundingBoxes;
 	
 };

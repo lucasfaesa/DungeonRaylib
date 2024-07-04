@@ -81,7 +81,7 @@ void Game::Draw()
 
 	structures.Draw();
 	levelGenerator.Draw();
-	player.Draw();
+	//player.Draw();
 
 	DrawGrid(100, 1.f);
 
