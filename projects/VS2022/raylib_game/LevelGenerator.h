@@ -34,7 +34,7 @@ private:
 	Color* baseSceneryPixels = LoadImageColors(baseScenery);
 
 	Texture2D baseSceneryTexture = LoadTexture("../resources/cubicmap_atlas2.png");
-	Texture2D platformsTexture = LoadTexture("../resources/cubicmap_atlas3.png");
+	Texture2D platformsTexture = LoadTexture("../resources/cubicmap_atlas4.png");
 
 	Vector3 baseSceneryPosition = { -baseSceneryCubicmap.width * 0.5f, 0.f, -baseSceneryCubicmap.height * 0.5f };
 

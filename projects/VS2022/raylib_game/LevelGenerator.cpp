@@ -14,13 +14,13 @@ void LevelGenerator::Start()
 {
 	baseSceneryModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = baseSceneryTexture;    // Set map diffuse texture
 
+	UnloadImage(baseScenery);
+
 	for (int i = 0; i < platformsModels.size(); i++)
 	{
 		platformsModels[i].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = platformsTexture;
+		UnloadImage(platformsImages[i]);
 	}
-
-	UnloadImage(baseScenery);     // Unload cubesmap image from RAM, already uploaded to VRAM
-	UnloadImage(platformsImages[0]);     // Unload cubesmap image from RAM, already uploaded to VRAM
 }
 
 void LevelGenerator::Draw()
