@@ -16,7 +16,7 @@ void LevelGenerator::Start()
 
 	for (int i = 0; i < platformsModels.size(); i++)
 	{
-		platformsModels[i].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = baseSceneryTexture;
+		platformsModels[i].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = platformsTexture;
 	}
 
 	UnloadImage(baseScenery);     // Unload cubesmap image from RAM, already uploaded to VRAM
@@ -32,7 +32,7 @@ void LevelGenerator::Draw()
 		DrawModel(platformsModels[i], Vector3{ baseSceneryPosition.x, (float)i, baseSceneryPosition.z }, 1.0f, WHITE);
 	}
 
-	for (BoundingBox& box : levelBoundingBoxes) {		DrawBoundingBox(box, RED);	}
+	//for (BoundingBox& box : levelBoundingBoxes) {		DrawBoundingBox(box, RED);	}
 	
 }
 
