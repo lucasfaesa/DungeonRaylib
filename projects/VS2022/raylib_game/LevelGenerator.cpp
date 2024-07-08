@@ -13,7 +13,11 @@ LevelGenerator::LevelGenerator()
 void LevelGenerator::Start()
 {
 	baseSceneryModel.materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = baseSceneryTexture;    // Set map diffuse texture
-	platformsModels[0].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = baseSceneryTexture;    // Set map diffuse texture
+
+	for (int i = 0; i < platformsModels.size(); i++)
+	{
+		platformsModels[i].materials[0].maps[MATERIAL_MAP_DIFFUSE].texture = baseSceneryTexture;
+	}
 
 	UnloadImage(baseScenery);     // Unload cubesmap image from RAM, already uploaded to VRAM
 	UnloadImage(platformsImages[0]);     // Unload cubesmap image from RAM, already uploaded to VRAM
@@ -22,11 +26,13 @@ void LevelGenerator::Start()
 void LevelGenerator::Draw()
 {
 	DrawModel(baseSceneryModel, baseSceneryPosition, 1.0f, WHITE);
-	DrawModel(platformsModels[0], Vector3{baseSceneryPosition.x, 0.f, baseSceneryPosition.z}, 1.0f, WHITE);
 
-	for (BoundingBox& box : levelBoundingBoxes) {
-		DrawBoundingBox(box, RED);
+	for (int i = 0; i < platformsModels.size(); i++)
+	{
+		DrawModel(platformsModels[i], Vector3{ baseSceneryPosition.x, (float)i, baseSceneryPosition.z }, 1.0f, WHITE);
 	}
+
+	for (BoundingBox& box : levelBoundingBoxes) {		DrawBoundingBox(box, RED);	}
 	
 }
 
@@ -37,11 +43,28 @@ const std::vector<BoundingBox>& LevelGenerator::GetBoundingBoxes() const
 
 void LevelGenerator::InitializePlatformsArray()
 {
-	platformsImages.emplace_back(LoadImage("../resources/platform1f.png"));
-	platformsTextures.emplace_back(LoadTextureFromImage(platformsImages[platformsImages.size() - 1]));
-	platformsMeshes.emplace_back(GenMeshCubicmapWithoutFloorAndCeiling(platformsImages[platformsImages.size() - 1], Vector3{ 1.0f, 1.0f, 1.0f }));
-	platformsModels.emplace_back(LoadModelFromMesh(platformsMeshes[platformsMeshes.size() - 1]));
-	platformsPixels.emplace_back(LoadImageColors(platformsImages[platformsImages.size() - 1]));
+	for (int i = 1; i <= platformsImageQty; ++i) {
+		std::string imagePath = "../resources/platform" + std::to_string(i) + "f.png";
+
+		Image image = LoadImage(imagePath.c_str());
+
+		if (image.width == 0 || image.height == 0) {
+			// The image is invalid, possibly because the file does not exist
+			std::cout << "Failed to load image: " << imagePath << std::endl;
+			continue;  // Skip to the next iteration of the loop
+		}
+
+		Texture texture = LoadTextureFromImage(image);
+		Mesh mesh = GenMeshCubicmapWithoutFloorAndCeiling(image, Vector3{ 1.0f, 1.0f, 1.0f });
+		Model model = LoadModelFromMesh(mesh);
+		Color* pixels = LoadImageColors(image);
+
+		platformsImages.emplace_back(image);
+		platformsTextures.emplace_back(texture);
+		platformsMeshes.emplace_back(mesh);
+		platformsModels.emplace_back(model);
+		platformsPixels.emplace_back(pixels);
+	}
 }
 
 void LevelGenerator::ComputeBaseStructureCollisions()

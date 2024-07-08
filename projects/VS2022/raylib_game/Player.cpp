@@ -77,7 +77,7 @@ void Player::DrawCanvas()
 
 void Player::OnCollisionOnBody()
 {
-	//return;
+
 	isCollidingBody = true;
 	
 	ForcePositionXZChange();

@@ -42,7 +42,7 @@ private:
 
 	//static constexpr Layers::Layer layer = Layers::Layer::PLAYER;
 
-	static constexpr float speed = 5.f;
+	static constexpr float speed = 10.f;
 	static constexpr Vector3 size{ 0.5f, 1.8f, 0.5f };
 	static constexpr float jumpForce = 30.f;
 	static constexpr float jumpDuration = 0.4f;

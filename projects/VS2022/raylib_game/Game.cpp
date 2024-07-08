@@ -83,7 +83,7 @@ void Game::Draw()
 	levelGenerator.Draw();
 	//player.Draw();
 
-	DrawGrid(100, 1.f);
+	//DrawGrid(100, 1.f);
 
 	EndMode3D();
 }

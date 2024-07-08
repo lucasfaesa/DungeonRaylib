@@ -3,7 +3,7 @@
 
 // Define static member variable
 Camera CameraManager::playerCamera = Camera{
-    Vector3{ 0.0f, 1.8f, 0.f },  // position
+    Vector3{ 50.f, 1.8f, 77.f },  // position
     Vector3{ 0.0f, 0.0f, 20.0f }, // target
     Vector3{ 0.0f, 1.0f, 0.0f },  // up
     90.f,                        // fovy
