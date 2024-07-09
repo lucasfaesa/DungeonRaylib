@@ -17,6 +17,11 @@ public:
 	void CountAttackTimer(float deltaTime);
 	void SetDistanceFromPlayer();
 	float GetDistanceFromPlayer() const;
+
+private:
+	enum class State { IDLE, WALKING, DEAD };
+
+	void ChangeCurrentState(State newState);
 	void CountAnimationFrames(float deltaTime);
 private:
 	float _distanceFromPlayer;
@@ -28,8 +33,6 @@ private:
 	float attackTimer{0.f};
 	int _attackDamage{ 5 };
 
-	enum class State { IDLE, MOVING, DEAD };
-
 	State currentState{ State::IDLE };
 
 	//frame related
@@ -37,7 +40,7 @@ private:
 	Texture2D walkTexture = LoadTexture("../resources/enemy/frogmon_walk.png");
 	Texture2D dieTexture = LoadTexture("../resources/enemy/frogmon_die.png");
 
-	Rectangle frameRec = { 0.0f, 0.0f, (float)walkTexture.width / 4, (float)walkTexture.height };
+	Rectangle frameRec;
 
 	Vector3 billboardUp = { 0.f, 1.f, 0.f };
 
@@ -45,7 +48,20 @@ private:
 
 	int framesCounter{ 0 };
 
+	//per second
 	int walkFramesSpeed{ 4 };
 	int dyingFramesSpeed{ 4 };
-	int idleFramesSpeed{ 0 };
+	int idleFramesSpeed{ 1 };
+
+	static constexpr int walkTotalFrames{ 4 };
+	static constexpr int dyingTotalFrames{ 5 };
+	static constexpr int idleTotalFrames{ 1 };
+
+	int currentAnimationFrameSpeed{ 1 };
+	int currentAnimationTotalFrames{ 1 };
+	Texture2D* currentTexture{ &idleTexture };
+
+	bool preparingToDie{ false };
+	bool isDead{ false };
+
 };

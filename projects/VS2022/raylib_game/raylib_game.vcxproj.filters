@@ -103,7 +103,7 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
-      <Filter>SourceFiles</Filter>
+      <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
