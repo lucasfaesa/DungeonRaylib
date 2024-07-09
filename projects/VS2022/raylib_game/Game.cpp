@@ -92,10 +92,10 @@ void Game::Draw()
 {
 	BeginMode3D(CameraManager::GetPlayerCamera());
 
-	structures.Draw();
+	//structures.Draw();
 	enemy->Draw();
 	//levelGenerator.Draw();
-	//player.Draw();
+	player.Draw();
 
 	//DrawGrid(100, 1.f);
 

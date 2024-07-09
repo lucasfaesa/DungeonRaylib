@@ -41,7 +41,9 @@ private:
 	void ForcePositionXZChange();
 	void ForcePositionYChange(float topYPos);
 	void ComputeVelocity(float deltaTime);
+	void CountAnimationFrames(float deltaTime);
 
+private:
 	Camera* camera{ nullptr };
 
 	//static constexpr Layers::Layer layer = Layers::Layer::PLAYER;
@@ -81,4 +83,23 @@ private:
 	int playerHealth = 100;
 
 	bool isCollidingBody;
+
+	static constexpr int attackTotalFrames{ 5 };
+	static constexpr int idleTotalFrames{ 1 };
+
+	Texture2D sword_idle_texture = LoadTexture("../resources/player/sword_idle.png");
+	Texture2D sword_attack_texture = LoadTexture("../resources/player/sword_attack.png");
+	Rectangle frameRec = { 0.0f, 0.0f, 800.f, 800.f };
+	
+
+	int currentFrame{ 0 };
+	int framesCounter{ 0 };
+
+	//per second
+	int walkFramesSpeed{ 2 };
+	int idleFramesSpeed{ 1 };
+
+	int currentAnimationFrameSpeed{ 1 };
+	int currentAnimationTotalFrames{ 1 };
+	//Texture2D* currentTexture{ &sword_idle_texture };
 };

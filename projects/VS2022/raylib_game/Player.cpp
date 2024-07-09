@@ -19,6 +19,10 @@ Player::Player(Vector3 pos, Vector3 rot)
 	position = camera->position;
 	//zero Y on the foot
 	position.y = 0.f;	
+
+
+	
+
 }
 
 void Player::ReadInput()
@@ -53,19 +57,20 @@ void Player::Update(const float deltaTime)
 	UpdatePlayerRotation();
 	UpdateColliderPosition();
 	ComputeVelocity(deltaTime);
+	CountAnimationFrames(deltaTime);
 }
 
 void Player::FixedUpdate(const float fixedDeltaTime)
 {
-	
-	
 }
 
 
 void Player::Draw()
 {
-	DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
-	DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
+	//DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
+	//DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
+
+	
 }
 
 void Player::DrawCanvas()
@@ -73,11 +78,11 @@ void Player::DrawCanvas()
 	Logger::Log("position x: %.2f, position y: %.2f, position z: %.2f", position.x, position.y, position.z);
 	Logger::Log("grounded %i", isGrounded);
 	Logger::Log("velocity x: %.2f, velocity y: %.2f, velocity z: %.2f", velocity.x, velocity.y, velocity.z);
+	DrawTextureRecScaled(sword_idle_texture, frameRec, { 0.f, 0.f }, 800.f/sword_idle_texture.width, WHITE);
 }
 
 void Player::OnCollisionOnBody()
 {
-
 	isCollidingBody = true;
 	
 	ForcePositionXZChange();
@@ -262,4 +267,29 @@ void Player::ComputeVelocity(float deltaTime)
 	velocity.x = (position.x - lastFramePosition.x) / deltaTime;
 	velocity.y = (position.y - lastFramePosition.y) / deltaTime;
 	velocity.z = (position.z - lastFramePosition.z) / deltaTime;
+}
+
+void Player::CountAnimationFrames(float deltaTime)
+{
+
+	return;
+
+	framesCounter++;
+
+	if (framesCounter >= (60 / currentAnimationFrameSpeed)) {
+
+		framesCounter = 0;
+		currentFrame++;
+
+		if (currentFrame > currentAnimationTotalFrames - 1) currentFrame = 0;
+
+		//std::cout << "current Frame: " << currentFrame << std::endl;
+		frameRec.x = (float)currentFrame * (float)sword_idle_texture.width / currentAnimationTotalFrames;
+
+		/*if (currentState == State::DEAD && currentFrame == currentAnimationTotalFrames - 1) {
+			isDead = true;
+			return;
+		}*/
+
+	}
 }

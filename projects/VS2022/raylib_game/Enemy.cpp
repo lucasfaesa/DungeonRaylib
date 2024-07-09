@@ -29,11 +29,11 @@ void Enemy::Update(float deltaTime)
 		}
 	}
 	
-	if (IsKeyPressed(KEY_R)) {
+	/*if (IsKeyPressed(KEY_R)) {
 		std::cout << "preparing to die: " << std::endl;
 		ChangeCurrentState(State::DEAD);
 		preparingToDie = true;
-	}
+	}*/
 
 	CountAnimationFrames(deltaTime);
 }
@@ -117,7 +117,7 @@ void Enemy::CountAnimationFrames(float deltaTime)
 
 		if (currentFrame > currentAnimationTotalFrames - 1) currentFrame = 0;
 
-		std::cout << "current Frame: " << currentFrame << std::endl;
+		//std::cout << "current Frame: " << currentFrame << std::endl;
 		frameRec.x = (float)currentFrame * (float)currentTexture->width / currentAnimationTotalFrames;
 
 		if (currentState == State::DEAD && currentFrame == currentAnimationTotalFrames - 1) {
