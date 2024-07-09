@@ -12,5 +12,23 @@ void Enemy::Update(float deltaTime)
 
 	if (_isTargetInsideDetectionRadius) {
 		FollowTarget(deltaTime);
+		CountAttackTimer(deltaTime);
 	}
+
+	if (_isTargetInsideAttackRadius) {
+		AttackPlayer(deltaTime);
+	}
+}
+
+void Enemy::AttackPlayer(float deltaTime)
+{
+	if (attackTimer >= attackDelay) {
+		attackTimer = 0;
+		_player->TakeDamage(_attackDamage);
+	}
+}
+
+void Enemy::CountAttackTimer(float deltaTime)
+{
+	attackTimer += deltaTime;
 }

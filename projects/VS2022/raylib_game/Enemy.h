@@ -10,8 +10,11 @@ public:
 		const BoundingBox& targetBoudingBox, float attackRadius, float detectionRadius, Player& player);
 
 	void Update(float deltaTime) override;
-
+	void AttackPlayer(float deltaTime);
+	void CountAttackTimer(float deltaTime);
 private:
 	Player* _player;
-	float attackDelay = 2.f;
+	float attackDelay{ 2.f };
+	float attackTimer{0.f};
+	int _attackDamage{ 5 };
 };
