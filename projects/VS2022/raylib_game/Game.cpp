@@ -9,8 +9,8 @@ Game::Game(bool initiliazed) :
 	player = { Vector3{ 0.f,0.f,0.f }, Vector3{ 0.f,0.f,0.f } };
 	seekBehavior = new SeekBehavior(player.GetPlayerPosition());
 	
-	enemy = new Enemy({ 30.f, 0.f, 30.f }, { 0.5f, 1.8f, 0.5f }, 9.f, player.GetPlayerPosition(), 
-						player.GetBodyCollideable().GetCollider(), 2.f, 30.f, player);
+	enemy = new Enemy({ 30.f, 0.f, 30.f }, { 1.f, 3.f, 1.f }, 8.2f, player.GetPlayerPosition(), 
+						player.GetBodyCollideable().GetCollider(), 2.f, 30.f, player, CameraManager::GetPlayerCamera());
 	enemy->SetSeekBehavior(seekBehavior);
 }
 
@@ -84,6 +84,7 @@ void Game::FixedUpdate(float deltaTime)
 
 void Game::OnApplicationClose()
 {
+	enemy->OnApplicationQuit();
 	structures.~Structures();
 }
 
