@@ -131,6 +131,11 @@ Collideable& Player::GetFootCollideable()
 	return groundCollideable;
 }
 
+Vector3& Player::GetPlayerPosition()
+{
+	return position;
+}
+
 void Player::InputMovement()
 {
 	moveDelta = { 0, moveDelta.y, 0 };

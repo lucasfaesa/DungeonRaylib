@@ -1,12 +1,16 @@
 #include "Game.h"
 
-Game::Game(bool initiliazed):
+Game::Game(bool initiliazed) :
 	initialized(initialized)
-	
-{		
+
+{
 	Start();
 
-	player = {Vector3{ 0.f,0.f,0.f }, Vector3{ 0.f,0.f,0.f }};
+	player = { Vector3{ 0.f,0.f,0.f }, Vector3{ 0.f,0.f,0.f } };
+	seekBehavior = new SeekBehavior(player.GetPlayerPosition());
+	
+	enemy = new Agent({ 10.f, 0.f, 10.f }, player.GetPlayerPosition(), 2.f, RED);
+	enemy->AddBehavior(seekBehavior);
 }
 
 void Game::Start()
@@ -24,6 +28,9 @@ void Game::Update(float deltaTime)
 {
 	player.Update(deltaTime);
 
+	//enemy->SetPosition(player.GetPlayerPosition());
+	enemy->Update(deltaTime);
+
 	bool collisionOnFoot{ false };
 
 	for (RectangleF * shape : structures.GetRectangles()) {
@@ -37,7 +44,7 @@ void Game::Update(float deltaTime)
 			collisionOnFoot = true;
 		}
 	}
-	for (const BoundingBox& boundingBox : levelGenerator.GetBoundingBoxes()) {
+	/*for (const BoundingBox& boundingBox : levelGenerator.GetBoundingBoxes()) {
 		if (CheckCollisionBoxes(player.GetBodyCollideable().GetCollider(), boundingBox)) {
 			player.OnCollisionOnBody();
 		}
@@ -46,7 +53,7 @@ void Game::Update(float deltaTime)
 			player.OnCollisionOnFoot(Helpers::ComputeBoundingBoxCenter(boundingBox).y + Helpers::ComputeBoundingBoxSize(boundingBox).y * 0.5f);
 			collisionOnFoot = true;
 		}
-	}
+	}*/
 
 	if (!collisionOnFoot)
 		player.LeftCollisionOnFoot();
@@ -79,8 +86,9 @@ void Game::Draw()
 {
 	BeginMode3D(CameraManager::GetPlayerCamera());
 
-	structures.Draw();
-	levelGenerator.Draw();
+	//structures.Draw();
+	enemy->Draw();
+	//levelGenerator.Draw();
 	//player.Draw();
 
 	//DrawGrid(100, 1.f);

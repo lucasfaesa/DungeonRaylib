@@ -22,6 +22,7 @@ public:
 	void LeftCollisionOnFoot();
 	Collideable& GetBodyCollideable();
 	Collideable& GetFootCollideable();
+	Vector3& GetPlayerPosition();
 
 private:
 

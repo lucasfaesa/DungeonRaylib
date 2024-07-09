@@ -39,7 +39,18 @@
     <ClCompile Include="Collideable.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="LevelGenerator.cpp" />
+    <ClCompile Include="LevelGenerator.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="IBehavior.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="SeekBehavior.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -79,6 +90,15 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="LevelGenerator.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="IBehavior.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="SeekBehavior.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>

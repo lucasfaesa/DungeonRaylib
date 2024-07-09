@@ -6,6 +6,8 @@
 #include "Logger.h"
 #include "LevelGenerator.h"
 #include "Helpers.h"
+#include "Agent.h"
+#include "SeekBehavior.h"
 
 class Game {
 
@@ -27,6 +29,9 @@ private:
 	Player player;
 	Structures structures {0};
 	LevelGenerator levelGenerator{};
+
+	Agent* enemy;
+	SeekBehavior* seekBehavior;
 
 	float fixedTimeStep{ 0.02f }; //50 times a second
 	float accumulatedTime{};
