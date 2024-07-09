@@ -354,6 +354,7 @@
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="CameraManager.cpp" />
     <ClCompile Include="Collideable.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="IBehavior.cpp" />
@@ -370,6 +371,7 @@
     <ClInclude Include="Agent.h" />
     <ClInclude Include="CameraManager.h" />
     <ClInclude Include="Collideable.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Helpers.h" />

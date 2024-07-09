@@ -9,11 +9,13 @@ SeekBehavior::SeekBehavior(Vector3& target):
 
 void SeekBehavior::Update(Agent* agent, float deltaTime)
 {
-	float distance = Vector3Distance(*_target, agent->GetPosition());
+	//if (!_canSeek) return;
 
-	if (distance > 4.f) {
+	//float distance = Vector3Distance(*_target, agent->GetPosition());
+
+	if (_canSeek) {
 		Vector3 direction = Vector3Subtract(*_target, agent->GetPosition());
-		agent->acceleration = Vector3Scale(Vector3Normalize(direction), (agent->maxSpeed * deltaTime));
+		agent->acceleration = Vector3Scale(Vector3Normalize(direction), (agent->GetMaxSpeed() * deltaTime));
 	}
 	else {
 		
@@ -25,4 +27,9 @@ void SeekBehavior::Update(Agent* agent, float deltaTime)
 
 	//std::cout << _target->x << " " << _target->y << " " << _target->z << std::endl;
 	//std::cout << "distance: " << distance << std::endl;
+}
+
+void SeekBehavior::SetCanSeek(bool status)
+{
+	_canSeek = status;
 }

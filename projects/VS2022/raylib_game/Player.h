@@ -20,6 +20,9 @@ public:
 	void OnCollisionOnFoot(RectangleF& collideable);
 	void OnCollisionOnFoot(float topYPos);
 	void LeftCollisionOnFoot();
+
+	void TakeDamage(int value);
+
 	Collideable& GetBodyCollideable();
 	Collideable& GetFootCollideable();
 	Vector3& GetPlayerPosition();
@@ -60,11 +63,6 @@ private:
 	Vector3 mouseDelta{};
 	Vector2 mouseSensivity{ 0.05f , 0.05f };
 
-	//bool isColliding{ false };
-
-	//BoundingBox boxCollider;
-	//BoundingBox groundCollider;
-
 	Collideable bodyCollideable;
 	Collideable groundCollideable;
 
@@ -79,6 +77,8 @@ private:
 	float gravityRate{ 0.05f };
 
 	float test{};
+
+	int playerHealth = 100;
 
 	bool isCollidingBody;
 };

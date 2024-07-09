@@ -8,6 +8,7 @@
 #include "Helpers.h"
 #include "Agent.h"
 #include "SeekBehavior.h"
+#include "Enemy.h"
 
 class Game {
 
@@ -30,7 +31,7 @@ private:
 	Structures structures {0};
 	LevelGenerator levelGenerator{};
 
-	Agent* enemy;
+	Enemy* enemy;
 	SeekBehavior* seekBehavior;
 
 	float fixedTimeStep{ 0.02f }; //50 times a second

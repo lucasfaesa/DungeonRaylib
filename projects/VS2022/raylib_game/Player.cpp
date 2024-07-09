@@ -121,6 +121,12 @@ void Player::LeftCollisionOnFoot()
 	isJumping = false;
 }
 
+void Player::TakeDamage(int value)
+{
+	playerHealth -= value;
+	std::cout << "health: " << playerHealth << std::endl;
+}
+
 Collideable& Player::GetBodyCollideable()
 {
 	return bodyCollideable;

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "raylib.h"
-#include "IBehavior.h"
+#include "Agent.h"
 
 class Agent;
 
-class SeekBehavior : public IBehavior {
+class SeekBehavior {
 
 public:
 	SeekBehavior() = default;
@@ -13,7 +13,9 @@ public:
 	~SeekBehavior() = default;
 
 	virtual void Update(Agent* agent, float deltaTime);
+	void SetCanSeek(bool status);
 
 private:
 	Vector3* _target;
+	bool _canSeek{ false };
 };

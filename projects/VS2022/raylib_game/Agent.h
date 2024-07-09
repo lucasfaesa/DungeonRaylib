@@ -5,33 +5,57 @@
 #include "raylib.h"
 #include "IBehavior.h"
 #include "raymath.h"
+#include "Collideable.h"
+#include "SeekBehavior.h"
 
 class IBehavior;
+class SeekBehavior;
 
 class Agent {
 
 public:
-	float maxSpeed{ 50.f };
-	Vector3 acceleration;
-	Vector3 velocity;
 	
 	Agent() = default;
-	Agent(Vector3 pos, Vector3& playerPos, float radius, Color color);
+	Agent(Vector3 pos, Vector3 size, float maxSpeed, Vector3& targetPos, 
+		const BoundingBox& targetBoudingBox, float attackRadius, float detectionRadius);
 
 	virtual ~Agent() {};
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();
+	virtual void CheckTargetInsideDetectionRadius();
+	virtual void CheckTargetInsideAttackRadius();
 
-	void AddBehavior(IBehavior* behavior);
+
+	void SetSeekBehavior(SeekBehavior* behavior);
 	void SetPosition(Vector3 pos);
 	Vector3 GetPosition();
+	float GetMaxSpeed() const;
 
-private:
+	Vector3 acceleration{};
+	Vector3 velocity{};
+
+protected:
+	virtual void FollowTarget(float deltaTime);
+
+protected:
 	Vector3 _position{ 0.f,0.f };
-	Vector3* playerPosition{nullptr};
-	float _radius{ 5.f };
+	Vector3 _size{};
+	Vector3* _targetPosition{nullptr};
+	const BoundingBox* _targetBoundingBox{ nullptr };
+	float _attackRadius{};
+	float _detectionRadius{};
 	Color _color{ BLUE };
 
-	std::list<IBehavior*> _behaviors;
+	bool _isTargetInsideDetectionRadius{false};
+	bool _isTargetInsideAttackRadius{false};
+
+	float _maxSpeed{};
+
+	Collideable bodyCollideable;
+
+	SeekBehavior* _seekBehavior{ nullptr };
+
+private:
+	void UpdateColliderPosition();
 };

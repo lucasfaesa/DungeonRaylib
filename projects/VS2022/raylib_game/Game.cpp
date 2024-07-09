@@ -9,8 +9,9 @@ Game::Game(bool initiliazed) :
 	player = { Vector3{ 0.f,0.f,0.f }, Vector3{ 0.f,0.f,0.f } };
 	seekBehavior = new SeekBehavior(player.GetPlayerPosition());
 	
-	enemy = new Agent({ 10.f, 0.f, 10.f }, player.GetPlayerPosition(), 2.f, RED);
-	enemy->AddBehavior(seekBehavior);
+	enemy = new Enemy({ 30.f, 0.f, 30.f }, { 0.5f, 1.8f, 0.5f }, 9.f, player.GetPlayerPosition(), 
+						player.GetBodyCollideable().GetCollider(), 2.f, 30.f, player);
+	enemy->SetSeekBehavior(seekBehavior);
 }
 
 void Game::Start()
@@ -44,6 +45,10 @@ void Game::Update(float deltaTime)
 			collisionOnFoot = true;
 		}
 	}
+
+	enemy->CheckTargetInsideDetectionRadius();
+	enemy->CheckTargetInsideAttackRadius();
+
 	/*for (const BoundingBox& boundingBox : levelGenerator.GetBoundingBoxes()) {
 		if (CheckCollisionBoxes(player.GetBodyCollideable().GetCollider(), boundingBox)) {
 			player.OnCollisionOnBody();
@@ -86,7 +91,7 @@ void Game::Draw()
 {
 	BeginMode3D(CameraManager::GetPlayerCamera());
 
-	//structures.Draw();
+	structures.Draw();
 	enemy->Draw();
 	//levelGenerator.Draw();
 	//player.Draw();

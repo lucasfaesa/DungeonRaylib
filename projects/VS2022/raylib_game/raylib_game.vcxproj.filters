@@ -51,6 +51,7 @@
     <ClCompile Include="SeekBehavior.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -100,6 +101,9 @@
     </ClInclude>
     <ClInclude Include="SeekBehavior.h">
       <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>SourceFiles</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
