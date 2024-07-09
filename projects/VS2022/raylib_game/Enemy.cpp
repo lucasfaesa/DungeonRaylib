@@ -20,17 +20,20 @@ void Enemy::Update(float deltaTime)
 	if (_isTargetInsideAttackRadius) {
 		AttackPlayer(deltaTime);
 	}
+
+	CountAnimationFrames(deltaTime);
 }
 
 void Enemy::Draw()
 {
 	Agent::Draw();
-	DrawBillboard(*_camera, billboardTexture, { _position.x, _position.y + _size.y * 0.5f, _position.z }, _size.y, WHITE);
+	//DrawBillboard(*_camera, walkTexture, { _position.x, _position.y + _size.y * 0.5f, _position.z }, _size.y, WHITE);
+	DrawBillboardRec(*_camera, walkTexture, frameRec, { _position.x, _position.y + _size.y * 0.5f, _position.z }, { _size.y, _size.y }, WHITE);
 }
 
 void Enemy::OnApplicationQuit()
 {
-	UnloadTexture(billboardTexture);
+	UnloadTexture(walkTexture);
 }
 
 void Enemy::AttackPlayer(float deltaTime)
@@ -54,4 +57,20 @@ void Enemy::SetDistanceFromPlayer()
 float Enemy::GetDistanceFromPlayer() const
 {
 	return _distanceFromPlayer;
+}
+
+void Enemy::CountAnimationFrames(float deltaTime)
+{
+	framesCounter++;
+
+	if (framesCounter >= (60 / walkFramesSpeed)) {
+
+		framesCounter = 0;
+		currentFrame++;
+
+		if (currentFrame > 4) currentFrame = 0;
+
+		frameRec.x = (float)currentFrame * (float)walkTexture.width / 4;
+
+	}
 }
