@@ -35,6 +35,7 @@ public:
 	bool IsAttacking() const;
 	void PlayerInAttackRange(bool status);
 	int GetAttackDamage() const;
+	bool GetIsDefending() const;
 
 private:
 
@@ -42,6 +43,7 @@ private:
 	void InputLook();
 	void InputJump();
 	void InputAttack();
+	void InputDefense();
 
 	void HandleJump(float deltaTime);
 
@@ -53,11 +55,17 @@ private:
 	void ComputeVelocity(float deltaTime);
 	void CountAnimationFrames(float deltaTime);
 
-	void ChangeToAttackSpriteSheet();
-	void ChangeToIdleSpriteSheet();
+	void ChangeToSwordAttackSpriteSheet();
+	void ChangeToSwordIdleSpriteSheet();
 
 	void AttackInitiated();
 	void AttackEnded();
+
+	void DefenseInitiated();
+	void DefenseEnded();
+
+	void ChangeToShieldIdleSpriteSheet();
+	void ChangeToShieldUpSpriteSheet();
 
 private:
 	Camera* camera{ nullptr };
@@ -105,23 +113,27 @@ private:
 
 	Texture2D sword_idle_texture = LoadTexture("../resources/player/sword_idle2.png");
 	Texture2D sword_attack_texture = LoadTexture("../resources/player/sword_attack.png");
-	
+	Texture2D shield_idle_texture = LoadTexture("../resources/player/shield_idle.png");
+	Texture2D shield_up_texture = LoadTexture("../resources/player/shield_up.png");
+
 	Rectangle frameRec = { 0.0f, 0.0f, static_cast<float>(sword_idle_texture.width) / idleTotalFrames, static_cast<float>(sword_idle_texture.height) };
 	
 	int currentFrame{ 0 };
 	int framesCounter{ 0 };
-
 	
 	int attackFramesSpeed{ 12 };
 	int idleFramesSpeed{ 1 };
 
 	int currentAnimationFrameSpeed{ 1 };
 	int currentAnimationTotalFrames{ 1 };
-	Texture2D* currentTexture{ &sword_idle_texture };
+	Texture2D* currentSwordTexture{ &sword_idle_texture };
+	Texture2D* currentShieldTexture{ &shield_idle_texture };
 
 	bool isAttacking{ false };
 	float attackRadius{ 0.3f };
 	float attackRange{ 1.4f };
 	bool inAttackRange{ false };
 	int attackDamage{ 35 };
+
+	bool isDefending{ false };
 };

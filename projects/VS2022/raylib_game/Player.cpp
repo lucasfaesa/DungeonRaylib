@@ -21,7 +21,7 @@ Player::Player(Vector3 pos, Vector3 rot):
 	//zero Y on the foot
 	position.y = 0.f;	
 
-	currentTexture =  &sword_idle_texture ;
+	currentSwordTexture =  &sword_idle_texture ;
 }
 
 void Player::ReadInput()
@@ -30,6 +30,7 @@ void Player::ReadInput()
 	InputLook();
 	InputJump();
 	InputAttack();
+	InputDefense();
 }
 
 void Player::Update(const float deltaTime)
@@ -83,7 +84,8 @@ void Player::DrawCanvas() const
 	Logger::Log("position x: %.2f, position y: %.2f, position z: %.2f", position.x, position.y, position.z);
 	Logger::Log("grounded %i", isGrounded);
 	Logger::Log("velocity x: %.2f, velocity y: %.2f, velocity z: %.2f", velocity.x, velocity.y, velocity.z);
-	DrawTextureRecScaled(*currentTexture, frameRec, { 0.f, 0.f }, 800.f/currentTexture->height, WHITE);
+	DrawTextureRecScaled(*currentSwordTexture, frameRec, { 0.f, 0.f }, 800.f/currentSwordTexture->height, WHITE);
+	DrawTextureRecScaled(*currentShieldTexture, frameRec, { 0.f, 0.f }, 800.f/currentShieldTexture->height, WHITE);
 }
 
 void Player::OnCollisionOnBody()
@@ -177,6 +179,11 @@ int Player::GetAttackDamage() const
 	return attackDamage;
 }
 
+bool Player::GetIsDefending() const
+{
+	return isDefending;
+}
+
 void Player::InputMovement()
 {
 	moveDelta = { 0, moveDelta.y, 0 };
@@ -208,10 +215,27 @@ void Player::InputJump()
 void Player::InputAttack()
 {
 	if (IsMouseButtonPressed(0)) {
-		if (isAttacking) 
+		if (isAttacking || isDefending) 
 			return;
 
-		ChangeToAttackSpriteSheet();
+		AttackInitiated();
+	}
+}
+
+void Player::InputDefense()
+{
+	if (IsMouseButtonDown(1))
+	{
+		if (isAttacking || isDefending)
+			return;
+		DefenseInitiated();
+	}
+	if (IsMouseButtonReleased(1))
+	{
+		if (isAttacking || !isDefending)
+			return;
+
+		DefenseEnded();
 	}
 }
 
@@ -319,7 +343,6 @@ void Player::CountAnimationFrames(float deltaTime)
 	if (framesCounter >= (60 / currentAnimationFrameSpeed)) {
 
 		if (isAttacking && currentFrame == currentAnimationTotalFrames - 1) {
-			ChangeToIdleSpriteSheet();
 			AttackEnded();
 		}
 
@@ -330,13 +353,47 @@ void Player::CountAnimationFrames(float deltaTime)
 
 		//std::cout << "current Frame: " << currentFrame << std::endl;
 
-		frameRec.x = (float)currentFrame * (float)currentTexture->width / currentAnimationTotalFrames;
+		frameRec.x = (float)currentFrame * (float)currentSwordTexture->width / currentAnimationTotalFrames;
 
 
 	}
 }
 
-void Player::ChangeToAttackSpriteSheet()
+void Player::AttackInitiated()
+{
+	ChangeToSwordAttackSpriteSheet();
+}
+
+void Player::AttackEnded()
+{
+	ChangeToSwordIdleSpriteSheet();
+}
+
+void Player::DefenseInitiated()
+{
+	isDefending = true;
+	ChangeToShieldUpSpriteSheet();
+	//std::cout << "defense initiated" << std::endl;
+}
+
+void Player::DefenseEnded()
+{
+	isDefending = false;
+	ChangeToShieldIdleSpriteSheet();
+	//std::cout << "defense ended" << std::endl;
+}
+
+void Player::ChangeToShieldIdleSpriteSheet()
+{
+	currentShieldTexture = &shield_idle_texture;
+}
+
+void Player::ChangeToShieldUpSpriteSheet()
+{
+	currentShieldTexture = &shield_up_texture;
+}
+
+void Player::ChangeToSwordAttackSpriteSheet()
 {
 	isAttacking = true;
 
@@ -345,14 +402,12 @@ void Player::ChangeToAttackSpriteSheet()
 
 	currentAnimationFrameSpeed = attackFramesSpeed;
 	currentAnimationTotalFrames = attackTotalFrames;
-	currentTexture = &sword_attack_texture;
+	currentSwordTexture = &sword_attack_texture;
 
 	frameRec = { 0.0f, 0.0f, (float)sword_attack_texture.width / attackTotalFrames, (float)sword_attack_texture.height };
-
-	AttackInitiated();
 }
 
-void Player::ChangeToIdleSpriteSheet()
+void Player::ChangeToSwordIdleSpriteSheet()
 {
 	isAttacking = false;
 	
@@ -362,16 +417,9 @@ void Player::ChangeToIdleSpriteSheet()
 
 	currentAnimationFrameSpeed = idleFramesSpeed;
 	currentAnimationTotalFrames = idleTotalFrames;
-	currentTexture = &sword_idle_texture;
+	currentSwordTexture = &sword_idle_texture;
 
 	frameRec = { 0.0f, 0.0f, (float)sword_attack_texture.width / idleTotalFrames, (float)sword_idle_texture.height };
 }
 
-void Player::AttackInitiated()
-{
 
-}
-
-void Player::AttackEnded()
-{
-}
