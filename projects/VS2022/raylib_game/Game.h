@@ -27,12 +27,13 @@ public:
 private:
 	void CheckForPlayerCollision();
 	bool initialized;
-	Player player;
-	Structures structures {0};
-	LevelGenerator levelGenerator{};
 
-	Enemy* enemy;
-	SeekBehavior* seekBehavior;
+	Player* player{nullptr};
+	Structures* structures {nullptr};
+	LevelGenerator* levelGenerator{nullptr};
+
+	Enemy* enemy{nullptr};
+	SeekBehavior* seekBehavior{nullptr};
 
 	float fixedTimeStep{ 0.02f }; //50 times a second
 	float accumulatedTime{};

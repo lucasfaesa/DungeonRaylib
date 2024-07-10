@@ -20,9 +20,7 @@ Player::Player(Vector3 pos, Vector3 rot)
 	//zero Y on the foot
 	position.y = 0.f;	
 
-
-	
-
+	currentTexture =  &sword_idle_texture ;
 }
 
 void Player::ReadInput()
@@ -30,6 +28,7 @@ void Player::ReadInput()
 	InputMovement();
 	InputLook();
 	InputJump();
+	InputAttack();
 }
 
 void Player::Update(const float deltaTime)
@@ -78,7 +77,7 @@ void Player::DrawCanvas()
 	Logger::Log("position x: %.2f, position y: %.2f, position z: %.2f", position.x, position.y, position.z);
 	Logger::Log("grounded %i", isGrounded);
 	Logger::Log("velocity x: %.2f, velocity y: %.2f, velocity z: %.2f", velocity.x, velocity.y, velocity.z);
-	DrawTextureRecScaled(sword_idle_texture, frameRec, { 0.f, 0.f }, 800.f/sword_idle_texture.width, WHITE);
+	DrawTextureRecScaled(*currentTexture, frameRec, { 0.f, 0.f }, 800.f/currentTexture->height, WHITE);
 }
 
 void Player::OnCollisionOnBody()
@@ -172,6 +171,16 @@ void Player::InputJump()
 		isGrounded = false;
 		canJump = false;
 		isJumping = true;
+	}
+}
+
+void Player::InputAttack()
+{
+	if (IsMouseButtonPressed(0)) {
+		if (isAttacking) 
+			return;
+
+		ChangeToAttackSpriteSheet();
 	}
 }
 
@@ -272,11 +281,15 @@ void Player::ComputeVelocity(float deltaTime)
 void Player::CountAnimationFrames(float deltaTime)
 {
 
-	return;
+	//return;
 
 	framesCounter++;
 
 	if (framesCounter >= (60 / currentAnimationFrameSpeed)) {
+
+		if (isAttacking && currentFrame == currentAnimationTotalFrames - 1) {
+			ChangeToIdleSpriteSheet();
+		}
 
 		framesCounter = 0;
 		currentFrame++;
@@ -284,12 +297,37 @@ void Player::CountAnimationFrames(float deltaTime)
 		if (currentFrame > currentAnimationTotalFrames - 1) currentFrame = 0;
 
 		//std::cout << "current Frame: " << currentFrame << std::endl;
-		frameRec.x = (float)currentFrame * (float)sword_idle_texture.width / currentAnimationTotalFrames;
 
-		/*if (currentState == State::DEAD && currentFrame == currentAnimationTotalFrames - 1) {
-			isDead = true;
-			return;
-		}*/
+		frameRec.x = (float)currentFrame * (float)currentTexture->width / currentAnimationTotalFrames;
+
 
 	}
+}
+
+void Player::ChangeToAttackSpriteSheet()
+{
+	isAttacking = true;
+
+	framesCounter = 0;
+	currentFrame = 0;
+
+	currentAnimationFrameSpeed = attackFramesSpeed;
+	currentAnimationTotalFrames = attackTotalFrames;
+	currentTexture = &sword_attack_texture;
+
+	frameRec = { 0.0f, 0.0f, (float)sword_attack_texture.width / attackTotalFrames, (float)sword_attack_texture.height };
+}
+
+void Player::ChangeToIdleSpriteSheet()
+{
+	isAttacking = false;
+
+	framesCounter = 0;
+	currentFrame = 0;
+
+	currentAnimationFrameSpeed = idleFramesSpeed;
+	currentAnimationTotalFrames = idleTotalFrames;
+	currentTexture = &sword_idle_texture;
+
+	frameRec = { 0.0f, 0.0f, (float)sword_attack_texture.width / idleTotalFrames, (float)sword_idle_texture.height };
 }
