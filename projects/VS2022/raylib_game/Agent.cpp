@@ -20,7 +20,7 @@ void Agent::Update(float deltaTime)
 
 void Agent::Draw()
 {
-	DrawSphereWires(_position, _attackRadius, 10, 10, _isTargetInsideAttackRadius ? MAGENTA : GREEN);
+	DrawSphereWires(_attackRadiusPos, _attackRadius, 10, 10, _isTargetInsideAttackRadius ? MAGENTA : GREEN);
 
 	DrawSphereWires(_position, _detectionRadius, 10, 10, _isTargetInsideDetectionRadius ? MAGENTA : GREEN);
 
@@ -29,12 +29,15 @@ void Agent::Draw()
 
 void Agent::CheckTargetInsideDetectionRadius()
 {
+
 	_isTargetInsideDetectionRadius = CheckCollisionBoxSphere(*_targetBoundingBox, _position, _detectionRadius);
 }
 
 void Agent::CheckTargetInsideAttackRadius()
 {
-	_isTargetInsideAttackRadius = CheckCollisionBoxSphere(*_targetBoundingBox, _position, _attackRadius);
+	_attackRadiusPos = { _position.x, _position.y + _size.y * 0.5f , _position.z };
+
+	_isTargetInsideAttackRadius = CheckCollisionBoxSphere(*_targetBoundingBox, _attackRadiusPos, _attackRadius);
 	_seekBehavior->SetCanSeek(!_isTargetInsideAttackRadius);
 }
 

@@ -106,7 +106,7 @@ private:
 	Texture2D sword_idle_texture = LoadTexture("../resources/player/sword_idle2.png");
 	Texture2D sword_attack_texture = LoadTexture("../resources/player/sword_attack.png");
 	
-	Rectangle frameRec = { 0.0f, 0.0f, (float)sword_idle_texture.width / idleTotalFrames, (float)sword_idle_texture.height };
+	Rectangle frameRec = { 0.0f, 0.0f, static_cast<float>(sword_idle_texture.width) / idleTotalFrames, static_cast<float>(sword_idle_texture.height) };
 	
 	int currentFrame{ 0 };
 	int framesCounter{ 0 };
@@ -120,8 +120,8 @@ private:
 	Texture2D* currentTexture{ &sword_idle_texture };
 
 	bool isAttacking{ false };
-	float attackRadius{ 1.f };
-	float attackRange{ 1.8f };
+	float attackRadius{ 0.3f };
+	float attackRange{ 1.4f };
 	bool inAttackRange{ false };
 	int attackDamage{ 35 };
 };

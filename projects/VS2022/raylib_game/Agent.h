@@ -58,6 +58,8 @@ protected:
 
 	SeekBehavior* _seekBehavior{ nullptr };
 
+	Vector3 _attackRadiusPos;
+
 private:
 	void UpdateColliderPosition();
 };
