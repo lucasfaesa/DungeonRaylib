@@ -21,11 +21,14 @@ public:
 
 	void SetDead() override;
 
+	void OnCollisionOnBody();
+
 private:
 	enum class State { IDLE, WALKING, DEAD };
 
 	void ChangeCurrentState(State newState);
 	void CountAnimationFrames(float deltaTime);
+	void ForcePositionXZChange();
 private:
 	float _distanceFromPlayer;
 
@@ -65,5 +68,8 @@ private:
 	Texture2D* currentTexture{ &idleTexture };
 
 	bool preparingToDie{ false };
+
+	bool isCollidingBody{false};
+	Vector3 lastPositionBeforeBodyCollision{};
 
 };

@@ -19,7 +19,6 @@ public:
 	void Draw() const;
 	void DrawCanvas() const;
 	void OnCollisionOnBody();
-	void OnCollisionOnFoot(RectangleF& collideable);
 	void OnCollisionOnFoot(float topYPos);
 	void LeftCollisionOnFoot();
 

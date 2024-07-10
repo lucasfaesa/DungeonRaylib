@@ -11,6 +11,8 @@ void Enemy::Update(float deltaTime)
 {
 	Agent::Update(deltaTime);
 
+	lastPositionBeforeBodyCollision = _position;
+
 	if (_isDead && !preparingToDie) return;
 	//return;
 
@@ -83,6 +85,14 @@ void Enemy::SetDead()
 	ChangeCurrentState(State::DEAD);
 }
 
+void Enemy::OnCollisionOnBody()
+{
+
+	isCollidingBody = true;
+	
+	ForcePositionXZChange();
+}
+
 void Enemy::ChangeCurrentState(State newState)
 {
 	if (newState == currentState) return;
@@ -135,4 +145,12 @@ void Enemy::CountAnimationFrames(float deltaTime)
 		}
 
 	}
+}
+
+void Enemy::ForcePositionXZChange()
+{
+	_position.x = lastPositionBeforeBodyCollision.x;
+	_position.z = lastPositionBeforeBodyCollision.z;
+
+	//UpdateColliderPosition();
 }

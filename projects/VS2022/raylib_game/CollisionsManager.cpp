@@ -14,7 +14,7 @@ void CollisionsManager::CheckCollisions()
 {
     _collisionOnPlayerFeet = false;
 
-    PlayerWithEnvironmentCollisions();
+    ComputeEnvironmentCollisions();
 
     for (Enemy* enemy : *_enemiesVector)
     {
@@ -23,9 +23,9 @@ void CollisionsManager::CheckCollisions()
 
         PlayerWithEnemiesCollision(enemy);
 
-        //EnemyRadiusChecks(enemy);
+        EnemyRadiusChecks(enemy);
 
-        //PlayerAttackOnEnemyCheck(enemy);
+        PlayerAttackOnEnemyCheck(enemy);
 
     }
 
@@ -36,39 +36,136 @@ void CollisionsManager::CheckCollisions()
 
 }
 
-void CollisionsManager::PlayerWithEnvironmentCollisions()
+void CollisionsManager::ComputeEnvironmentCollisions()
 {
+    const BoundingBox& playerBoundingBoxBody = _player->GetBodyCollideable().GetCollider();
+    const BoundingBox& playerBoundingBoxFeet = _player->GetFootCollideable().GetCollider();
 
-    for (RectangleF* shape : _structures->GetRectangles()) {
+    for(Enemy* enemy : *_enemiesVector)
+    {
+        const BoundingBox& enemyBoundingBoxBody = enemy->GetBoundingBox();
 
-        const BoundingBox& shapeBoundingBox = shape->GetCollideable().GetCollider();
-        const BoundingBox& playerBoundingBoxBody = _player->GetBodyCollideable().GetCollider();
-        const BoundingBox& playerBoundingBoxFeet = _player->GetFootCollideable().GetCollider();
-
-        if (CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxBody)) {
-            if (shape->GetCollideable().GetLayer() != Layers::Layer::GROUND)
-                _player->OnCollisionOnBody();
+        for (RectangleF* shape : _structures->GetRectangles()) {
+           CheckCollisionsAgainstEnvironment(enemy, shape, enemyBoundingBoxBody, BoundingBox{});
         }
 
-        if (CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxFeet)) {
-            _player->OnCollisionOnFoot(*shape);
-            _collisionOnPlayerFeet = true;
+        for (const BoundingBox& boundingBox : _levelGenerator->GetBoundingBoxes()) {
+            CheckCollisionsAgainstEnvironment(enemy, boundingBox, enemyBoundingBoxBody, BoundingBox{});
         }
     }
 
-    /*for (const BoundingBox& boundingBox : levelGenerator.GetBoundingBoxes()) {
-        if (CheckCollisionBoxes(player.GetBodyCollideable().GetCollider(), boundingBox)) {
-            player.OnCollisionOnBody();
-        }
 
-        if (CheckCollisionBoxes(boundingBox, player.GetFootCollideable().GetCollider())) {
-            player.OnCollisionOnFoot(Helpers::ComputeBoundingBoxCenter(boundingBox).y + Helpers::ComputeBoundingBoxSize(boundingBox).y * 0.5f);
-            collisionOnFoot = true;
-        }
+    for (RectangleF* shape : _structures->GetRectangles()) {
+
+        CheckCollisionsAgainstEnvironment(_player, shape, playerBoundingBoxBody, playerBoundingBoxFeet);
+    }
+
+    for (const BoundingBox& boundingBox : _levelGenerator->GetBoundingBoxes()) {
+        CheckCollisionsAgainstEnvironment(_player, boundingBox, playerBoundingBoxBody, playerBoundingBoxFeet);
+    }
+}
+
+void CollisionsManager::CheckCollisionsAgainstEnvironment(Player* player, RectangleF* shape, const BoundingBox& playerBoundingBoxBody,
+															const BoundingBox& playerBoundingBoxFeet)
+{
+    const BoundingBox& shapeBoundingBox = shape->GetCollideable().GetCollider();
+    const auto shapeLayer = shape->GetCollideable().GetLayer();
+    const auto shapePositionY = shape->GetPosition().y;
+    const auto shapeSizeY = shape->GetSize().y;
+
+    bool collisionBody = CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxBody);
+    bool collisionFeet = CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxFeet);
+
+    if (collisionBody && shapeLayer != Layers::Layer::GROUND) {
+        player->OnCollisionOnBody();
+    }
+
+    if (collisionFeet) {
+        player->OnCollisionOnFoot(shapePositionY + shapeSizeY * 0.5f);
+        _collisionOnPlayerFeet = true;
+    }
+
+    /*const BoundingBox& shapeBoundingBox = shape->GetCollideable().GetCollider();
+    const BoundingBox& playerBoundingBoxBody = _player->GetBodyCollideable().GetCollider();
+    const BoundingBox& playerBoundingBoxFeet = _player->GetFootCollideable().GetCollider();
+
+
+    if (CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxBody)) {
+        if (shape->GetCollideable().GetLayer() != Layers::Layer::GROUND)
+            _player->OnCollisionOnBody();
+    }
+
+    if (CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxFeet)) {
+        _player->OnCollisionOnFoot(shape->GetPosition().y + shape->GetSize().y * 0.5f);
+        _collisionOnPlayerFeet = true;
+    }
+
+
+
+    if (CheckCollisionBoxes(playerBoundingBoxBody, boundingBox)) {
+        _player->OnCollisionOnBody();
+    }
+
+    if (CheckCollisionBoxes(boundingBox, playerBoundingBoxFeet)) {
+        _player->OnCollisionOnFoot(boundingBox.max.y);
+        _collisionOnPlayerFeet = true;
     }*/
 
-    
 }
+
+void CollisionsManager::CheckCollisionsAgainstEnvironment(Player* player, const BoundingBox& boundingBox, const BoundingBox& playerBoundingBoxBody,
+															const BoundingBox& playerBoundingBoxFeet)
+{
+    /*bool collisionBody = CheckCollisionBoxes(playerBoundingBoxBody, boundingBox);
+    bool collisionFeet = CheckCollisionBoxes(boundingBox, playerBoundingBoxFeet);
+
+    if (collisionBody) {
+        _player->OnCollisionOnBody();
+    }
+
+    if (collisionFeet) {
+        _player->OnCollisionOnFoot(boundingBox.max.y);
+        _collisionOnPlayerFeet = true;
+    }*/
+}
+
+void CollisionsManager::CheckCollisionsAgainstEnvironment(Enemy* enemy, RectangleF* shape,
+	const BoundingBox& playerBoundingBoxBody, const BoundingBox& playerBoundingBoxFeet)
+{
+    const BoundingBox& shapeBoundingBox = shape->GetCollideable().GetCollider();
+    const auto shapeLayer = shape->GetCollideable().GetLayer();
+    const auto shapePositionY = shape->GetPosition().y;
+    const auto shapeSizeY = shape->GetSize().y;
+
+    bool collisionBody = CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxBody);
+    bool collisionFeet = CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxFeet);
+
+    if (collisionBody && shapeLayer != Layers::Layer::GROUND) {
+        enemy->OnCollisionOnBody();
+    }
+
+    /*if (collisionFeet) {
+        enemy->OnCollisionOnFoot(shapePositionY + shapeSizeY * 0.5f);
+        _collisionOnPlayerFeet = true;
+    }*/
+}
+
+void CollisionsManager::CheckCollisionsAgainstEnvironment(Enemy* enemy, const BoundingBox& boundingBox,
+	const BoundingBox& playerBoundingBoxBody, const BoundingBox& playerBoundingBoxFeet)
+{
+    /*bool collisionBody = CheckCollisionBoxes(playerBoundingBoxBody, boundingBox);
+	 bool collisionFeet = CheckCollisionBoxes(boundingBox, playerBoundingBoxFeet);
+
+	 if (collisionBody) {
+	     _player->OnCollisionOnBody();
+	 }
+
+	 if (collisionFeet) {
+	     _player->OnCollisionOnFoot(boundingBox.max.y);
+	     _collisionOnPlayerFeet = true;
+	 }*/
+}
+
 
 void CollisionsManager::EnemyRadiusChecks(Enemy* enemy) const
 {

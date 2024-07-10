@@ -95,21 +95,6 @@ void Player::OnCollisionOnBody()
 	ForcePositionXZChange();
 }
 
-void Player::OnCollisionOnFoot(RectangleF& rect)
-{
-	if (isJumping) return;
-
-	isGrounded = true;
-	canJump = true;
-	isJumping = false;
-	jumpTimer = 0;
-	fallSpeed = 0;
-	moveDelta.y = 0;
-
-	float topYPos = rect.GetPosition().y + rect.GetSize().y * 0.5f;
-	ForcePositionYChange(topYPos);
-}
-
 void Player::OnCollisionOnFoot(float topYPos)
 {
 	if (isJumping) return;
