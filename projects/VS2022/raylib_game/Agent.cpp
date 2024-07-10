@@ -24,7 +24,7 @@ void Agent::Draw()
 
 	//DrawSphereWires(_position, _detectionRadius, 10, 10, _isTargetInsideDetectionRadius ? MAGENTA : GREEN);
 
-	//DrawBoundingBox(bodyCollideable.GetCollider(), YELLOW);
+	DrawBoundingBox(bodyCollideable.GetCollider(), YELLOW);
 }
 
 void Agent::CheckTargetInsideDetectionRadius()

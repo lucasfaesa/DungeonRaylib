@@ -126,7 +126,7 @@ void Player::OnCollisionOnFoot(float topYPos)
 
 void Player::LeftCollisionOnFoot()
 {
-	if (isJumping || isGrounded) return;
+	if (isJumping) return;
 
 	isGrounded = false;
 	canJump = false;

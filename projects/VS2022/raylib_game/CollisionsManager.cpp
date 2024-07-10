@@ -5,13 +5,14 @@ CollisionsManager::CollisionsManager(Player* player, std::vector<Enemy*>* enemie
 {
 }
 
-void CollisionsManager::Update(float deltaTime) const
+void CollisionsManager::Update(float deltaTime)
 {
     CheckCollisions();
 }
 
-void CollisionsManager::CheckCollisions() const
+void CollisionsManager::CheckCollisions()
 {
+    _collisionOnPlayerFeet = false;
 
     PlayerWithEnvironmentCollisions();
 
@@ -22,18 +23,21 @@ void CollisionsManager::CheckCollisions() const
 
         PlayerWithEnemiesCollision(enemy);
 
-        EnemyRadiusChecks(enemy);
+        //EnemyRadiusChecks(enemy);
 
-        PlayerAttackOnEnemyCheck(enemy);
+        //PlayerAttackOnEnemyCheck(enemy);
 
+    }
+
+    if (!_collisionOnPlayerFeet)
+    {
+        _player->LeftCollisionOnFoot();
     }
 
 }
 
-void CollisionsManager::PlayerWithEnvironmentCollisions() const
+void CollisionsManager::PlayerWithEnvironmentCollisions()
 {
-   
-    bool collisionOnFoot{ false };
 
     for (RectangleF* shape : _structures->GetRectangles()) {
 
@@ -48,7 +52,7 @@ void CollisionsManager::PlayerWithEnvironmentCollisions() const
 
         if (CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxFeet)) {
             _player->OnCollisionOnFoot(*shape);
-            collisionOnFoot = true;
+            _collisionOnPlayerFeet = true;
         }
     }
 
@@ -62,9 +66,6 @@ void CollisionsManager::PlayerWithEnvironmentCollisions() const
             collisionOnFoot = true;
         }
     }*/
-
-    if (!collisionOnFoot)
-        _player->LeftCollisionOnFoot();
 
     
 }
@@ -95,10 +96,9 @@ void CollisionsManager::PlayerAttackOnEnemyCheck(Enemy* enemy) const
     }
 }
 
-void CollisionsManager::PlayerWithEnemiesCollision(Enemy* enemy) const
+void CollisionsManager::PlayerWithEnemiesCollision(Enemy* enemy)
 {
-    bool collisionOnFoot{ false };
-
+    
     const BoundingBox& enemyBoundingBox = enemy->GetBoundingBox();
     const BoundingBox& playerBoundingBoxBody = _player->GetBodyCollideable().GetCollider();
     const BoundingBox& playerBoundingBoxFeet = _player->GetFootCollideable().GetCollider();
@@ -109,12 +109,11 @@ void CollisionsManager::PlayerWithEnemiesCollision(Enemy* enemy) const
 
     if (CheckCollisionBoxes(enemyBoundingBox, playerBoundingBoxFeet)) {
         _player->OnCollisionOnFoot(enemyBoundingBox.max.y);
-        collisionOnFoot = true;
+        _collisionOnPlayerFeet = true;
 
-    }else if (!collisionOnFoot)
-    {
-		_player->LeftCollisionOnFoot();
     }
+
+
 
     
 }

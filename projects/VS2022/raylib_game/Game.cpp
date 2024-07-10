@@ -81,7 +81,7 @@ void Game::Draw() const
 {
 	BeginMode3D(CameraManager::GetPlayerCamera());
 
-	//structures.Draw();
+	structures->Draw();
 	for (Enemy* enemy : *enemiesVector)
 	{
 		enemy->Draw();
