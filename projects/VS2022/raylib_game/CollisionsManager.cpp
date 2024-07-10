@@ -5,12 +5,12 @@ CollisionsManager::CollisionsManager(Player* player, std::vector<Enemy*>* enemie
 {
 }
 
-void CollisionsManager::Update(float deltaTime)
+void CollisionsManager::Update(float deltaTime) const
 {
     CheckCollisions();
 }
 
-void CollisionsManager::CheckCollisions()
+void CollisionsManager::CheckCollisions() const 
 {
     if(checkPlayerCollisions)
     {
@@ -43,11 +43,29 @@ void CollisionsManager::CheckCollisions()
             _player->LeftCollisionOnFoot();
     }
 
-    for (Enemy* enemy : *_enemiesVector)
+    if(checkEnemyCollisions)
     {
-        enemy->CheckTargetInsideDetectionRadius();
-        enemy->CheckTargetInsideAttackRadius();
+        for (Enemy* enemy : *_enemiesVector)
+        {
+            enemy->CheckTargetInsideDetectionRadius();
+            enemy->CheckTargetInsideAttackRadius();
+
+            if(_player->IsAttacking())
+            {
+                float playerAttackRange = _player->GetAttackRangeAndRadius().first;
+                float playerAttackRadius = _player->GetAttackRangeAndRadius().second;
+
+                Vector3 spherePosition = Vector3Add(_player->GetPlayerPosition(), 
+											Vector3Scale(GetCameraForward(&_player->GetPlayerCamera()), playerAttackRange));
+                spherePosition.y += 1.8f;
+
+                bool inAttackRange = CheckCollisionBoxSphere(enemy->GetBoundingBox(), spherePosition, playerAttackRadius);
+
+                _player->PlayerInAttackRange(inAttackRange);
+            }
+        }
     }
+    
 
     
 }

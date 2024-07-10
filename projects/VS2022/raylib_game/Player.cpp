@@ -65,20 +65,20 @@ void Player::FixedUpdate(const float fixedDeltaTime)
 }
 
 
-void Player::Draw()
+void Player::Draw() const
 {
 	//DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
 	//DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
 
 	if (isAttacking) {
-		Vector3 spherePosition = Vector3Add(position, Vector3Scale(GetCameraForward(camera), 1.8f));
+		Vector3 spherePosition = Vector3Add(position, Vector3Scale(GetCameraForward(camera), attackRange));
 		spherePosition.y += 1.8f;
-		DrawSphereWires(spherePosition, 1.f, 10, 10, BLUE);
+		DrawSphereWires(spherePosition, attackRadius, 10, 10, inAttackRange ? BLUE : RED);
 	}
 	
 }
 
-void Player::DrawCanvas()
+void Player::DrawCanvas() const
 {
 	Logger::Log("position x: %.2f, position y: %.2f, position z: %.2f", position.x, position.y, position.z);
 	Logger::Log("grounded %i", isGrounded);
@@ -131,6 +131,11 @@ void Player::LeftCollisionOnFoot()
 	isJumping = false;
 }
 
+std::pair<float, float> Player::GetAttackRangeAndRadius() const
+{
+	return std::make_pair(attackRange, attackRadius);
+}
+
 void Player::TakeDamage(int value)
 {
 	playerHealth -= value;
@@ -150,6 +155,21 @@ Collideable& Player::GetFootCollideable()
 Vector3& Player::GetPlayerPosition()
 {
 	return position;
+}
+
+Camera& Player::GetPlayerCamera() const
+{
+	return *camera;
+}
+
+bool Player::IsAttacking() const
+{
+	return isAttacking;
+}
+
+void Player::PlayerInAttackRange(bool status)
+{
+	inAttackRange = status;
 }
 
 void Player::InputMovement()

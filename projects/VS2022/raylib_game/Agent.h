@@ -32,6 +32,8 @@ public:
 	Vector3 GetPosition();
 	float GetMaxSpeed() const;
 
+	const BoundingBox& GetBoundingBox();
+
 	Vector3 acceleration{};
 	Vector3 velocity{};
 

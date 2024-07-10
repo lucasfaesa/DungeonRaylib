@@ -10,7 +10,7 @@ Agent::Agent(Vector3 pos, Vector3 size, float maxSpeed, Vector3& targetPos, cons
 	Vector3 bodyMin{ _position.x - _size.x * 0.5f, _position.y, _position.z - _size.z * 0.5f };
 	Vector3 bodyMax{ _position.x + _size.x * 0.5f, _position.y + _size.y, _position.z + _size.z * 0.5f };
 
-	bodyCollideable = Collideable{ BoundingBox{ bodyMin , bodyMax } , Layers::Layer::PLAYER };
+	bodyCollideable = Collideable{ BoundingBox{ bodyMin , bodyMax } , Layers::Layer::AGENT };
 }
 
 void Agent::Update(float deltaTime)
@@ -83,5 +83,10 @@ Vector3 Agent::GetPosition()
 float Agent::GetMaxSpeed() const
 {
 	return _maxSpeed;
+}
+
+const BoundingBox& Agent::GetBoundingBox()
+{
+	return bodyCollideable.GetCollider();
 }
 

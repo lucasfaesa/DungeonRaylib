@@ -12,10 +12,10 @@ public:
 	CollisionsManager() = default;
 	CollisionsManager(Player* player, std::vector<Enemy*>* enemiesVector, Structures* structures, LevelGenerator* levelGenerator);
 
-	void Update(float deltaTime);
+	void Update(float deltaTime) const;
 
 private:
-	void CheckCollisions();
+	void CheckCollisions() const;
 
 private:
 	bool checkPlayerCollisions{ true };

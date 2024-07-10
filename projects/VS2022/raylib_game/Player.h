@@ -6,6 +6,7 @@
 #include "RectangleF.h"
 #include "Logger.h"
 #include "Damageable.h"
+#include <utility>
 
 class Player : public Damageable{
 
@@ -15,18 +16,24 @@ public:
 	void ReadInput();
 	void Update(const float deltaTime);
 	void FixedUpdate(const float fixedDeltaTime);
-	void Draw();
-	void DrawCanvas();
+	void Draw() const;
+	void DrawCanvas() const;
 	void OnCollisionOnBody();
 	void OnCollisionOnFoot(RectangleF& collideable);
 	void OnCollisionOnFoot(float topYPos);
 	void LeftCollisionOnFoot();
+
+	std::pair<float, float> GetAttackRangeAndRadius() const;
 
 	void TakeDamage(int value);
 
 	Collideable& GetBodyCollideable();
 	Collideable& GetFootCollideable();
 	Vector3& GetPlayerPosition();
+	Camera& GetPlayerCamera() const;
+
+	bool IsAttacking() const;
+	void PlayerInAttackRange(bool status);
 
 private:
 
@@ -112,4 +119,7 @@ private:
 	Texture2D* currentTexture{ &sword_idle_texture };
 
 	bool isAttacking{ false };
+	float attackRadius{ 1.f };
+	float attackRange{ 1.8f };
+	bool inAttackRange{ false };
 };
