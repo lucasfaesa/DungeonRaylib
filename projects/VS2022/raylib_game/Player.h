@@ -5,8 +5,9 @@
 #include "Collideable.h"
 #include "RectangleF.h"
 #include "Logger.h"
+#include "Damageable.h"
 
-class Player {
+class Player : public Damageable{
 
 public:
 	Player() = default;
@@ -46,6 +47,9 @@ private:
 
 	void ChangeToAttackSpriteSheet();
 	void ChangeToIdleSpriteSheet();
+
+	void AttackInitiated();
+	void AttackEnded();
 
 private:
 	Camera* camera{ nullptr };

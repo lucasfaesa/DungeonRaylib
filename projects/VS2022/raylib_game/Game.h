@@ -9,30 +9,36 @@
 #include "Agent.h"
 #include "SeekBehavior.h"
 #include "Enemy.h"
+#include "CollisionsManager.h"
+#include <vector>
 
 class Game {
 
 public:
 	Game() = default;
 	Game(bool initialized);
-	void Start();
-	void InputRead();
-	void Update(float deltaTime);
+	void Start() const;
+	void InputRead() const;
+	void Update(float deltaTime) const;
 	void FixedUpdateCalculation(float deltaTime);
-	void FixedUpdate(float deltaTime);
-	void OnApplicationClose();
-	void Draw();
-	void DrawCanvas();
+	void FixedUpdate(float deltaTime) const;
+	void OnApplicationClose() const;
+	void Draw() const;
+	void DrawCanvas() const;
 	bool IsInitialized() const;
 private:
-	void CheckForPlayerCollision();
+
 	bool initialized;
 
 	Player* player{nullptr};
 	Structures* structures {nullptr};
 	LevelGenerator* levelGenerator{nullptr};
+	CollisionsManager* collisionsManager{ nullptr };
 
-	Enemy* enemy{nullptr};
+	static constexpr int enemiesQuantity{1};
+
+	std::vector<Enemy*>* enemiesVector{ new std::vector<Enemy*>() };
+
 	SeekBehavior* seekBehavior{nullptr};
 
 	float fixedTimeStep{ 0.02f }; //50 times a second

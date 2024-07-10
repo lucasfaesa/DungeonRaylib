@@ -19,7 +19,7 @@ public:
 	Agent(Vector3 pos, Vector3 size, float maxSpeed, Vector3& targetPos, 
 		const BoundingBox& targetBoudingBox, float attackRadius, float detectionRadius);
 
-	virtual ~Agent() {};
+	virtual ~Agent() = default;
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();

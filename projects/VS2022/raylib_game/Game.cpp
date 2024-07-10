@@ -1,71 +1,52 @@
 #include "Game.h"
 
-Game::Game(bool initiliazed) :
+Game::Game(bool initialized) :
 	initialized(initialized)
 
 {
 
 	player = new Player({ Vector3{ 0.f,0.f,0.f }, Vector3{ 0.f,0.f,0.f } });
 	seekBehavior = new SeekBehavior(player->GetPlayerPosition());
-	
-	enemy = new Enemy({ 30.f, 0.f, 30.f }, { 1.f, 3.f, 1.f }, 8.2f, player->GetPlayerPosition(), 
-						player->GetBodyCollideable().GetCollider(), 2.f, 30.f, *player, CameraManager::GetPlayerCamera());
-	enemy->SetSeekBehavior(seekBehavior);
+
+	for(int i=0; i < enemiesQuantity; i++)
+	{
+		enemiesVector->emplace_back(new Enemy({ 30.f, 0.f, 30.f }, { 1.f, 3.f, 1.f }, 
+									8.2f, player->GetPlayerPosition(), 
+								player->GetBodyCollideable().GetCollider(), 2.f, 30.f, *player,
+											CameraManager::GetPlayerCamera()));
+
+		(*enemiesVector)[i]->SetSeekBehavior(seekBehavior);
+	}
 
 	levelGenerator = new LevelGenerator();
 	structures = new Structures(0);
 
+	collisionsManager = new CollisionsManager(player, enemiesVector, structures, levelGenerator);
+
 	Start();
 }
 
-void Game::Start()
+void Game::Start() const
 {
 	levelGenerator->Start();
 	DisableCursor();
 }
 
-void Game::InputRead()
+void Game::InputRead() const 
 {
 	player->ReadInput();
 }
 
-void Game::Update(float deltaTime)
+void Game::Update(float deltaTime) const
 {
 	player->Update(deltaTime);
 
-	//enemy->SetPosition(player.GetPlayerPosition());
-	enemy->Update(deltaTime);
-
-	bool collisionOnFoot{ false };
-
-	for (RectangleF * shape : structures->GetRectangles()) {
-		if (CheckCollisionBoxes(shape->GetCollideable().GetCollider(), player->GetBodyCollideable().GetCollider())) {
-			if(shape->GetCollideable().GetLayer() != Layers::Layer::GROUND)
-				player->OnCollisionOnBody();
-		}
-
-		if (CheckCollisionBoxes(shape->GetCollideable().GetCollider(), player->GetFootCollideable().GetCollider())) {
-			player->OnCollisionOnFoot(*shape);
-			collisionOnFoot = true;
-		}
+	for (Enemy* enemy : *enemiesVector)
+	{
+		enemy->Update(deltaTime);
 	}
 
-	enemy->CheckTargetInsideDetectionRadius();
-	enemy->CheckTargetInsideAttackRadius();
-
-	/*for (const BoundingBox& boundingBox : levelGenerator.GetBoundingBoxes()) {
-		if (CheckCollisionBoxes(player.GetBodyCollideable().GetCollider(), boundingBox)) {
-			player.OnCollisionOnBody();
-		}
-
-		if (CheckCollisionBoxes(boundingBox, player.GetFootCollideable().GetCollider())) {
-			player.OnCollisionOnFoot(Helpers::ComputeBoundingBoxCenter(boundingBox).y + Helpers::ComputeBoundingBoxSize(boundingBox).y * 0.5f);
-			collisionOnFoot = true;
-		}
-	}*/
-
-	if (!collisionOnFoot)
-		player->LeftCollisionOnFoot();
+	collisionsManager->Update(deltaTime);
 	
 }
 
@@ -81,23 +62,30 @@ void Game::FixedUpdateCalculation(float deltaTime)
 	}
 }
 
-void Game::FixedUpdate(float deltaTime)
+void Game::FixedUpdate(float deltaTime) const
 {
 	player->FixedUpdate(deltaTime);
 }
 
-void Game::OnApplicationClose()
+void Game::OnApplicationClose() const
 {
-	enemy->OnApplicationQuit();
+	for (Enemy* enemy : *enemiesVector)
+	{
+		enemy->OnApplicationQuit();
+		enemy->~Enemy();
+	}
 	structures->~Structures();
 }
 
-void Game::Draw()
+void Game::Draw() const
 {
 	BeginMode3D(CameraManager::GetPlayerCamera());
 
 	//structures.Draw();
-	enemy->Draw();
+	for (Enemy* enemy : *enemiesVector)
+	{
+		enemy->Draw();
+	}
 	//levelGenerator.Draw();
 	player->Draw();
 
@@ -106,7 +94,7 @@ void Game::Draw()
 	EndMode3D();
 }
 
-void Game::DrawCanvas()
+void Game::DrawCanvas() const
 {
 	DrawFPS(10, 5);
 	Logger::ResetPosition();
@@ -118,7 +106,4 @@ bool Game::IsInitialized() const
 	return initialized;
 }
 
-void Game::CheckForPlayerCollision()
-{
-}
 

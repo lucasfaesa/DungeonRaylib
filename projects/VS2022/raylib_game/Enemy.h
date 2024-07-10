@@ -1,8 +1,9 @@
 #pragma once
 #include "Agent.h"
 #include "Player.h"
+#include "Damageable.h"
 
-class Enemy : public Agent {
+class Enemy : public Agent, public Damageable {
 
 public:
 	Enemy() = default;
@@ -63,5 +64,6 @@ private:
 
 	bool preparingToDie{ false };
 	bool isDead{ false };
+
 
 };

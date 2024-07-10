@@ -2,7 +2,8 @@
 #include <algorithm>
 #include "rlgl.h"
 
-Player::Player(Vector3 pos, Vector3 rot)
+Player::Player(Vector3 pos, Vector3 rot):
+	Damageable(100)
 {
 	camera = &CameraManager::GetPlayerCamera();
 
@@ -69,6 +70,11 @@ void Player::Draw()
 	//DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
 	//DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
 
+	if (isAttacking) {
+		Vector3 spherePosition = Vector3Add(position, Vector3Scale(GetCameraForward(camera), 1.8f));
+		spherePosition.y += 1.8f;
+		DrawSphereWires(spherePosition, 1.f, 10, 10, BLUE);
+	}
 	
 }
 
@@ -289,6 +295,7 @@ void Player::CountAnimationFrames(float deltaTime)
 
 		if (isAttacking && currentFrame == currentAnimationTotalFrames - 1) {
 			ChangeToIdleSpriteSheet();
+			AttackEnded();
 		}
 
 		framesCounter = 0;
@@ -316,11 +323,14 @@ void Player::ChangeToAttackSpriteSheet()
 	currentTexture = &sword_attack_texture;
 
 	frameRec = { 0.0f, 0.0f, (float)sword_attack_texture.width / attackTotalFrames, (float)sword_attack_texture.height };
+
+	AttackInitiated();
 }
 
 void Player::ChangeToIdleSpriteSheet()
 {
 	isAttacking = false;
+	
 
 	framesCounter = 0;
 	currentFrame = 0;
@@ -330,4 +340,13 @@ void Player::ChangeToIdleSpriteSheet()
 	currentTexture = &sword_idle_texture;
 
 	frameRec = { 0.0f, 0.0f, (float)sword_attack_texture.width / idleTotalFrames, (float)sword_idle_texture.height };
+}
+
+void Player::AttackInitiated()
+{
+
+}
+
+void Player::AttackEnded()
+{
 }

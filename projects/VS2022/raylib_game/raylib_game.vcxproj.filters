@@ -51,7 +51,15 @@
     <ClCompile Include="SeekBehavior.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="Damageable.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionsManager.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -103,6 +111,12 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Damageable.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionsManager.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>
