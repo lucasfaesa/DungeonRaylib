@@ -11,7 +11,7 @@ void Enemy::Update(float deltaTime)
 {
 	Agent::Update(deltaTime);
 
-	if (isDead) return;
+	if (_isDead && !preparingToDie) return;
 	//return;
 
 	if (!preparingToDie) {
@@ -76,6 +76,13 @@ float Enemy::GetDistanceFromPlayer() const
 	return _distanceFromPlayer;
 }
 
+void Enemy::SetDead()
+{
+	Damageable::SetDead();
+	preparingToDie = true;
+	ChangeCurrentState(State::DEAD);
+}
+
 void Enemy::ChangeCurrentState(State newState)
 {
 	if (newState == currentState) return;
@@ -119,10 +126,10 @@ void Enemy::CountAnimationFrames(float deltaTime)
 		if (currentFrame > currentAnimationTotalFrames - 1) currentFrame = 0;
 
 		//std::cout << "current Frame: " << currentFrame << std::endl;
-		frameRec.x = (float)currentFrame * (float)currentTexture->width / currentAnimationTotalFrames;
+		frameRec.x = static_cast<float>(currentFrame) * static_cast<float>(currentTexture->width) / currentAnimationTotalFrames;
 
 		if (currentState == State::DEAD && currentFrame == currentAnimationTotalFrames - 1) {
-			isDead = true;
+			preparingToDie = false;
 			return;
 		}
 

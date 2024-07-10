@@ -19,6 +19,8 @@ public:
 	void SetDistanceFromPlayer();
 	float GetDistanceFromPlayer() const;
 
+	void SetDead() override;
+
 private:
 	enum class State { IDLE, WALKING, DEAD };
 
@@ -63,7 +65,5 @@ private:
 	Texture2D* currentTexture{ &idleTexture };
 
 	bool preparingToDie{ false };
-	bool isDead{ false };
-
 
 };

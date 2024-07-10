@@ -172,6 +172,11 @@ void Player::PlayerInAttackRange(bool status)
 	inAttackRange = status;
 }
 
+int Player::GetAttackDamage() const
+{
+	return attackDamage;
+}
+
 void Player::InputMovement()
 {
 	moveDelta = { 0, moveDelta.y, 0 };

@@ -75,7 +75,7 @@ void Agent::SetPosition(Vector3 pos)
 	_position = pos;
 }
 
-Vector3 Agent::GetPosition()
+Vector3 Agent::GetPosition() const
 {
 	return _position;
 }

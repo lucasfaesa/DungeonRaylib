@@ -29,7 +29,7 @@ public:
 
 	void SetSeekBehavior(SeekBehavior* behavior);
 	void SetPosition(Vector3 pos);
-	Vector3 GetPosition();
+	Vector3 GetPosition() const;
 	float GetMaxSpeed() const;
 
 	const BoundingBox& GetBoundingBox();

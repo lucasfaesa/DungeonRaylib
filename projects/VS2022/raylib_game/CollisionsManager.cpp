@@ -62,6 +62,9 @@ void CollisionsManager::CheckCollisions() const
                 bool inAttackRange = CheckCollisionBoxSphere(enemy->GetBoundingBox(), spherePosition, playerAttackRadius);
 
                 _player->PlayerInAttackRange(inAttackRange);
+
+                if(inAttackRange)
+					enemy->TakeDamage(_player->GetAttackDamage());
             }
         }
     }

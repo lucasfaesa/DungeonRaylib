@@ -11,14 +11,32 @@ bool Damageable::GetIsDead() const
 	return _isDead;
 }
 
-int Damageable::TakeDamage(int value)
+float Damageable::GetInvincibilityTime() const
 {
+	return _invincibilityTime;
+}
+
+void Damageable::TakeDamage(int value)
+{
+	if (GetTime() - _lastDamageReceivedTime <= _invincibilityTime ||
+		_isDead) 
+		return;
+
+	_lastDamageReceivedTime = GetTime();
+
 	_currentHealth -= value;
 
 	if (_currentHealth <= 0) {
 		_currentHealth = 0;
-		_isDead = true;
+		SetDead();
+		
 	}
 
-	return _currentHealth;
+	//std::cout << "took damage: " << value << " current health: " << _currentHealth << std::endl;
+}
+
+void Damageable::SetDead()
+{
+	_isDead = true;
+	std::cout << "died" << std::endl;
 }

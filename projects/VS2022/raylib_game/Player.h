@@ -34,6 +34,7 @@ public:
 
 	bool IsAttacking() const;
 	void PlayerInAttackRange(bool status);
+	int GetAttackDamage() const;
 
 private:
 
@@ -122,4 +123,5 @@ private:
 	float attackRadius{ 1.f };
 	float attackRange{ 1.8f };
 	bool inAttackRange{ false };
+	int attackDamage{ 35 };
 };
