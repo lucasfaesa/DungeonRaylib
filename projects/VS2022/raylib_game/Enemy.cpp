@@ -130,6 +130,7 @@ void Enemy::CountAnimationFrames(float deltaTime)
 
 		if (currentState == State::DEAD && currentFrame == currentAnimationTotalFrames - 1) {
 			preparingToDie = false;
+			bodyCollideable = {};
 			return;
 		}
 

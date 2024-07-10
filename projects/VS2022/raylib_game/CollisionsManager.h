@@ -16,11 +16,12 @@ public:
 
 private:
 	void CheckCollisions() const;
-
+	void PlayerWithEnvironmentCollisions() const;
+	void EnemyRadiusChecks(Enemy* enemy) const;
+	void PlayerAttackOnEnemyCheck(Enemy* enemy) const;
+	void PlayerWithEnemiesCollision(Enemy* enemy) const;
 private:
-	bool checkPlayerCollisions{ true };
-	bool checkEnemyCollisions{ true };
-	bool checkEnvironmentCollisions{ true };
+	
 
 	Player* _player{nullptr};
 	std::vector<Enemy*> * _enemiesVector{nullptr};

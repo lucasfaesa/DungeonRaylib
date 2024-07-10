@@ -20,11 +20,11 @@ void Agent::Update(float deltaTime)
 
 void Agent::Draw()
 {
-	DrawSphereWires(_attackRadiusPos, _attackRadius, 10, 10, _isTargetInsideAttackRadius ? MAGENTA : GREEN);
+	//DrawSphereWires(_attackRadiusPos, _attackRadius, 10, 10, _isTargetInsideAttackRadius ? MAGENTA : GREEN);
 
-	DrawSphereWires(_position, _detectionRadius, 10, 10, _isTargetInsideDetectionRadius ? MAGENTA : GREEN);
+	//DrawSphereWires(_position, _detectionRadius, 10, 10, _isTargetInsideDetectionRadius ? MAGENTA : GREEN);
 
-	DrawBoundingBox(bodyCollideable.GetCollider(), YELLOW);
+	//DrawBoundingBox(bodyCollideable.GetCollider(), YELLOW);
 }
 
 void Agent::CheckTargetInsideDetectionRadius()

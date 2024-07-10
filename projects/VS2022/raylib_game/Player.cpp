@@ -126,7 +126,7 @@ void Player::OnCollisionOnFoot(float topYPos)
 
 void Player::LeftCollisionOnFoot()
 {
-	if (isJumping) return;
+	if (isJumping || isGrounded) return;
 
 	isGrounded = false;
 	canJump = false;
@@ -141,7 +141,10 @@ std::pair<float, float> Player::GetAttackRangeAndRadius() const
 void Player::TakeDamage(int value)
 {
 	if (isDefending)
+	{
+		std::cout << "defended" << std::endl;
 		return;
+	}
 
 	Damageable::TakeDamage(value);
 }
