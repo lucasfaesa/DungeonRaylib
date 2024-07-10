@@ -32,7 +32,7 @@ void Damageable::TakeDamage(int value)
 		
 	}
 
-	//std::cout << "took damage: " << value << " current health: " << _currentHealth << std::endl;
+	std::cout << "took damage: " << value << " current health: " << _currentHealth << std::endl;
 }
 
 void Damageable::SetDead()

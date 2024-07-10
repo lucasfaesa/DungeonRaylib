@@ -25,7 +25,7 @@ public:
 
 	std::pair<float, float> GetAttackRangeAndRadius() const;
 
-	void TakeDamage(int value);
+	void TakeDamage(int value) override;
 
 	Collideable& GetBodyCollideable();
 	Collideable& GetFootCollideable();
@@ -103,8 +103,6 @@ private:
 	float gravityRate{ 0.05f };
 
 	float test{};
-
-	int playerHealth = 100;
 
 	bool isCollidingBody;
 

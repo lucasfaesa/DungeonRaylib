@@ -140,8 +140,10 @@ std::pair<float, float> Player::GetAttackRangeAndRadius() const
 
 void Player::TakeDamage(int value)
 {
-	playerHealth -= value;
-	std::cout << "health: " << playerHealth << std::endl;
+	if (isDefending)
+		return;
+
+	Damageable::TakeDamage(value);
 }
 
 Collideable& Player::GetBodyCollideable()

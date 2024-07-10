@@ -12,7 +12,7 @@ public:
 	bool GetIsDead() const;
 	float GetInvincibilityTime() const;
 
-	void TakeDamage(int value);
+	virtual void TakeDamage(int value);
 
 	virtual void SetDead();
 
