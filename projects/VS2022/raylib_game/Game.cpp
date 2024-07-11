@@ -75,9 +75,9 @@ void Game::Draw() const
 
 	structures->Draw();
 
-	/*std::sort(enemiesVector->begin(), enemiesVector->end(), [](const Enemy* a, const Enemy* b) {
+	std::sort(enemiesVector->begin(), enemiesVector->end(), [](const Enemy* a, const Enemy* b) {
 		return a->GetDistanceFromPlayer() > b->GetDistanceFromPlayer();
-		});*/
+		});
 
 
 	for (Enemy* enemy : *enemiesVector)
@@ -113,7 +113,7 @@ void Game::CreateEnemies()
 	enemiesVector->emplace_back(new Enemy({ 5.93f, 0.f, 55.12f }, { 1.f, 3.f, 1.f }, 8.2f, 2.f, 30.f, *player));
 	enemiesVector->emplace_back(new Enemy({ 8.73f, 0.f, 46.56f }, { 1.f, 3.f, 1.f }, 8.2f, 2.f, 30.f, *player));
 	enemiesVector->emplace_back(new Enemy({ 60.03f, 0.f, 42.99f }, { 1.f, 3.f, 1.f }, 8.2f, 2.f, 30.f, *player));
-	enemiesVector->emplace_back(new Enemy({ 43.63f, 10.01f, 57.20f }, { 1.f, 3.f, 1.f }, 8.2f, 2.f, 30.f, *player));
+	enemiesVector->emplace_back(new Enemy({ 42.63f, 10.01f, 55.85f }, { 1.f, 3.f, 1.f }, 8.2f, 2.f, 30.f, *player));
 	enemiesVector->emplace_back(new Enemy({ -2.07f, 0.f, 71.56f }, { 1.f, 3.f, 1.f }, 8.2f, 2.f, 30.f, *player));
 	enemiesVector->emplace_back(new Enemy({ -16.94f, 0.f, 59.55f }, { 1.f, 3.f, 1.f }, 8.2f, 2.f, 30.f, *player));
 	enemiesVector->emplace_back(new Enemy({ -52.78f, 3.01f, 60.09f }, { 1.f, 3.f, 1.f }, 8.2f, 2.f, 30.f, *player));
