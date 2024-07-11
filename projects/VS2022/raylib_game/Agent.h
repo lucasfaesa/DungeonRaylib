@@ -17,8 +17,7 @@ class Agent {
 public:
 	
 	Agent() = default;
-	Agent(Vector3 pos, Vector3 size, float maxSpeed, Vector3& targetPos, 
-		const BoundingBox& targetBoudingBox, float attackRadius, float detectionRadius);
+	Agent(Vector3 pos, Vector3 size, Vector3& targetPos, const BoundingBox& targetBoudingBox);
 
 	virtual ~Agent() = default;
 

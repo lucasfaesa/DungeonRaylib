@@ -8,7 +8,7 @@ int main()
     constexpr int windowWidth = 800;
     constexpr int windowHeight = 800;
 	InitWindow(windowWidth, windowHeight, "First Person");
-
+    SetRandomSeed(0xaabbccff);
     SetTargetFPS(60);               
 
     Game game = Game(true);

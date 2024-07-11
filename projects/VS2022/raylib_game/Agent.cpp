@@ -3,9 +3,8 @@
 
 //#include <iostream>
 
-Agent::Agent(Vector3 pos, Vector3 size, float maxSpeed, Vector3& targetPos, const BoundingBox& targetBoundingBox, float attackRadius, float detectionRadius):
-	_position(pos), _size(size), _maxSpeed(maxSpeed), _targetPosition(&targetPos), _targetBoundingBox(&targetBoundingBox),
-	_attackRadius(attackRadius), _detectionRadius(detectionRadius)
+Agent::Agent(Vector3 pos, Vector3 size, Vector3& targetPos, const BoundingBox& targetBoundingBox):
+	_position(pos), _size(size), _targetPosition(&targetPos), _targetBoundingBox(&targetBoundingBox)
 {
 	_targetPosition = &targetPos;
 
@@ -27,11 +26,11 @@ void Agent::Update(float deltaTime)
 
 void Agent::Draw()
 {
-	//DrawSphereWires(_attackRadiusPos, _attackRadius, 10, 10, _isTargetInsideAttackRadius ? MAGENTA : GREEN);
+	DrawSphereWires(_attackRadiusPos, _attackRadius, 10, 10, _isTargetInsideAttackRadius ? MAGENTA : GREEN);
 
-	//DrawSphereWires(_position, _detectionRadius, 10, 10, _isTargetInsideDetectionRadius ? MAGENTA : GREEN);
+	DrawSphereWires(_position, _detectionRadius, 10, 10, _isTargetInsideDetectionRadius ? MAGENTA : GREEN);
 
-	//DrawBoundingBox(bodyCollideable.GetCollider(), YELLOW);
+	DrawBoundingBox(bodyCollideable.GetCollider(), YELLOW);
 	//DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : MAGENTA);
 }
 

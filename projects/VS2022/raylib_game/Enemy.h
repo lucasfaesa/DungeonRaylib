@@ -7,7 +7,7 @@ class Enemy : public Agent, public Damageable {
 
 public:
 	Enemy() = default;
-	Enemy(Vector3 pos, Vector3 size, float maxSpeed, float attackRadius, float detectionRadius, Player& player);
+	Enemy(Vector3 pos, Vector3 size, Player& player);
 
 	void Update(float deltaTime) override;
 	void Draw() override;

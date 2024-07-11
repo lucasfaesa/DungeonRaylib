@@ -17,7 +17,7 @@ public:
 	virtual void SetDead();
 
 protected:
-	const int _maxHealth{ };
+	int _maxHealth{ };
 
 	int _currentHealth{ };
 

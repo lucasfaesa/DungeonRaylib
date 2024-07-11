@@ -93,7 +93,6 @@ void Player::DrawCanvas()
 
 	if(drawFeedbackHud)
 	{
-		std::cout << GetTime() << " " << feedbackHudTimer << " " << std::endl;
 		if (GetTime() - feedbackHudTimer >= feedbackHudDisplayTime)
 			drawFeedbackHud = false;
 
