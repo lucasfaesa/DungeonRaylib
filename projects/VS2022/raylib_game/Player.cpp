@@ -2,10 +2,13 @@
 #include <algorithm>
 #include "rlgl.h"
 
-Player::Player(Vector3 pos, Vector3 rot):
+Player::Player(Vector3 pos):
 	Damageable(100)
 {
 	camera = &CameraManager::GetPlayerCamera();
+	camera->position.x = pos.x;
+	camera->position.z = pos.z;
+
 
 	Vector3 bodyMin{ position.x - size.x * 0.5f, position.y, position.z - size.z * 0.5f};
 	Vector3 bodyMax{ position.x + size.x * 0.5f, position.y + size.y, position.z + size.z * 0.5f };

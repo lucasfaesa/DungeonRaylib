@@ -12,7 +12,7 @@ class Player : public Damageable{
 
 public:
 	Player() = default;
-	Player(Vector3 pos, Vector3 rot);
+	Player(Vector3 pos);
 	void ReadInput();
 	void Update(const float deltaTime);
 	void FixedUpdate(const float fixedDeltaTime);

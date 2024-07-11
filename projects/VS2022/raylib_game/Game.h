@@ -11,6 +11,7 @@
 #include "Enemy.h"
 #include "CollisionsManager.h"
 #include <vector>
+#include <algorithm>
 
 class Game {
 
@@ -28,6 +29,8 @@ public:
 	bool IsInitialized() const;
 private:
 
+	void CreateEnemies();
+
 	bool initialized;
 
 	Player* player{nullptr};
@@ -35,9 +38,11 @@ private:
 	LevelGenerator* levelGenerator{nullptr};
 	CollisionsManager* collisionsManager{ nullptr };
 
-	static constexpr int enemiesQuantity{2};
+	static constexpr int enemiesQuantity{0};
 
 	std::vector<Enemy*>* enemiesVector{ new std::vector<Enemy*>() };
+
+	std::vector<Vector3> enemiesPositions{};
 
 	float fixedTimeStep{ 0.02f }; //50 times a second
 	float accumulatedTime{};

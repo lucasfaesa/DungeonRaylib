@@ -32,6 +32,7 @@ private:
 	void PlayerWithEnemiesCollision(Enemy* enemy);
 	void CheckEnemyWithEnemiesCollision(Enemy* thisEnemy, std::vector<Enemy*>& enemiesInCollision);
 	void ProcessEnemyWithEnemyCollision(std::vector<Enemy*>& enemiesInCollision);
+
 private:
 	
 

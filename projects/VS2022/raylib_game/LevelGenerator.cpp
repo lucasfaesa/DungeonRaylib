@@ -84,12 +84,12 @@ void LevelGenerator::ComputeBaseStructureCollisions()
 
 			//creating collisions for the ground, black pixels
 			// TODO remove this later, make the ground a big plane
-			if (baseSceneryPixels[y * baseSceneryCubicmap.width + x].r == 0) {
+			/*if (baseSceneryPixels[y * baseSceneryCubicmap.width + x].r == 0) {
 				Vector3 min{ baseSceneryPosition.x + (x - 0.5f), baseSceneryPosition.y - 1.0f, baseSceneryPosition.z + (y - 0.5f) };
 				Vector3 max{ baseSceneryPosition.x + (x + 0.5f), baseSceneryPosition.y, baseSceneryPosition.z + (y + 0.5f) };
 
 				levelBoundingBoxes.emplace_back(BoundingBox{ min, max });
-			}
+			}*/
 		}
 	}
 }

@@ -134,14 +134,14 @@ void CollisionsManager::CheckCollisionsAgainstEnvironment(Player* player, Rectan
 void CollisionsManager::CheckCollisionsAgainstEnvironment(Player* player, const BoundingBox& boundingBox, const BoundingBox& playerBoundingBoxBody,
 															const BoundingBox& playerBoundingBoxFeet)
 {
-    /*if (CheckCollisionBoxes(boundingBox, playerBoundingBoxBody)) {
+    if (CheckCollisionBoxes(boundingBox, playerBoundingBoxBody)) {
             player->OnCollisionOnBody();
     }
 
     if (CheckCollisionBoxes(boundingBox, playerBoundingBoxFeet)) {
         player->OnCollisionOnFoot(boundingBox.max.y);
         _collisionOnPlayerFeet = true;
-    }*/
+    }
 
     /*bool collisionBody = CheckCollisionBoxes(playerBoundingBoxBody, boundingBox);
     bool collisionFeet = CheckCollisionBoxes(boundingBox, playerBoundingBoxFeet);
@@ -190,14 +190,21 @@ void CollisionsManager::CheckCollisionsAgainstEnvironment(Enemy* enemy, Rectangl
 void CollisionsManager::CheckCollisionsAgainstEnvironment(Enemy* enemy, const BoundingBox& boundingBox,
 	const BoundingBox& enemyBoundingBoxBody, const BoundingBox& enemyBoundingBoxFeet)
 {
-    /*if (CheckCollisionBoxes(boundingBox, enemyBoundingBoxBody)) {
+    if(!enemy->IsFollowingPlayer())
+    {
+        return;
+    }
+
+    enemy->SetCalculatePhysics(true);
+
+    if (CheckCollisionBoxes(boundingBox, enemyBoundingBoxBody)) {
             enemy->OnCollisionOnBody();
     }
 
     if (CheckCollisionBoxes(boundingBox, enemyBoundingBoxFeet)) {
         enemy->OnCollisionOnFoot(boundingBox.max.y);
-        _collisionOnPlayerFeet = true;
-    }*/
+        _collisionOnEnemyFeet = true;
+    }
 
     /*bool collisionBody = CheckCollisionBoxes(enemyBoundingBoxBody, boundingBox);
 	 bool collisionFeet = CheckCollisionBoxes(boundingBox, enemyBoundingBoxFeet);

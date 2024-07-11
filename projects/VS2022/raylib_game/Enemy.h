@@ -7,8 +7,7 @@ class Enemy : public Agent, public Damageable {
 
 public:
 	Enemy() = default;
-	Enemy(Vector3 pos, Vector3 size, float maxSpeed, Vector3& targetPos,
-		const BoundingBox& targetBoudingBox, float attackRadius, float detectionRadius, Player& player, Camera& camera);
+	Enemy(Vector3 pos, Vector3 size, float maxSpeed, float attackRadius, float detectionRadius, Player& player);
 
 	void Update(float deltaTime) override;
 	void Draw() override;
@@ -27,6 +26,15 @@ public:
 	void WaitBeforeWalkingAgain();
 	bool IsOnWaitBeforeWalkingTime();
 	bool IsFollowingPlayer();
+
+	void SetCalculatePhysics(bool status);
+
+	//frame related
+	static Texture2D walkTexture;
+	static Texture2D idleTexture;
+	static Texture2D dieTexture;
+
+	
 
 private:
 	enum class State { IDLE, WALKING, DEAD };
@@ -47,10 +55,6 @@ private:
 
 	State currentState{ State::IDLE };
 
-	//frame related
-	Texture2D idleTexture = LoadTexture("../resources/enemy/frogmon_stand.png");
-	Texture2D walkTexture = LoadTexture("../resources/enemy/frogmon_walk.png");
-	Texture2D dieTexture = LoadTexture("../resources/enemy/frogmon_die.png");
 
 	Rectangle frameRec;
 
@@ -82,6 +86,7 @@ private:
 	float waitBeforeWalkingDuration{0.3f};
 	float waitBeforeWalkingTimer;
 
-	bool followingPlayer;
+	bool followingPlayer{false};
 
+	bool calculatePhysics{false};
 };

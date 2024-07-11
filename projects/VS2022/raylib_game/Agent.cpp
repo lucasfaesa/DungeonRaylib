@@ -21,8 +21,7 @@ Agent::Agent(Vector3 pos, Vector3 size, float maxSpeed, Vector3& targetPos, cons
 
 void Agent::Update(float deltaTime)
 {
-	gravity = isGrounded ? 0.f : World::gravity;
-	GravityControl(deltaTime);
+	
 	UpdateColliderPosition();
 }
 
@@ -32,8 +31,8 @@ void Agent::Draw()
 
 	//DrawSphereWires(_position, _detectionRadius, 10, 10, _isTargetInsideDetectionRadius ? MAGENTA : GREEN);
 
-	DrawBoundingBox(bodyCollideable.GetCollider(), YELLOW);
-	DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : MAGENTA);
+	//DrawBoundingBox(bodyCollideable.GetCollider(), YELLOW);
+	//DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : MAGENTA);
 }
 
 void Agent::CheckTargetInsideDetectionRadius()

@@ -1,9 +1,24 @@
 #include "Enemy.h"
 
-Enemy::Enemy(Vector3 pos, Vector3 size, float maxSpeed, Vector3& targetPos, const BoundingBox& targetBoudingBox, float attackRadius, float detectionRadius, Player& player, Camera& camera) :
-	Agent(pos, size, maxSpeed, targetPos, targetBoudingBox, attackRadius, detectionRadius), _player(&player), _camera(&camera),
+//Enemy::idleTexture = LoadTexture("../resources/enemy/frogmon_stand.png");
+//Enemy::walkTexture = LoadTexture("../resources/enemy/frogmon_walk.png");
+//Enemy::dieTexture = LoadTexture("../resources/enemy/frogmon_die.png");
+
+Texture2D Enemy::idleTexture;
+Texture2D Enemy::walkTexture;
+Texture2D Enemy::dieTexture;
+
+Enemy::Enemy(Vector3 pos, Vector3 size, float maxSpeed, float attackRadius, float detectionRadius, Player& player) :
+	Agent(pos, size, maxSpeed, player.GetPlayerPosition(), player.GetBodyCollideable().GetCollider(), attackRadius, detectionRadius), _player(&player), _camera(&player.GetPlayerCamera()),
 	Damageable(100)
 {
+	if(idleTexture.height == 0 || idleTexture.width == 0)
+	{
+		idleTexture = LoadTexture("../resources/enemy/frogmon_stand.png");
+		walkTexture = LoadTexture("../resources/enemy/frogmon_walk.png");
+		dieTexture = LoadTexture("../resources/enemy/frogmon_die.png");
+	}
+
 	frameRec = { 0.0f, 0.0f, (float)idleTexture.width / idleTotalFrames, (float)idleTexture.height };
 }
 
@@ -11,10 +26,15 @@ void Enemy::Update(float deltaTime)
 {
 	lastPositionBeforeBodyCollision = _position;
 
-	Agent::Update(deltaTime);
-
 	if (_isDead && !preparingToDie) 
 		return;
+
+	
+	gravity = isGrounded || preparingToDie || _isDead || !calculatePhysics ? 0.f : World::gravity;
+	GravityControl(deltaTime);
+
+	Agent::Update(deltaTime);
+
 	
 
 	if (!preparingToDie) {
@@ -108,7 +128,7 @@ void Enemy::OnCollisionOnFoot(float topYPos)
 
 void Enemy::LeftCollisionOnFoot()
 {
-	std::cout << "is grounded false enemy" << std::endl;
+	//std::cout << "is grounded false enemy" << std::endl;
 	isGrounded = false;
 }
 
@@ -128,6 +148,7 @@ void Enemy::ChangeCurrentState(State newState)
 
 	switch (newState) {
 		case State::IDLE:
+			calculatePhysics = false;
 			followingPlayer = false;
 			currentAnimationFrameSpeed = idleFramesSpeed;
 			currentAnimationTotalFrames = idleTotalFrames;
@@ -136,12 +157,14 @@ void Enemy::ChangeCurrentState(State newState)
 			break;
 		case State::WALKING:
 			followingPlayer = true;
+			calculatePhysics = true;
 			currentAnimationFrameSpeed = walkFramesSpeed;
 			currentAnimationTotalFrames = walkTotalFrames;
 			currentTexture = &walkTexture;
 			frameRec = { 0.0f, 0.0f, (float)walkTexture.width / walkTotalFrames, (float)walkTexture.height };
 			break;
 		case State::DEAD:
+			calculatePhysics = false;
 			followingPlayer = false;
 			currentAnimationFrameSpeed = dyingFramesSpeed;
 			currentAnimationTotalFrames = dyingTotalFrames;
@@ -201,4 +224,9 @@ bool Enemy::IsOnWaitBeforeWalkingTime()
 bool Enemy::IsFollowingPlayer()
 {
 	return followingPlayer;
+}
+
+void Enemy::SetCalculatePhysics(bool status)
+{
+	calculatePhysics = status;
 }
