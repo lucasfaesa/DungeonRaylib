@@ -17,7 +17,7 @@ public:
 	void Update(const float deltaTime);
 	void FixedUpdate(const float fixedDeltaTime);
 	void Draw();
-	void DrawCanvas() const;
+	void DrawCanvas();
 	void OnCollisionOnBody();
 	void OnCollisionOnFoot(float topYPos);
 	void LeftCollisionOnFoot();
@@ -112,6 +112,8 @@ private:
 	Texture2D sword_attack_texture = LoadTexture("../resources/player/sword_attack.png");
 	Texture2D shield_idle_texture = LoadTexture("../resources/player/shield_idle.png");
 	Texture2D shield_up_texture = LoadTexture("../resources/player/shield_up.png");
+	Texture2D HUD_shield_impact_feedback = LoadTexture("../resources/player/HUD_shield_impact_feedback.png");
+	Texture2D HUD_player_damaged_feedback = LoadTexture("../resources/player/HUD_player_damaged_feedback.png");
 
 	Rectangle frameRec = { 0.0f, 0.0f, static_cast<float>(sword_idle_texture.width) / idleTotalFrames, static_cast<float>(sword_idle_texture.height) };
 	
@@ -125,6 +127,7 @@ private:
 	int currentAnimationTotalFrames{ 1 };
 	Texture2D* currentSwordTexture{ &sword_idle_texture };
 	Texture2D* currentShieldTexture{ &shield_idle_texture };
+	Texture2D* currentHUDTexture{ &HUD_shield_impact_feedback };
 
 	bool isAttacking{ false };
 	float attackRadius{ 0.3f };
@@ -133,4 +136,8 @@ private:
 	int attackDamage{ 35 };
 
 	bool isDefending{ false };
+
+	bool drawFeedbackHud{false};
+	float feedbackHudDisplayTime{ 0.13f };
+	double feedbackHudTimer{};
 };

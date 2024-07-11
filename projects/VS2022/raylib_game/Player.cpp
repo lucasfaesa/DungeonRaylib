@@ -59,6 +59,7 @@ void Player::Update(const float deltaTime)
 	UpdateColliderPosition();
 	ComputeVelocity(deltaTime);
 	CountAnimationFrames(deltaTime);
+
 }
 
 void Player::FixedUpdate(const float fixedDeltaTime)
@@ -68,8 +69,8 @@ void Player::FixedUpdate(const float fixedDeltaTime)
 
 void Player::Draw()
 {
-	DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
-	DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
+	//DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
+	//DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
 
 	if (isAttacking) {
 		Vector3 spherePosition = Vector3Add(position, Vector3Scale(GetCameraForward(camera), attackRange));
@@ -79,13 +80,22 @@ void Player::Draw()
 	
 }
 
-void Player::DrawCanvas() const
+void Player::DrawCanvas()
 {
 	Logger::Log("position x: %.2f, position y: %.2f, position z: %.2f", position.x, position.y, position.z);
 	Logger::Log("grounded %i", isGrounded);
 	Logger::Log("velocity x: %.2f, velocity y: %.2f, velocity z: %.2f", velocity.x, velocity.y, velocity.z);
 	DrawTextureRecScaled(*currentSwordTexture, frameRec, { 0.f, 0.f }, 800.f/currentSwordTexture->height, WHITE);
 	DrawTextureRecScaled(*currentShieldTexture, frameRec, { 0.f, 0.f }, 800.f/currentShieldTexture->height, WHITE);
+
+	if(drawFeedbackHud)
+	{
+		std::cout << GetTime() << " " << feedbackHudTimer << " " << std::endl;
+		if (GetTime() - feedbackHudTimer >= feedbackHudDisplayTime)
+			drawFeedbackHud = false;
+
+		DrawTextureRecScaled(*currentHUDTexture, frameRec, { 0.f, 0.f }, 800.f / currentHUDTexture->height, WHITE);
+	}
 }
 
 void Player::OnCollisionOnBody()
@@ -125,12 +135,17 @@ std::pair<float, float> Player::GetAttackRangeAndRadius() const
 
 void Player::TakeDamage(int value)
 {
+	drawFeedbackHud = true;
+	feedbackHudTimer = GetTime();
+
 	if (isDefending)
 	{
+		currentHUDTexture = &HUD_shield_impact_feedback;
 		std::cout << "defended" << std::endl;
 		return;
 	}
 
+	currentHUDTexture = &HUD_player_damaged_feedback;
 	Damageable::TakeDamage(value);
 }
 

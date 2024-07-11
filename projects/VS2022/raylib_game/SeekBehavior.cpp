@@ -32,7 +32,8 @@ void SeekBehavior::Update(Agent* agent, float deltaTime)
 	}
 	else {
 		// Optionally stop the agent if seeking is disabled
-		agent->velocity = { 0.f, 0.f, 0.f };
+		agent->velocity.x = 0;
+		agent->velocity.z = 0;
 	}
 	/*
 	if (_canSeek) {
