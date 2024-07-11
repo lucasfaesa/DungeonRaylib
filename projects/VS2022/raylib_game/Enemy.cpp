@@ -9,12 +9,13 @@ Enemy::Enemy(Vector3 pos, Vector3 size, float maxSpeed, Vector3& targetPos, cons
 
 void Enemy::Update(float deltaTime)
 {
-	Agent::Update(deltaTime);
-
 	lastPositionBeforeBodyCollision = _position;
 
-	if (_isDead && !preparingToDie) return;
-	//return;
+	Agent::Update(deltaTime);
+
+	if (_isDead && !preparingToDie) 
+		return;
+	
 
 	if (!preparingToDie) {
 		if (_isTargetInsideDetectionRadius) {
@@ -93,6 +94,20 @@ void Enemy::OnCollisionOnBody()
 	ForcePositionXZChange();
 }
 
+void Enemy::OnCollisionOnFoot(float topYPos)
+{
+	isGrounded = true;
+	fallSpeed = 0;
+
+	ForcePositionYChange(topYPos);
+}
+
+void Enemy::LeftCollisionOnFoot()
+{
+	std::cout << "is grounded false enemy" << std::endl;
+	isGrounded = false;
+}
+
 void Enemy::ChangeCurrentState(State newState)
 {
 	if (newState == currentState) return;
@@ -152,5 +167,15 @@ void Enemy::ForcePositionXZChange()
 	_position.x = lastPositionBeforeBodyCollision.x;
 	_position.z = lastPositionBeforeBodyCollision.z;
 
-	//UpdateColliderPosition();
+	velocity.x = 0;
+	velocity.z = 0;
+
+
+	UpdateColliderPosition();
+}
+
+void Enemy::ForcePositionYChange(float topYPos)
+{
+	//								offset to not make the body collider hit the ground//strctures from above
+	_position.y = topYPos + 0.01f;
 }

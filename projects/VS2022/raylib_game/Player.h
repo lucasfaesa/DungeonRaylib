@@ -16,7 +16,7 @@ public:
 	void ReadInput();
 	void Update(const float deltaTime);
 	void FixedUpdate(const float fixedDeltaTime);
-	void Draw() const;
+	void Draw();
 	void DrawCanvas() const;
 	void OnCollisionOnBody();
 	void OnCollisionOnFoot(float topYPos);

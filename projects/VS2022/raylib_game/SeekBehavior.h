@@ -14,7 +14,7 @@ public:
 
 	virtual void Update(Agent* agent, float deltaTime);
 	void SetCanSeek(bool status);
-
+	float GetDampener(float distance);
 private:
 	Vector3* _target;
 	bool _canSeek{ false };

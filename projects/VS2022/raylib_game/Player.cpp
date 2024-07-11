@@ -66,10 +66,10 @@ void Player::FixedUpdate(const float fixedDeltaTime)
 }
 
 
-void Player::Draw() const
+void Player::Draw()
 {
-	//DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
-	//DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
+	DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
+	DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
 
 	if (isAttacking) {
 		Vector3 spherePosition = Vector3Add(position, Vector3Scale(GetCameraForward(camera), attackRange));

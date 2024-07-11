@@ -12,10 +12,9 @@ void CollisionsManager::Update(float deltaTime)
 
 void CollisionsManager::CheckCollisions()
 {
-    _collisionOnPlayerFeet = false;
-
     ComputeEnvironmentCollisions();
 
+ 
     for (Enemy* enemy : *_enemiesVector)
     {
         if (enemy->GetIsDead())
@@ -29,30 +28,14 @@ void CollisionsManager::CheckCollisions()
 
     }
 
-    if (!_collisionOnPlayerFeet)
-    {
-        _player->LeftCollisionOnFoot();
-    }
-
 }
 
 void CollisionsManager::ComputeEnvironmentCollisions()
 {
+    _collisionOnPlayerFeet = false;
+
     const BoundingBox& playerBoundingBoxBody = _player->GetBodyCollideable().GetCollider();
     const BoundingBox& playerBoundingBoxFeet = _player->GetFootCollideable().GetCollider();
-
-    for(Enemy* enemy : *_enemiesVector)
-    {
-        const BoundingBox& enemyBoundingBoxBody = enemy->GetBoundingBox();
-
-        for (RectangleF* shape : _structures->GetRectangles()) {
-           CheckCollisionsAgainstEnvironment(enemy, shape, enemyBoundingBoxBody, BoundingBox{});
-        }
-
-        for (const BoundingBox& boundingBox : _levelGenerator->GetBoundingBoxes()) {
-            CheckCollisionsAgainstEnvironment(enemy, boundingBox, enemyBoundingBoxBody, BoundingBox{});
-        }
-    }
 
 
     for (RectangleF* shape : _structures->GetRectangles()) {
@@ -62,6 +45,33 @@ void CollisionsManager::ComputeEnvironmentCollisions()
 
     for (const BoundingBox& boundingBox : _levelGenerator->GetBoundingBoxes()) {
         CheckCollisionsAgainstEnvironment(_player, boundingBox, playerBoundingBoxBody, playerBoundingBoxFeet);
+    }
+
+    if (!_collisionOnPlayerFeet)
+    {
+        _player->LeftCollisionOnFoot();
+    }
+
+
+    for(Enemy* enemy : *_enemiesVector)
+    {
+        _collisionOnEnemyFeet = false;
+
+        const BoundingBox& enemyBoundingBoxBody = enemy->GetBodyBoundingBox();
+        const BoundingBox& enemyBoundingBoxFeet = enemy->GetFeetBoundingBox();
+
+        for (RectangleF* shape : _structures->GetRectangles()) {
+           CheckCollisionsAgainstEnvironment(enemy, shape, enemyBoundingBoxBody, enemyBoundingBoxFeet);
+        }
+
+        for (const BoundingBox& boundingBox : _levelGenerator->GetBoundingBoxes()) {
+            CheckCollisionsAgainstEnvironment(enemy, boundingBox, enemyBoundingBoxBody, enemyBoundingBoxFeet);
+        }
+
+        if (!_collisionOnEnemyFeet)
+        {
+            enemy->LeftCollisionOnFoot();
+        }
     }
 }
 
@@ -73,14 +83,14 @@ void CollisionsManager::CheckCollisionsAgainstEnvironment(Player* player, Rectan
     const auto shapePositionY = shape->GetPosition().y;
     const auto shapeSizeY = shape->GetSize().y;
 
-    bool collisionBody = CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxBody);
-    bool collisionFeet = CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxFeet);
+   
 
-    if (collisionBody && shapeLayer != Layers::Layer::GROUND) {
-        player->OnCollisionOnBody();
+    if (CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxBody)) {
+        if (shapeLayer != Layers::Layer::GROUND)
+            player->OnCollisionOnBody();
     }
 
-    if (collisionFeet) {
+    if (CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxFeet)) {
         player->OnCollisionOnFoot(shapePositionY + shapeSizeY * 0.5f);
         _collisionOnPlayerFeet = true;
     }
@@ -116,53 +126,81 @@ void CollisionsManager::CheckCollisionsAgainstEnvironment(Player* player, Rectan
 void CollisionsManager::CheckCollisionsAgainstEnvironment(Player* player, const BoundingBox& boundingBox, const BoundingBox& playerBoundingBoxBody,
 															const BoundingBox& playerBoundingBoxFeet)
 {
+    /*if (CheckCollisionBoxes(boundingBox, playerBoundingBoxBody)) {
+            player->OnCollisionOnBody();
+    }
+
+    if (CheckCollisionBoxes(boundingBox, playerBoundingBoxFeet)) {
+        player->OnCollisionOnFoot(boundingBox.max.y);
+        _collisionOnPlayerFeet = true;
+    }*/
+
     /*bool collisionBody = CheckCollisionBoxes(playerBoundingBoxBody, boundingBox);
     bool collisionFeet = CheckCollisionBoxes(boundingBox, playerBoundingBoxFeet);
 
     if (collisionBody) {
-        _player->OnCollisionOnBody();
+        player->OnCollisionOnBody();
     }
 
     if (collisionFeet) {
-        _player->OnCollisionOnFoot(boundingBox.max.y);
+        player->OnCollisionOnFoot(boundingBox.max.y);
         _collisionOnPlayerFeet = true;
     }*/
 }
 
-void CollisionsManager::CheckCollisionsAgainstEnvironment(Enemy* enemy, RectangleF* shape,
-	const BoundingBox& playerBoundingBoxBody, const BoundingBox& playerBoundingBoxFeet)
+void CollisionsManager::CheckCollisionsAgainstEnvironment(Enemy* enemy, RectangleF* shape, const BoundingBox& enemyBoundingBoxBody, 
+															const BoundingBox& enemyBoundingBoxFeet)
 {
     const BoundingBox& shapeBoundingBox = shape->GetCollideable().GetCollider();
     const auto shapeLayer = shape->GetCollideable().GetLayer();
     const auto shapePositionY = shape->GetPosition().y;
     const auto shapeSizeY = shape->GetSize().y;
 
-    bool collisionBody = CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxBody);
-    bool collisionFeet = CheckCollisionBoxes(shapeBoundingBox, playerBoundingBoxFeet);
+    if (CheckCollisionBoxes(shapeBoundingBox, enemyBoundingBoxBody)) {
+        if (shapeLayer != Layers::Layer::GROUND)
+            enemy->OnCollisionOnBody();
+    }
+
+    if (CheckCollisionBoxes(shapeBoundingBox, enemyBoundingBoxFeet)) {
+        enemy->OnCollisionOnFoot(shapePositionY + shapeSizeY * 0.5f);
+        _collisionOnEnemyFeet = true;
+    }
+
+    /*bool collisionBody = CheckCollisionBoxes(shapeBoundingBox, enemyBoundingBoxBody);
+    bool collisionFeet = CheckCollisionBoxes(shapeBoundingBox, enemyBoundingBoxFeet);
 
     if (collisionBody && shapeLayer != Layers::Layer::GROUND) {
         enemy->OnCollisionOnBody();
     }
 
-    /*if (collisionFeet) {
+    if (collisionFeet) {
         enemy->OnCollisionOnFoot(shapePositionY + shapeSizeY * 0.5f);
-        _collisionOnPlayerFeet = true;
+        _collisionOnEnemyFeet = true;
     }*/
 }
 
 void CollisionsManager::CheckCollisionsAgainstEnvironment(Enemy* enemy, const BoundingBox& boundingBox,
-	const BoundingBox& playerBoundingBoxBody, const BoundingBox& playerBoundingBoxFeet)
+	const BoundingBox& enemyBoundingBoxBody, const BoundingBox& enemyBoundingBoxFeet)
 {
-    /*bool collisionBody = CheckCollisionBoxes(playerBoundingBoxBody, boundingBox);
-	 bool collisionFeet = CheckCollisionBoxes(boundingBox, playerBoundingBoxFeet);
+    /*if (CheckCollisionBoxes(boundingBox, enemyBoundingBoxBody)) {
+            enemy->OnCollisionOnBody();
+    }
+
+    if (CheckCollisionBoxes(boundingBox, enemyBoundingBoxFeet)) {
+        enemy->OnCollisionOnFoot(boundingBox.max.y);
+        _collisionOnPlayerFeet = true;
+    }*/
+
+    /*bool collisionBody = CheckCollisionBoxes(enemyBoundingBoxBody, boundingBox);
+	 bool collisionFeet = CheckCollisionBoxes(boundingBox, enemyBoundingBoxFeet);
 
 	 if (collisionBody) {
-	     _player->OnCollisionOnBody();
+	     enemy->OnCollisionOnBody();
 	 }
 
 	 if (collisionFeet) {
-	     _player->OnCollisionOnFoot(boundingBox.max.y);
-	     _collisionOnPlayerFeet = true;
+	     enemy->OnCollisionOnFoot(boundingBox.max.y);
+	     _collisionOnEnemyFeet = true;
 	 }*/
 }
 
@@ -184,7 +222,7 @@ void CollisionsManager::PlayerAttackOnEnemyCheck(Enemy* enemy) const
             Vector3Scale(GetCameraForward(&_player->GetPlayerCamera()), playerAttackRange));
         spherePosition.y += 1.8f;
 
-        bool inAttackRange = CheckCollisionBoxSphere(enemy->GetBoundingBox(), spherePosition, playerAttackRadius);
+        bool inAttackRange = CheckCollisionBoxSphere(enemy->GetBodyBoundingBox(), spherePosition, playerAttackRadius);
 
         _player->PlayerInAttackRange(inAttackRange);
 
@@ -196,7 +234,7 @@ void CollisionsManager::PlayerAttackOnEnemyCheck(Enemy* enemy) const
 void CollisionsManager::PlayerWithEnemiesCollision(Enemy* enemy)
 {
     
-    const BoundingBox& enemyBoundingBox = enemy->GetBoundingBox();
+    const BoundingBox& enemyBoundingBox = enemy->GetBodyBoundingBox();
     const BoundingBox& playerBoundingBoxBody = _player->GetBodyCollideable().GetCollider();
     const BoundingBox& playerBoundingBoxFeet = _player->GetFootCollideable().GetCollider();
 

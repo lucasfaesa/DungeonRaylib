@@ -17,6 +17,7 @@ public:
 private:
 	void CheckCollisions();
 	void ComputeEnvironmentCollisions();
+
 	void CheckCollisionsAgainstEnvironment(Player* player, RectangleF* shape, const BoundingBox& playerBoundingBoxBody,
 												const BoundingBox& playerBoundingBoxFeet);
 	void CheckCollisionsAgainstEnvironment(Player* player, const BoundingBox& boundingBox, const BoundingBox& playerBoundingBoxBody,
@@ -25,6 +26,7 @@ private:
 												const BoundingBox& playerBoundingBoxFeet);
 	void CheckCollisionsAgainstEnvironment(Enemy* enemy, const BoundingBox& boundingBox, const BoundingBox& playerBoundingBoxBody,
 												const BoundingBox& playerBoundingBoxFeet);
+
 	void EnemyRadiusChecks(Enemy* enemy) const;
 	void PlayerAttackOnEnemyCheck(Enemy* enemy) const;
 	void PlayerWithEnemiesCollision(Enemy* enemy);
@@ -37,4 +39,5 @@ private:
 	LevelGenerator* _levelGenerator{nullptr};
 
 	bool _collisionOnPlayerFeet {true};
+	bool _collisionOnEnemyFeet {true};
 };

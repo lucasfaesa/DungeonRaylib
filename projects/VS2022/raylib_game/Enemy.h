@@ -22,6 +22,8 @@ public:
 	void SetDead() override;
 
 	void OnCollisionOnBody();
+	void OnCollisionOnFoot(float topYPos);
+	void LeftCollisionOnFoot();
 
 private:
 	enum class State { IDLE, WALKING, DEAD };
@@ -29,6 +31,8 @@ private:
 	void ChangeCurrentState(State newState);
 	void CountAnimationFrames(float deltaTime);
 	void ForcePositionXZChange();
+	void ForcePositionYChange(float topYPos);
+
 private:
 	float _distanceFromPlayer;
 
@@ -69,7 +73,7 @@ private:
 
 	bool preparingToDie{ false };
 
-	bool isCollidingBody{false};
+	bool isCollidingBody{ false };
 	Vector3 lastPositionBeforeBodyCollision{};
 
 };

@@ -7,6 +7,7 @@
 #include "raymath.h"
 #include "Collideable.h"
 #include "SeekBehavior.h"
+#include "World.h"
 
 class IBehavior;
 class SeekBehavior;
@@ -32,13 +33,17 @@ public:
 	Vector3 GetPosition() const;
 	float GetMaxSpeed() const;
 
-	const BoundingBox& GetBoundingBox();
+	const BoundingBox& GetBodyBoundingBox();
+	const BoundingBox& GetFeetBoundingBox();
+
+	void UpdateColliderPosition();
 
 	Vector3 acceleration{};
 	Vector3 velocity{};
 
 protected:
 	virtual void FollowTarget(float deltaTime);
+	void GravityControl(float deltaTime);
 
 protected:
 	Vector3 _position{ 0.f,0.f };
@@ -55,11 +60,20 @@ protected:
 	float _maxSpeed{};
 
 	Collideable bodyCollideable;
+	Collideable groundCollideable;
 
 	SeekBehavior* _seekBehavior{ nullptr };
 
 	Vector3 _attackRadiusPos;
 
+	bool isGrounded{ false };
+	float terminalMoveDeltaY{ 0.3f }; //or 0.125f
+	float fallSpeed{};
+	float gravityRate{ 0.05f };
+	float gravity{ World::gravity };
+
+
+
 private:
-	void UpdateColliderPosition();
+	
 };

@@ -16,6 +16,7 @@ const BoundingBox& Collideable::GetCollider()
 	return Collider;
 }
 
+
 const Layers::Layer& Collideable::GetLayer()
 {
 	return Layer;
