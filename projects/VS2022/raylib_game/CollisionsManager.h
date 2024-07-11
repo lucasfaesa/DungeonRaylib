@@ -30,6 +30,8 @@ private:
 	void EnemyRadiusChecks(Enemy* enemy) const;
 	void PlayerAttackOnEnemyCheck(Enemy* enemy) const;
 	void PlayerWithEnemiesCollision(Enemy* enemy);
+	void CheckEnemyWithEnemiesCollision(Enemy* thisEnemy, std::vector<Enemy*>& enemiesInCollision);
+	void ProcessEnemyWithEnemyCollision(std::vector<Enemy*>& enemiesInCollision);
 private:
 	
 

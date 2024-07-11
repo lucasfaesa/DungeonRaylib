@@ -35,11 +35,9 @@ private:
 	LevelGenerator* levelGenerator{nullptr};
 	CollisionsManager* collisionsManager{ nullptr };
 
-	static constexpr int enemiesQuantity{1};
+	static constexpr int enemiesQuantity{2};
 
 	std::vector<Enemy*>* enemiesVector{ new std::vector<Enemy*>() };
-
-	SeekBehavior* seekBehavior{nullptr};
 
 	float fixedTimeStep{ 0.02f }; //50 times a second
 	float accumulatedTime{};

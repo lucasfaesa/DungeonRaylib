@@ -6,16 +6,15 @@ Game::Game(bool initialized) :
 {
 
 	player = new Player({ Vector3{ 0.f,0.f,0.f }, Vector3{ 0.f,0.f,0.f } });
-	seekBehavior = new SeekBehavior(player->GetPlayerPosition());
-
+	
 	for(int i=0; i < enemiesQuantity; i++)
 	{
-		enemiesVector->emplace_back(new Enemy({ 30.f, 0.f, 30.f }, { 1.f, 3.f, 1.f }, 
-									8.2f, player->GetPlayerPosition(), 
+		enemiesVector->emplace_back(new Enemy({ (float)GetRandomValue(15, 30), 0.f, (float)GetRandomValue(15, 30) },
+										{ 1.f, 3.f, 1.f },8.2f, player->GetPlayerPosition(), 
 								player->GetBodyCollideable().GetCollider(), 2.f, 30.f, *player,
 											CameraManager::GetPlayerCamera()));
 
-		(*enemiesVector)[i]->SetSeekBehavior(seekBehavior);
+		(*enemiesVector)[i]->SetSeekBehavior(new SeekBehavior(player->GetPlayerPosition()));
 	}
 
 	levelGenerator = new LevelGenerator();

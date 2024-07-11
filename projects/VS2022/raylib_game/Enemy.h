@@ -16,7 +16,6 @@ public:
 
 	void AttackPlayer(float deltaTime);
 	void CountAttackTimer(float deltaTime);
-	void SetDistanceFromPlayer();
 	float GetDistanceFromPlayer() const;
 
 	void SetDead() override;
@@ -24,6 +23,10 @@ public:
 	void OnCollisionOnBody();
 	void OnCollisionOnFoot(float topYPos);
 	void LeftCollisionOnFoot();
+
+	void WaitBeforeWalkingAgain();
+	bool IsOnWaitBeforeWalkingTime();
+	bool IsFollowingPlayer();
 
 private:
 	enum class State { IDLE, WALKING, DEAD };
@@ -34,7 +37,6 @@ private:
 	void ForcePositionYChange(float topYPos);
 
 private:
-	float _distanceFromPlayer;
 
 	Player* _player;
 	Camera* _camera;
@@ -75,5 +77,11 @@ private:
 
 	bool isCollidingBody{ false };
 	Vector3 lastPositionBeforeBodyCollision{};
+
+
+	float waitBeforeWalkingDuration{0.3f};
+	float waitBeforeWalkingTimer;
+
+	bool followingPlayer;
 
 };

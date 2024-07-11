@@ -14,7 +14,9 @@ void CollisionsManager::CheckCollisions()
 {
     ComputeEnvironmentCollisions();
 
- 
+    //that are following the player
+    std::vector<Enemy*> enemiesInCollision{};
+
     for (Enemy* enemy : *_enemiesVector)
     {
         if (enemy->GetIsDead())
@@ -22,11 +24,14 @@ void CollisionsManager::CheckCollisions()
 
         PlayerWithEnemiesCollision(enemy);
 
+        CheckEnemyWithEnemiesCollision(enemy, enemiesInCollision);
+
         EnemyRadiusChecks(enemy);
 
         PlayerAttackOnEnemyCheck(enemy);
-
     }
+
+    ProcessEnemyWithEnemyCollision(enemiesInCollision);
 
 }
 
@@ -55,6 +60,9 @@ void CollisionsManager::ComputeEnvironmentCollisions()
 
     for(Enemy* enemy : *_enemiesVector)
     {
+        if (enemy->GetIsDead())
+            continue;
+
         _collisionOnEnemyFeet = false;
 
         const BoundingBox& enemyBoundingBoxBody = enemy->GetBodyBoundingBox();
@@ -247,8 +255,55 @@ void CollisionsManager::PlayerWithEnemiesCollision(Enemy* enemy)
         _collisionOnPlayerFeet = true;
 
     }
+}
+
+void CollisionsManager::CheckEnemyWithEnemiesCollision(Enemy* thisEnemy, std::vector<Enemy*>& enemiesInCollision)
+{
+
+    for (Enemy* otherEnemy : *_enemiesVector)
+    {
+        if (thisEnemy == otherEnemy)
+            continue;
+        if (otherEnemy->GetIsDead())
+            continue;
+
+        const BoundingBox& thisEnemyBoundingBox = thisEnemy->GetBodyBoundingBox();
+        const BoundingBox& otherEnemyBoundingBox = otherEnemy->GetBodyBoundingBox();
+        
+        if (CheckCollisionBoxes(thisEnemyBoundingBox, otherEnemyBoundingBox)) {
+
+            if (thisEnemy->IsOnWaitBeforeWalkingTime())
+                continue;
+
+            enemiesInCollision.emplace_back(thisEnemy);
+        }
+    }
 
 
+}
 
-    
+void CollisionsManager::ProcessEnemyWithEnemyCollision(std::vector<Enemy*>& enemiesInCollision)
+{
+
+    if (enemiesInCollision.empty())
+        return;
+
+    Enemy* closestToThePlayer{ nullptr };
+
+    for (Enemy* loopEnemy : enemiesInCollision)
+    {
+        if (!closestToThePlayer ||
+            (loopEnemy->IsFollowingPlayer() && loopEnemy->GetDistanceFromPlayer() < closestToThePlayer->GetDistanceFromPlayer()))
+        {
+            closestToThePlayer = loopEnemy;
+        }
+    }
+
+    enemiesInCollision.erase(std::remove(enemiesInCollision.begin(), enemiesInCollision.end(),
+												closestToThePlayer),enemiesInCollision.end());
+
+    for (Enemy* enemy : enemiesInCollision)
+    {
+        enemy->WaitBeforeWalkingAgain();
+    }
 }

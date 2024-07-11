@@ -18,14 +18,22 @@ void Enemy::Update(float deltaTime)
 	
 
 	if (!preparingToDie) {
-		if (_isTargetInsideDetectionRadius) {
-			FollowTarget(deltaTime);
-			ChangeCurrentState(State::WALKING);
-			CountAttackTimer(deltaTime);
-		}
-		else {
+
+		if(IsOnWaitBeforeWalkingTime())
+		{
 			ChangeCurrentState(State::IDLE);
+		}else
+		{
+			if (_isTargetInsideDetectionRadius) {
+				FollowTarget(deltaTime);
+				ChangeCurrentState(State::WALKING);
+				CountAttackTimer(deltaTime);
+			}
+			else {
+				ChangeCurrentState(State::IDLE);
+			}
 		}
+
 
 		if (_isTargetInsideAttackRadius) {
 			ChangeCurrentState(State::IDLE);
@@ -69,14 +77,9 @@ void Enemy::CountAttackTimer(float deltaTime)
 	attackTimer += deltaTime;
 }
 
-void Enemy::SetDistanceFromPlayer()
-{
-	_distanceFromPlayer = Vector3Distance(_camera->position, this->_position);
-}
-
 float Enemy::GetDistanceFromPlayer() const
 {
-	return _distanceFromPlayer;
+	return Vector3Distance(_camera->position, this->_position);
 }
 
 void Enemy::SetDead()
@@ -88,6 +91,7 @@ void Enemy::SetDead()
 
 void Enemy::OnCollisionOnBody()
 {
+	
 
 	isCollidingBody = true;
 	
@@ -108,6 +112,11 @@ void Enemy::LeftCollisionOnFoot()
 	isGrounded = false;
 }
 
+void Enemy::WaitBeforeWalkingAgain()
+{
+	waitBeforeWalkingTimer = GetTime();
+}
+
 void Enemy::ChangeCurrentState(State newState)
 {
 	if (newState == currentState) return;
@@ -119,18 +128,21 @@ void Enemy::ChangeCurrentState(State newState)
 
 	switch (newState) {
 		case State::IDLE:
+			followingPlayer = false;
 			currentAnimationFrameSpeed = idleFramesSpeed;
 			currentAnimationTotalFrames = idleTotalFrames;
 			currentTexture = &idleTexture;
 			frameRec = { 0.0f, 0.0f, (float)idleTexture.width / idleTotalFrames, (float)idleTexture.height };
 			break;
 		case State::WALKING:
+			followingPlayer = true;
 			currentAnimationFrameSpeed = walkFramesSpeed;
 			currentAnimationTotalFrames = walkTotalFrames;
 			currentTexture = &walkTexture;
 			frameRec = { 0.0f, 0.0f, (float)walkTexture.width / walkTotalFrames, (float)walkTexture.height };
 			break;
 		case State::DEAD:
+			followingPlayer = false;
 			currentAnimationFrameSpeed = dyingFramesSpeed;
 			currentAnimationTotalFrames = dyingTotalFrames;
 			currentTexture = &dieTexture;
@@ -178,4 +190,15 @@ void Enemy::ForcePositionYChange(float topYPos)
 {
 	//								offset to not make the body collider hit the ground//strctures from above
 	_position.y = topYPos + 0.01f;
+}
+
+bool Enemy::IsOnWaitBeforeWalkingTime()
+{
+
+	return GetTime() - waitBeforeWalkingTimer <= waitBeforeWalkingDuration;
+}
+
+bool Enemy::IsFollowingPlayer()
+{
+	return followingPlayer;
 }
