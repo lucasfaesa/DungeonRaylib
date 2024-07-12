@@ -12,9 +12,11 @@ public:
 	bool GetIsDead() const;
 	float GetInvincibilityTime() const;
 
+	void DrawHealth();
 	virtual void TakeDamage(int value);
 
 	virtual void SetDead();
+
 
 protected:
 	int _maxHealth{ };
@@ -26,4 +28,6 @@ protected:
 	bool _isDead{ false };
 
 	double _lastDamageReceivedTime {};
+
+	bool _renderHealth;
 };

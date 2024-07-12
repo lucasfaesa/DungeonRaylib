@@ -16,6 +16,14 @@ float Damageable::GetInvincibilityTime() const
 	return _invincibilityTime;
 }
 
+void Damageable::DrawHealth()
+{
+	float healthBarPercent = (float)_currentHealth / (float)_maxHealth;
+
+	DrawRectangle(15, 750, 300 * healthBarPercent, 30, RED);
+	DrawRectangleLines(15, 750, 301, 31, BLACK);
+}
+
 void Damageable::TakeDamage(int value)
 {
 	if (GetTime() - _lastDamageReceivedTime <= _invincibilityTime ||

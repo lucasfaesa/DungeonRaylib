@@ -98,6 +98,8 @@ void Player::DrawCanvas()
 
 		DrawTextureRecScaled(*currentHUDTexture, frameRec, { 0.f, 0.f }, 800.f / currentHUDTexture->height, WHITE);
 	}
+
+	DrawHealth();
 }
 
 void Player::OnCollisionOnBody()
