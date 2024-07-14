@@ -20,6 +20,7 @@ void Damageable::DrawHealth()
 {
 	float healthBarPercent = (float)_currentHealth / (float)_maxHealth;
 
+	DrawText("HEALTH", 17, 730, 20, WHITE);
 	DrawRectangle(15, 750, 300 * healthBarPercent, 30, RED);
 	DrawRectangleLines(15, 750, 301, 31, BLACK);
 }
@@ -48,3 +49,4 @@ void Damageable::SetDead()
 	_isDead = true;
 	std::cout << "died" << std::endl;
 }
+

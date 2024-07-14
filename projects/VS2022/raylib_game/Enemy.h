@@ -29,6 +29,8 @@ public:
 
 	void SetCalculatePhysics(bool status);
 
+	void TakeDamage(int value) override;
+
 	//frame related
 	static Texture2D walkTexture;
 	static Texture2D idleTexture;
@@ -89,4 +91,10 @@ private:
 	bool followingPlayer{false};
 
 	bool calculatePhysics{false};
+
+	bool damageTook{false};
+	float damageFeedbackDuration = 0.05f;
+	float damageTookTime{0.f};
+
+	Color drawColor{ WHITE };
 };

@@ -18,6 +18,7 @@ public:
 	virtual void SetDead();
 
 
+
 protected:
 	int _maxHealth{ };
 

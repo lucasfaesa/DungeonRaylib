@@ -121,8 +121,10 @@ void Enemy::Update(float deltaTime)
 void Enemy::Draw()
 {
 	Agent::Draw();
+
+	drawColor = GetTime() - damageTookTime >= damageFeedbackDuration ? WHITE : RED;
 																											//just to be squared, used two y's
-	DrawBillboardRec(*_camera, *currentTexture, frameRec, { _position.x, _position.y + _size.y * 0.5f, _position.z }, { _size.y, _size.y }, WHITE);
+	DrawBillboardRec(*_camera, *currentTexture, frameRec, { _position.x, _position.y + _size.y * 0.5f, _position.z }, { _size.y, _size.y }, drawColor);
 }
 
 void Enemy::OnApplicationQuit()
@@ -277,4 +279,12 @@ bool Enemy::IsFollowingPlayer()
 void Enemy::SetCalculatePhysics(bool status)
 {
 	calculatePhysics = status;
+}
+
+void Enemy::TakeDamage(int value)
+{
+	Damageable::TakeDamage(value);
+
+	damageTook = true;
+	damageTookTime = GetTime();
 }
