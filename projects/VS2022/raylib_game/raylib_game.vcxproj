@@ -364,6 +364,7 @@
     <ClCompile Include="LevelGenerator.cpp" />
     <ClCompile Include="Logger.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Pickable.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="RectangleF.cpp" />
     <ClCompile Include="SeekBehavior.cpp" />
@@ -385,6 +386,7 @@
     <ClInclude Include="Layers.h" />
     <ClInclude Include="LevelGenerator.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Pickable.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="RectangleF.h" />
     <ClInclude Include="SeekBehavior.h" />

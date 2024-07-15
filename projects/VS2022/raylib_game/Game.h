@@ -1,16 +1,12 @@
 #pragma once
-#include "RectangleF.h"
 #include "CameraManager.h"
 #include "Structures.h"
 #include "Player.h"
-#include "Logger.h"
 #include "LevelGenerator.h"
-#include "Helpers.h"
-#include "Agent.h"
-#include "SeekBehavior.h"
 #include "Enemy.h"
 #include "CollisionsManager.h"
 #include "GameSessionController.h"
+#include "Pickable.h"
 #include <vector>
 #include <algorithm>
 
@@ -31,6 +27,7 @@ public:
 private:
 
 	void CreateEnemies();
+	void CreatePotions();
 
 	bool initialized;
 
@@ -38,6 +35,8 @@ private:
 	Structures* structures {nullptr};
 	LevelGenerator* levelGenerator{nullptr};
 	CollisionsManager* collisionsManager{ nullptr };
+
+	std::vector<Pickable*>* potionsVector{ new std::vector<Pickable*>() };
 
 	GameSessionController* gameSessionController{ nullptr };
 

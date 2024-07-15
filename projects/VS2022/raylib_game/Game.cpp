@@ -8,15 +8,16 @@ Game::Game(bool initialized) :
 	player = new Player( Vector3{ 50.f,0.f,75.f });
 
 	CreateEnemies();
-	
+	CreatePotions();
 
 	levelGenerator = new LevelGenerator();
 	structures = new Structures(0);
 
-	collisionsManager = new CollisionsManager(player, enemiesVector, structures, levelGenerator);
+	collisionsManager = new CollisionsManager(player, enemiesVector, structures, levelGenerator, potionsVector);
 
 	gameSessionController = new GameSessionController(player, enemiesVector);
 
+	
 	Start();
 }
 
@@ -88,6 +89,12 @@ void Game::Draw() const
 		enemy->Draw();
 	}
 
+	for (Pickable* potion : *potionsVector)
+	{
+		potion->Draw();
+	}
+
+
 	levelGenerator->Draw();
 
 	player->Draw();
@@ -156,6 +163,13 @@ void Game::CreateEnemies()
 	{
 		enemy->SetSeekBehavior(new SeekBehavior(player->GetPlayerPosition()));
 	}
+}
+
+void Game::CreatePotions()
+{
+	potionsVector->emplace_back(new Pickable({ 46.25f, 0.5f, 69.88f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
 }
 
 

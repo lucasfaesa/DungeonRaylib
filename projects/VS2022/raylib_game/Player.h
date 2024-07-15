@@ -38,6 +38,7 @@ public:
 
 	void OnGameRestarted();
 
+	void RegenLife(int value);
 private:
 
 	void InputMovement();

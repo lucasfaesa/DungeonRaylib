@@ -201,6 +201,15 @@ void Player::OnGameRestarted()
 	camera->position = _initialPosition;
 }
 
+void Player::RegenLife(int value)
+{
+	_currentHealth += value;
+
+	if (_currentHealth > 100)
+		_currentHealth = 100;
+	
+}
+
 void Player::InputMovement()
 {
 	moveDelta = { 0, moveDelta.y, 0 };

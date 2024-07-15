@@ -63,6 +63,9 @@
     <ClCompile Include="GameSessionController.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
+    <ClCompile Include="Pickable.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -123,6 +126,9 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="GameSessionController.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Pickable.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>
