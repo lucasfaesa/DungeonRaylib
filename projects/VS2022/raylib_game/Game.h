@@ -10,6 +10,7 @@
 #include "SeekBehavior.h"
 #include "Enemy.h"
 #include "CollisionsManager.h"
+#include "GameSessionController.h"
 #include <vector>
 #include <algorithm>
 
@@ -37,6 +38,8 @@ private:
 	Structures* structures {nullptr};
 	LevelGenerator* levelGenerator{nullptr};
 	CollisionsManager* collisionsManager{ nullptr };
+
+	GameSessionController* gameSessionController{ nullptr };
 
 	static constexpr int enemiesQuantity{0};
 

@@ -15,6 +15,8 @@ Game::Game(bool initialized) :
 
 	collisionsManager = new CollisionsManager(player, enemiesVector, structures, levelGenerator);
 
+	gameSessionController = new GameSessionController(player, enemiesVector);
+
 	Start();
 }
 
@@ -27,6 +29,7 @@ void Game::Start() const
 void Game::InputRead() const 
 {
 	player->ReadInput();
+	gameSessionController->ReadInput();
 }
 
 void Game::Update(float deltaTime) const

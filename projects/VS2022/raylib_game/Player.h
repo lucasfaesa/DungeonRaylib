@@ -36,6 +36,8 @@ public:
 	int GetAttackDamage() const;
 	bool GetIsDefending() const;
 
+	void OnGameRestarted();
+
 private:
 
 	void InputMovement();
@@ -140,4 +142,6 @@ private:
 	bool drawFeedbackHud{false};
 	float feedbackHudDisplayTime{ 0.13f };
 	double feedbackHudTimer{};
+
+	Vector3 _initialPosition{};
 };

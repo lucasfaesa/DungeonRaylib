@@ -31,6 +31,8 @@ public:
 
 	void TakeDamage(int value) override;
 
+	void OnGameRestarted();
+
 	//frame related
 	static Texture2D walkTexture;
 	static Texture2D idleTexture;
@@ -97,4 +99,6 @@ private:
 	float damageTookTime{0.f};
 
 	Color drawColor{ WHITE };
+
+	Vector3 initialPosition{};
 };

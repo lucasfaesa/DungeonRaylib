@@ -359,6 +359,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="FrameTimer.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameSessionController.cpp" />
     <ClCompile Include="IBehavior.cpp" />
     <ClCompile Include="LevelGenerator.cpp" />
     <ClCompile Include="Logger.cpp" />
@@ -378,6 +379,7 @@
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="FrameTimer.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameSessionController.h" />
     <ClInclude Include="Helpers.h" />
     <ClInclude Include="IBehavior.h" />
     <ClInclude Include="Layers.h" />

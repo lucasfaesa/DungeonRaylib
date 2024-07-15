@@ -60,6 +60,9 @@
     <ClCompile Include="CollisionsManager.cpp">
       <Filter>SourceFiles</Filter>
     </ClCompile>
+    <ClCompile Include="GameSessionController.cpp">
+      <Filter>SourceFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Shape.h">
@@ -117,6 +120,9 @@
       <Filter>HeaderFiles</Filter>
     </ClInclude>
     <ClInclude Include="CollisionsManager.h">
+      <Filter>HeaderFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="GameSessionController.h">
       <Filter>HeaderFiles</Filter>
     </ClInclude>
   </ItemGroup>

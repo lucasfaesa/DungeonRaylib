@@ -68,6 +68,8 @@ Enemy::Enemy(Vector3 pos, Vector3 size, Player& player) :
 	}
 
 	frameRec = { 0.0f, 0.0f, (float)idleTexture.width / idleTotalFrames, (float)idleTexture.height };
+
+	initialPosition = pos;
 }
 
 void Enemy::Update(float deltaTime)
@@ -240,7 +242,7 @@ void Enemy::CountAnimationFrames(float deltaTime)
 
 		if (currentState == State::DEAD && currentFrame == currentAnimationTotalFrames - 1) {
 			preparingToDie = false;
-			bodyCollideable = {};
+			//bodyCollideable = {};
 			return;
 		}
 
@@ -287,4 +289,14 @@ void Enemy::TakeDamage(int value)
 
 	damageTook = true;
 	damageTookTime = GetTime();
+}
+
+void Enemy::OnGameRestarted()
+{
+	_position = initialPosition;
+	_currentHealth = _maxHealth;
+	ChangeCurrentState(State::IDLE);
+	_isDead = false;
+	preparingToDie = false;
+
 }

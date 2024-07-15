@@ -25,6 +25,8 @@ Player::Player(Vector3 pos):
 	position.y = 0.f;	
 
 	currentSwordTexture =  &sword_idle_texture ;
+
+	_initialPosition = { camera->position };
 }
 
 void Player::ReadInput()
@@ -191,6 +193,12 @@ int Player::GetAttackDamage() const
 bool Player::GetIsDefending() const
 {
 	return isDefending;
+}
+
+void Player::OnGameRestarted()
+{
+	_currentHealth = _maxHealth;
+	camera->position = _initialPosition;
 }
 
 void Player::InputMovement()
