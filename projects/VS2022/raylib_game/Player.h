@@ -41,6 +41,9 @@ public:
 	void RegenLife(int value);
 
 	void SetGameWon();
+
+	void AttackUp();
+
 private:
 
 	void InputMovement();

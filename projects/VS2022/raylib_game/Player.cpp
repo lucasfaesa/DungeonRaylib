@@ -200,6 +200,7 @@ bool Player::GetIsDefending() const
 
 void Player::OnGameRestarted()
 {
+	attackDamage = 35;
 	gameWon = false;
 	_isDead = false;
 	_currentHealth = _maxHealth;
@@ -218,6 +219,11 @@ void Player::RegenLife(int value)
 void Player::SetGameWon()
 {
 	gameWon = true;
+}
+
+void Player::AttackUp()
+{
+	attackDamage += 10;
 }
 
 void Player::InputMovement()

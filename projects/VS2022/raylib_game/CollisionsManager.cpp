@@ -1,7 +1,7 @@
 #include "CollisionsManager.h"
 
-CollisionsManager::CollisionsManager(Player* player, std::vector<Enemy*>* enemiesVector, Structures* structures, LevelGenerator* levelGenerator, std::vector<Pickable*>* potionsVector) :
-    _player(player), _enemiesVector(enemiesVector), _structures(structures), _levelGenerator(levelGenerator), _potionsVector(potionsVector)
+CollisionsManager::CollisionsManager(Player* player, std::vector<Enemy*>* enemiesVector, Structures* structures, LevelGenerator* levelGenerator, std::vector<Pickable*>* potionsVector, std::vector<Pickable*>* attackUpgradeVector) :
+    _player(player), _enemiesVector(enemiesVector), _structures(structures), _levelGenerator(levelGenerator), _potionsVector(potionsVector), attackUpgradeVector(attackUpgradeVector)
 {
 }
 
@@ -25,6 +25,14 @@ void CollisionsManager::CheckCollisions()
             continue;
 
         CheckPlayerAgainstPotions(potion, playerBoundingBoxBody);
+    }
+
+    for (Pickable* attackUpgrade : *attackUpgradeVector)
+    {
+        if (attackUpgrade->GetWasPicked())
+            continue;
+
+        CheckPlayerAgainstAttackUpgrade(attackUpgrade, playerBoundingBoxBody);
     }
 
     for (Enemy* enemy : *_enemiesVector)
@@ -235,6 +243,15 @@ void CollisionsManager::CheckPlayerAgainstPotions(Pickable* pickable, const Boun
     {
         pickable->OnTriggerEnter();
         _player->RegenLife(35);
+    }
+}
+
+void CollisionsManager::CheckPlayerAgainstAttackUpgrade(Pickable* pickable, const BoundingBox& playerBoundingBoxBody)
+{
+    if (CheckCollisionBoxes(pickable->GetBoundingBox(), playerBoundingBoxBody))
+    {
+        pickable->OnTriggerEnter();
+        _player->AttackUp();
     }
 }
 

@@ -6,7 +6,7 @@ class Pickable
 public:
 
 	Pickable() = default;
-	Pickable(Vector3 pos, Vector3 size, Texture2D tex, Camera* camera);
+	Pickable(Vector3 pos, Vector3 size, Texture2D* tex, Camera* camera);
 
 	virtual void Draw();
 	virtual void OnTriggerEnter();

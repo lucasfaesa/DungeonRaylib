@@ -28,6 +28,7 @@ private:
 
 	void CreateEnemies();
 	void CreatePotions();
+	void CreateAttackUpgrade();
 
 	bool initialized;
 
@@ -37,6 +38,7 @@ private:
 	CollisionsManager* collisionsManager{ nullptr };
 
 	std::vector<Pickable*>* potionsVector{ new std::vector<Pickable*>() };
+	std::vector<Pickable*>* attackUpgradeVector{ new std::vector<Pickable*>() };
 
 	GameSessionController* gameSessionController{ nullptr };
 
@@ -45,6 +47,9 @@ private:
 	std::vector<Enemy*>* enemiesVector{ new std::vector<Enemy*>() };
 
 	std::vector<Vector3> enemiesPositions{};
+
+	Texture2D* potionTex = new Texture2D{ LoadTexture("../resources/pickables/Potion.png") };
+	Texture2D* attackUpTex = new Texture2D{ LoadTexture("../resources/pickables/attackUp.png") };
 
 	float fixedTimeStep{ 0.02f }; //50 times a second
 	float accumulatedTime{};

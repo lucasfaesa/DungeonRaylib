@@ -9,11 +9,12 @@ Game::Game(bool initialized) :
 
 	CreateEnemies();
 	CreatePotions();
+	CreateAttackUpgrade();
 
 	levelGenerator = new LevelGenerator();
 	structures = new Structures(0);
 
-	collisionsManager = new CollisionsManager(player, enemiesVector, structures, levelGenerator, potionsVector);
+	collisionsManager = new CollisionsManager(player, enemiesVector, structures, levelGenerator, potionsVector, attackUpgradeVector);
 
 	gameSessionController = new GameSessionController(player, enemiesVector);
 
@@ -94,6 +95,11 @@ void Game::Draw() const
 		potion->Draw();
 	}
 
+	for (Pickable* attackTex : *attackUpgradeVector)
+	{
+		attackTex->Draw();
+	}
+
 
 	levelGenerator->Draw();
 
@@ -171,37 +177,47 @@ void Game::CreateEnemies()
 void Game::CreatePotions()
 {
 	potionsVector->emplace_back(new Pickable({ 25.23f, 10.01f, 56.44f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+		potionTex, &CameraManager::GetPlayerCamera()));
 
-	potionsVector->emplace_back(new Pickable({ -19.56f, 1.01f, 54.47f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
 
 	potionsVector->emplace_back(new Pickable({ -66.57f, 0.01f, 39.04f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+		potionTex, &CameraManager::GetPlayerCamera()));
 
 	potionsVector->emplace_back(new Pickable({ 5.85f, 1.01f, -6.84f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+		potionTex, &CameraManager::GetPlayerCamera()));
 
-	potionsVector->emplace_back(new Pickable({ 22.60f, 12.01f, -33.01f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
-
-	potionsVector->emplace_back(new Pickable({ -22.96f, 12.01f, -23.09f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
 
 	potionsVector->emplace_back(new Pickable({ -63.72f, 0.f, -32.18f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+		potionTex, &CameraManager::GetPlayerCamera()));
 
-	potionsVector->emplace_back(new Pickable({ -66.56f, 0.f, -52.89f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
 
 	potionsVector->emplace_back(new Pickable({ -71.47f, 6.01f, -70.90f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+		potionTex, &CameraManager::GetPlayerCamera()));
 
-	potionsVector->emplace_back(new Pickable({ 72.70f, 0.f, -65.70f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
 
 	potionsVector->emplace_back(new Pickable({ 3.95f,13.01f, -53.74f }, { 1.f,1.f,1.f },
-		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+		potionTex, &CameraManager::GetPlayerCamera()));
+}
+
+void Game::CreateAttackUpgrade()
+{
+	attackUpgradeVector->emplace_back(new Pickable({ -19.56f, 1.01f, 54.47f }, { 1.f,1.f,1.f },
+		attackUpTex, &CameraManager::GetPlayerCamera()));
+
+	attackUpgradeVector->emplace_back(new Pickable({ 22.60f, 12.01f, -33.01f }, { 1.f,1.f,1.f },
+		attackUpTex, &CameraManager::GetPlayerCamera()));
+
+	attackUpgradeVector->emplace_back(new Pickable({ -22.96f, 12.01f, -23.09f }, { 1.f,1.f,1.f },
+		attackUpTex, &CameraManager::GetPlayerCamera()));
+
+	attackUpgradeVector->emplace_back(new Pickable({ 72.70f, 0.f, -65.70f }, { 1.f,1.f,1.f },
+		attackUpTex, &CameraManager::GetPlayerCamera()));
+
+	attackUpgradeVector->emplace_back(new Pickable({ -66.56f, 0.f, -52.89f }, { 1.f,1.f,1.f },
+		attackUpTex, &CameraManager::GetPlayerCamera()));
 }
 
 
