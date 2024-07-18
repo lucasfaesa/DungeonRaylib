@@ -12,7 +12,8 @@ class CollisionsManager {
 public:
 
 	CollisionsManager() = default;
-	CollisionsManager(Player* player, std::vector<Enemy*>* enemiesVector, Structures* structures, LevelGenerator* levelGenerator, std::vector<Pickable*>* potionsVector);
+	CollisionsManager(Player* player, std::vector<Enemy*>* enemiesVector, Structures* structures, 
+		LevelGenerator* levelGenerator, std::vector<Pickable*>* potionsVector, Pickable* keyPickable);
 
 	void Update(float deltaTime);
 
@@ -31,6 +32,8 @@ private:
 
 	void CheckPlayerAgainstPotions(Pickable* pickable, const BoundingBox& playerBoundingBoxBody);
 
+	void CheckPlayerAgainstKey(Pickable* keyPickable, const BoundingBox& playerBoundingBoxBody);
+
 	void EnemyRadiusChecks(Enemy* enemy) const;
 	void PlayerAttackOnEnemyCheck(Enemy* enemy) const;
 	void PlayerWithEnemiesCollision(Enemy* enemy);
@@ -45,7 +48,7 @@ private:
 	std::vector<Pickable*> * _potionsVector{nullptr};
 	Structures* _structures{nullptr};
 	LevelGenerator* _levelGenerator{nullptr};
-
+	Pickable* keyPickable{ nullptr };
 	bool _collisionOnPlayerFeet {true};
 	bool _collisionOnEnemyFeet {true};
 };

@@ -39,6 +39,8 @@ public:
 	void OnGameRestarted();
 
 	void RegenLife(int value);
+
+	void AddKey();
 private:
 
 	void InputMovement();
@@ -117,9 +119,12 @@ private:
 	Texture2D shield_up_texture = LoadTexture("../resources/player/shield_up.png");
 	Texture2D HUD_shield_impact_feedback = LoadTexture("../resources/player/HUD_shield_impact_feedback.png");
 	Texture2D HUD_player_damaged_feedback = LoadTexture("../resources/player/HUD_player_damaged_feedback.png");
+	Texture2D Key_Texture = LoadTexture("../resources/pickables/Key.png");
 
 	Rectangle frameRec = { 0.0f, 0.0f, static_cast<float>(sword_idle_texture.width) / idleTotalFrames, static_cast<float>(sword_idle_texture.height) };
-	
+
+	Rectangle keyFrameRec = { 0.f, 0.f, 300.f,300.f };
+
 	int currentFrame{ 0 };
 	int framesCounter{ 0 };
 	
@@ -145,4 +150,6 @@ private:
 	double feedbackHudTimer{};
 
 	Vector3 _initialPosition{};
+
+	bool _playerGotKey{ false };
 };

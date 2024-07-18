@@ -101,6 +101,12 @@ void Player::DrawCanvas()
 		DrawTextureRecScaled(*currentHUDTexture, frameRec, { 0.f, 0.f }, 800.f / currentHUDTexture->height, WHITE);
 	}
 
+
+	if(_playerGotKey)
+	{
+		DrawTextureRecScaled(Key_Texture, keyFrameRec, { 400.f, 690.f }, 0.4f, WHITE);
+	}
+
 	DrawHealth();
 }
 
@@ -208,6 +214,11 @@ void Player::RegenLife(int value)
 	if (_currentHealth > 100)
 		_currentHealth = 100;
 	
+}
+
+void Player::AddKey()
+{
+	_playerGotKey = true;
 }
 
 void Player::InputMovement()

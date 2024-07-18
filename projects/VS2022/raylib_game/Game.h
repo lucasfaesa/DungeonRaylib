@@ -46,6 +46,11 @@ private:
 
 	std::vector<Vector3> enemiesPositions{};
 
+	Pickable* keyPickable{ nullptr };
+
+	Texture2D potionTexture = LoadTexture("../resources/pickables/Potion.png");
+	Texture2D keyTexture = LoadTexture("../resources/pickables/Key.png");
+
 	float fixedTimeStep{ 0.02f }; //50 times a second
 	float accumulatedTime{};
 };

@@ -1,7 +1,7 @@
 #include "CollisionsManager.h"
 
-CollisionsManager::CollisionsManager(Player* player, std::vector<Enemy*>* enemiesVector, Structures* structures, LevelGenerator* levelGenerator, std::vector<Pickable*>* potionsVector) :
-    _player(player), _enemiesVector(enemiesVector), _structures(structures), _levelGenerator(levelGenerator), _potionsVector(potionsVector)
+CollisionsManager::CollisionsManager(Player* player, std::vector<Enemy*>* enemiesVector, Structures* structures, LevelGenerator* levelGenerator, std::vector<Pickable*>* potionsVector, Pickable* keyPickable) :
+    _player(player), _enemiesVector(enemiesVector), _potionsVector(potionsVector), _structures(structures), _levelGenerator(levelGenerator), keyPickable(keyPickable)
 {
 }
 
@@ -26,6 +26,8 @@ void CollisionsManager::CheckCollisions()
 
         CheckPlayerAgainstPotions(potion, playerBoundingBoxBody);
     }
+
+    CheckPlayerAgainstKey(keyPickable, playerBoundingBoxBody);
 
     for (Enemy* enemy : *_enemiesVector)
     {
@@ -235,6 +237,15 @@ void CollisionsManager::CheckPlayerAgainstPotions(Pickable* pickable, const Boun
     {
         pickable->OnTriggerEnter();
         _player->RegenLife(35);
+    }
+}
+
+void CollisionsManager::CheckPlayerAgainstKey(Pickable* keyPickable, const BoundingBox& playerBoundingBoxBody)
+{
+    if (CheckCollisionBoxes(keyPickable->GetBoundingBox(), playerBoundingBoxBody))
+    {
+        keyPickable->OnTriggerEnter();
+        _player->AddKey();
     }
 }
 
