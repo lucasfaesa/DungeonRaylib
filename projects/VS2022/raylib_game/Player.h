@@ -39,6 +39,8 @@ public:
 	void OnGameRestarted();
 
 	void RegenLife(int value);
+
+	void SetGameWon();
 private:
 
 	void InputMovement();
@@ -145,4 +147,6 @@ private:
 	double feedbackHudTimer{};
 
 	Vector3 _initialPosition{};
+
+	bool gameWon {false};
 };

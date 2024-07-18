@@ -31,6 +31,9 @@ Player::Player(Vector3 pos):
 
 void Player::ReadInput()
 {
+	if (_isDead || gameWon)
+		return;
+
 	InputMovement();
 	InputLook();
 	InputJump();
@@ -77,11 +80,11 @@ void Player::Draw()
 	//DrawBoundingBox(bodyCollideable.GetCollider(), isCollidingBody ? GREEN : RED);
 	//DrawBoundingBox(groundCollideable.GetCollider(), isGrounded ? GREEN : YELLOW);
 
-	if (isAttacking) {
+	/*if (isAttacking) {
 		Vector3 spherePosition = Vector3Add(position, Vector3Scale(GetCameraForward(camera), attackRange));
 		spherePosition.y += 1.8f;
 		DrawSphereWires(spherePosition, attackRadius, 10, 10, inAttackRange ? BLUE : RED);
-	}
+	}*/
 	
 }
 
@@ -197,6 +200,8 @@ bool Player::GetIsDefending() const
 
 void Player::OnGameRestarted()
 {
+	gameWon = false;
+	_isDead = false;
 	_currentHealth = _maxHealth;
 	camera->position = _initialPosition;
 }
@@ -208,6 +213,11 @@ void Player::RegenLife(int value)
 	if (_currentHealth > 100)
 		_currentHealth = 100;
 	
+}
+
+void Player::SetGameWon()
+{
+	gameWon = true;
 }
 
 void Player::InputMovement()

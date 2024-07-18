@@ -43,7 +43,7 @@ void Game::Update(float deltaTime) const
 	}
 
 	collisionsManager->Update(deltaTime);
-	
+	gameSessionController->Update();
 }
 
 void Game::FixedUpdateCalculation(float deltaTime)
@@ -109,6 +109,9 @@ void Game::DrawCanvas() const
 	DrawFPS(10, 5);
 	Logger::ResetPosition();
 	player->DrawCanvas();
+
+	gameSessionController->DrawCanvas();
+
 }
 
 bool Game::IsInitialized() const

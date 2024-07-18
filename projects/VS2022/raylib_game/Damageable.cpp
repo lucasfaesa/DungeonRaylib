@@ -46,7 +46,9 @@ void Damageable::TakeDamage(int value)
 
 void Damageable::SetDead()
 {
+	if (_isDead)
+		return;
+
 	_isDead = true;
-	std::cout << "died" << std::endl;
 }
 

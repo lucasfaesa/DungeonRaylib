@@ -14,9 +14,15 @@ public:
 	//GameSessionController() = default;
 	void RestartGame();
 	void ReadInput();
+	void DrawCanvas();
+	void GameWon();
+	void GameOver();
+	void Update();
 
 private:
-	bool isGameOver{false};
 	Player* player{nullptr};
 	std::vector<Enemy*>* enemiesVector{nullptr};
+
+	bool _isGameWon{ false };
+	bool _isGameOver{ false };
 };

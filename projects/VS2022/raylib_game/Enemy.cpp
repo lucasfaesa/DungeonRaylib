@@ -16,43 +16,43 @@ Enemy::Enemy(Vector3 pos, Vector3 size, Player& player) :
 	{
 		case 1:
 			_maxSpeed = 30.f;
-			attackDelay = 0.7f;
+			attackDelay = 0.5f;
 			_attackDamage = 2.f;
 			_attackRadius = 1.4f;
 			_detectionRadius = 11.f;
-			_maxHealth = 35.f;
+			_maxHealth = 37.f;
 			break;
 		case 2:
 			_maxSpeed = 15.f;
-			attackDelay = 1.5f;
+			attackDelay = 1.1f;
 			_attackDamage = 4.f;
 			_attackRadius = 1.7f;
 			_detectionRadius = 9.5f;
-			_maxHealth = 60.f;
+			_maxHealth = 90.f;
 			break;
 		case 3:
 			_maxSpeed = 9.f;
-			attackDelay = 2.f;
+			attackDelay = 1.6f;
 			_attackDamage = 5.f;
 			_attackRadius = 2.f;
 			_detectionRadius = 10.f;
-			_maxHealth = 100.f;
+			_maxHealth = 145.f;
 			break;
 		case 4:
 			_maxSpeed = 6.f;
-			attackDelay = 2.5f;
+			attackDelay = 1.9f;
 			_attackDamage = 8.f;
 			_attackRadius = 2.5f;
 			_detectionRadius = 10.f;
-			_maxHealth = 140.f;
+			_maxHealth = 200.f;
 			break;
 		default:
 			_maxSpeed = 4.f;
-			attackDelay = 3.f;
+			attackDelay = 2.8f;
 			_attackDamage = 18.f;
 			_attackRadius = 8.f;
 			_detectionRadius = 14.f;
-			_maxHealth = 1000.f;
+			_maxHealth = 1035.f;
 			break;
 	}
 
