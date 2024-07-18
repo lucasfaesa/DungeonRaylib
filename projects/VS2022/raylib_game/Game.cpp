@@ -136,7 +136,7 @@ void Game::CreateEnemies()
 	enemiesVector->emplace_back(new Enemy({ -20.21f, 0.f, -0.50f }, { 1.f, (float)GetRandomValue(1.5f,4.5f), 1.f }, *player));
 	enemiesVector->emplace_back(new Enemy({ 17.78f, 2.01f, 5.58f }, { 1.f, (float)GetRandomValue(1.5f,4.5f), 1.f }, *player));
 	enemiesVector->emplace_back(new Enemy({ 7.27f, 1.01f, 5.35f }, { 1.f, (float)GetRandomValue(1.5f,4.5f), 1.f }, *player));
-	enemiesVector->emplace_back(new Enemy({ 21.01f, 1.01f, -6.85f }, { 1.f, (float)GetRandomValue(1.5f,4.5f), 1.f }, *player));
+	enemiesVector->emplace_back(new Enemy({ 19.38f, 1.01f, -6.91f }, { 1.f, (float)GetRandomValue(1.5f,4.5f), 1.f }, *player));
 	enemiesVector->emplace_back(new Enemy({ 28.07f, 0.f, -16.0f }, { 1.f, (float)GetRandomValue(1.5f,4.5f), 1.f }, *player));
 	enemiesVector->emplace_back(new Enemy({ 30.10f, 0.f, -36.13f }, { 1.f, (float)GetRandomValue(1.5f,4.5f), 1.f }, *player));
 	enemiesVector->emplace_back(new Enemy({ -1.50f, 0.f, -33.10f }, { 1.f, (float)GetRandomValue(1.5f,4.5f), 1.f }, *player));
@@ -167,9 +167,38 @@ void Game::CreateEnemies()
 
 void Game::CreatePotions()
 {
-	potionsVector->emplace_back(new Pickable({ 46.25f, 0.5f, 69.88f }, { 1.f,1.f,1.f },
+	potionsVector->emplace_back(new Pickable({ 25.23f, 10.01f, 56.44f }, { 1.f,1.f,1.f },
 		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
 
+	potionsVector->emplace_back(new Pickable({ -19.56f, 1.01f, 54.47f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
+	potionsVector->emplace_back(new Pickable({ -66.57f, 0.01f, 39.04f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
+	potionsVector->emplace_back(new Pickable({ 5.85f, 1.01f, -6.84f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
+	potionsVector->emplace_back(new Pickable({ 22.60f, 12.01f, -33.01f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
+	potionsVector->emplace_back(new Pickable({ -22.96f, 12.01f, -23.09f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
+	potionsVector->emplace_back(new Pickable({ -63.72f, 0.f, -32.18f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
+	potionsVector->emplace_back(new Pickable({ -66.56f, 0.f, -52.89f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
+	potionsVector->emplace_back(new Pickable({ -71.47f, 6.01f, -70.90f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
+	potionsVector->emplace_back(new Pickable({ 72.70f, 0.f, -65.70f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
+
+	potionsVector->emplace_back(new Pickable({ 3.95f,13.01f, -53.74f }, { 1.f,1.f,1.f },
+		LoadTexture("../resources/pickables/Potion.png"), &CameraManager::GetPlayerCamera()));
 }
 
 
