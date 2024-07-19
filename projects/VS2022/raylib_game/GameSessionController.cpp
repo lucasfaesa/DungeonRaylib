@@ -53,12 +53,22 @@ void GameSessionController::DrawCanvas()
 
 	if(_isGameWon)
 	{
+		int minutes = static_cast<int>(gameTime / 60);  // Whole number of minutes
+		float remainingSeconds = fmod(gameTime, 60.0f); // Remaining seconds (including fractional part)
+		int seconds = static_cast<int>(remainingSeconds);  // Whole number of seconds
+		int milliseconds = static_cast<int>((remainingSeconds - seconds) * 1000); // Milliseconds
+
+		// Print the results
+		std::string time = "Your time: " + std::to_string(minutes) + ':' + std::to_string(seconds) + ':' + std::to_string(milliseconds);
+
 		DrawText("CONGRATULATIONS", 90.f, 330.f, 60, BLUE);
 		DrawText("Thank you for playing my first game with raylib!", 120.f, 390.f, 23, WHITE);
 		DrawText("Press \"R\" to Restart Game!", 225.f, 420.f, 23, WHITE);
+		DrawText(time.c_str(), 200.f, 470.f, 42, WHITE);
 	}
 
 }
+
 
 void GameSessionController::GameWon()
 {
@@ -71,8 +81,10 @@ void GameSessionController::GameOver()
 	_isGameOver = true;
 }
 
-void GameSessionController::Update()
+void GameSessionController::Update(float deltaTime)
 {
+	if (!_isGameWon)
+		gameTime += deltaTime;
 
 	if (player->GetIsDead())
 		GameOver();

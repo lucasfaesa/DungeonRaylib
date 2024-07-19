@@ -20,7 +20,7 @@ Enemy::Enemy(Vector3 pos, Vector3 size, Player& player) :
 			_attackDamage = 2.f;
 			_attackRadius = 1.4f;
 			_detectionRadius = 11.f;
-			_maxHealth = 37.f;
+			_maxHealth = 40.f;
 			break;
 		case 2:
 			_maxSpeed = 15.f;
@@ -36,7 +36,7 @@ Enemy::Enemy(Vector3 pos, Vector3 size, Player& player) :
 			_attackDamage = 5.f;
 			_attackRadius = 2.f;
 			_detectionRadius = 10.f;
-			_maxHealth = 145.f;
+			_maxHealth = 125.f;
 			break;
 		case 4:
 			_maxSpeed = 6.f;
@@ -44,7 +44,7 @@ Enemy::Enemy(Vector3 pos, Vector3 size, Player& player) :
 			_attackDamage = 8.f;
 			_attackRadius = 2.5f;
 			_detectionRadius = 10.f;
-			_maxHealth = 200.f;
+			_maxHealth = 180.f;
 			break;
 		default:
 			_maxSpeed = 4.f;
@@ -52,7 +52,7 @@ Enemy::Enemy(Vector3 pos, Vector3 size, Player& player) :
 			_attackDamage = 18.f;
 			_attackRadius = 8.f;
 			_detectionRadius = 14.f;
-			_maxHealth = 1035.f;
+			_maxHealth = 1100.f;
 			break;
 	}
 

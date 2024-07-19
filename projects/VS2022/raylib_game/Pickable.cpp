@@ -13,7 +13,7 @@ void Pickable::Draw()
 {
 	if (picked) return;
 
-	DrawBoundingBox(boundingBox, RED);
+	//DrawBoundingBox(boundingBox, RED);
 
 	DrawBillboardRec(*camera, texture, frameRec, { position.x, position.y + size.y * 0.5f, position.z }, { size.y, size.y }, WHITE);
 

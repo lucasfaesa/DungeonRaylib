@@ -17,7 +17,7 @@ public:
 	void DrawCanvas();
 	void GameWon();
 	void GameOver();
-	void Update();
+	void Update(float deltaTime);
 
 private:
 	Player* player{nullptr};
@@ -25,4 +25,6 @@ private:
 
 	bool _isGameWon{ false };
 	bool _isGameOver{ false };
+
+	float gameTime{};
 };

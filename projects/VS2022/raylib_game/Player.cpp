@@ -90,9 +90,9 @@ void Player::Draw()
 
 void Player::DrawCanvas()
 {
-	Logger::Log("position x: %.2f, position y: %.2f, position z: %.2f", position.x, position.y, position.z);
-	Logger::Log("grounded %i", isGrounded);
-	Logger::Log("velocity x: %.2f, velocity y: %.2f, velocity z: %.2f", velocity.x, velocity.y, velocity.z);
+	//Logger::Log("position x: %.2f, position y: %.2f, position z: %.2f", position.x, position.y, position.z);
+	//Logger::Log("grounded %i", isGrounded);
+	//Logger::Log("velocity x: %.2f, velocity y: %.2f, velocity z: %.2f", velocity.x, velocity.y, velocity.z);
 	DrawTextureRecScaled(*currentSwordTexture, frameRec, { 0.f, 0.f }, 800.f/currentSwordTexture->height, WHITE);
 	DrawTextureRecScaled(*currentShieldTexture, frameRec, { 0.f, 0.f }, 800.f/currentShieldTexture->height, WHITE);
 
@@ -200,7 +200,7 @@ bool Player::GetIsDefending() const
 
 void Player::OnGameRestarted()
 {
-	attackDamage = 35;
+	attackDamage = 36;
 	gameWon = false;
 	_isDead = false;
 	_currentHealth = _maxHealth;

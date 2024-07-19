@@ -108,7 +108,7 @@ void LevelGenerator::ComputePlatformsCollisions()
 																	//"t", the heights adds the iteration value for every object in the platforms array
 																	//so for the first item in the array, the box will be at height 0f, for the
 																	//second 1f, and so on
-					Vector3 min{ baseSceneryPosition.x + (x - 0.5f),  t ,	baseSceneryPosition.z + (y - 0.5f) };
+					Vector3 min{ baseSceneryPosition.x + (x - 0.5f),  static_cast<float>(t) ,	baseSceneryPosition.z + (y - 0.5f) };
 					Vector3 max{ baseSceneryPosition.x + (x + 0.5f),  t + (1.f),	baseSceneryPosition.z + (y + 0.5f) };
 
 					levelBoundingBoxes.emplace_back(BoundingBox{ min, max });

@@ -1,6 +1,6 @@
 #include "raylib.h"
 #include "Game.h"
-#include "FrameTimer.h";
+#include "FrameTimer.h"
 #include "CameraManager.h"
 
 int main()

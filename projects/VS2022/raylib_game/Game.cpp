@@ -44,7 +44,7 @@ void Game::Update(float deltaTime) const
 	}
 
 	collisionsManager->Update(deltaTime);
-	gameSessionController->Update();
+	gameSessionController->Update(deltaTime);
 }
 
 void Game::FixedUpdateCalculation(float deltaTime)

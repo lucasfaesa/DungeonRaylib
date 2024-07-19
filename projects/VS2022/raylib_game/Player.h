@@ -141,7 +141,7 @@ private:
 	float attackRadius{ 0.3f };
 	float attackRange{ 1.4f };
 	bool inAttackRange{ false };
-	int attackDamage{ 35 };
+	int attackDamage{ 36 };
 
 	bool isDefending{ false };
 
